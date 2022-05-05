@@ -374,14 +374,5 @@ end
 --ula gameid check end ^
 end
 --charfuncs ^
---[[
-if game.PlaceId == 6907620011 then
-loadfile('ccessentials.lua')()
-end
---funcs.turtlespyload()
-
-for i,v in pairs(listfiles("funcsdependents")) do
-loadfile(v)()
-end--]]
 charfuncs = nil
 end
