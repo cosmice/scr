@@ -1,5 +1,6 @@
 --funcs.lua
 do
+getgenv().funcs = {}
 local playerservice = game:GetService("Players")
 local deb = game:GetService("Debris")
 local lplr = playerservice.LocalPlayer
@@ -10,9 +11,9 @@ local rustepped = runservice.Stepped
 local ruhb = runservice.Heartbeat
 local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 local tpserv = game:GetService("TeleportService")
-getgenv().funcs = {}
 getgenv().wait = task.wait
 getgenv().funcs.runs = runservice
+getgenv().funcs.deb = deb
 getgenv().funcs.plrs = playerservice
 getgenv().funcs.lplr = playerservice.LocalPlayer
 getgenv().funcs.normalizeblue = function(nnnn)
@@ -22,7 +23,8 @@ getgenv().funcs.normalizemagic = function(magic)
 return string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
 end
 getgenv().getchar = function()
-return lplr.Character or lplr.CharacterAdded:Wait()
+local ch=lplr.Character or lplr.CharacterAdded:Wait()
+return ch
 end
 getgenv().funcs.rebindsl = function(KEYS)
 local mouseLockController = funcs.lplr.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("CameraModule"):WaitForChild("MouseLockController")
@@ -62,9 +64,9 @@ end
 end)
 else
 getgenv().XxmclickxX = not XxmclickxX
-con:Disconnect()
 lded1 = not lded1
 funcs.sendnotif("autoclicker","removed","rbxassetid://8209859518",7)
+con:Disconnect()
 end
 end
 local ESPholder = Instance.new("Folder",game:GetService("CoreGui"))
@@ -154,7 +156,7 @@ getgenv().funcs.kickblur = function()
 runservice:SetRobloxGuiFocused(false)
 end
 getgenv().funcs.rem = function(x,xx)
-local im = x:WaitForChild(xx,20)
+local im = x:WaitForChild(tostring(xx),20)
 if im ~= nil then
 deb:AddItem(im,0)
 end
@@ -166,9 +168,9 @@ getgenv().funcs.setsim = function()
 	settings().Physics.AllowSleep = false
 	if sethidden then
 				settings().Physics.AllowSleep = false
-					sethidden(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
-					sethidden(game:GetService("Players").LocalPlayer, "MaxSimulationRadius", math.huge)
-					game:GetService("Players").LocalPlayer.MaximumSimulationRadius = math.huge
+					sethidden(game:GetService("Players").LocalPlayer, "SimulationRadius", 1000)
+					sethidden(game:GetService("Players").LocalPlayer, "MaxSimulationRadius", 1000)
+					game:GetService("Players").LocalPlayer.MaximumSimulationRadius = 1000
 					game:GetService("Players").LocalPlayer.ReplicationFocus = workspace
 	else
 	error("incompatible")
@@ -182,7 +184,7 @@ getgenv().WaitForChildOfClass = function(parent, class)
 	return child
 end
 --proximity and touchinterest
-getgenv().funcs.prox = function()
+--[[getgenv().funcs.prox = function()
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("ProximityPrompt") then
 coroutine.wrap(function()
@@ -191,9 +193,9 @@ fireproximityprompt(v,0)
 end)()
 end
 end
-end
+end--]]
 if charfuncs == true then
-local looptouching = {}
+--[[local looptouching = {}
 getgenv().funcs.looptouch = function(interest,val)
 local plrh = getchar() and getchar():WaitForChild("HumanoidRootPart",40)
 local intt
@@ -243,7 +245,7 @@ unfuck(looptouching,inttn)
 print("disabled")
 end
 
-end
+end--]]
 
 end
 --END
@@ -273,12 +275,12 @@ local pparent = ""
 		if pparent ~= "" then
 			rettable = rettable .. tostring(pparent) .. "." .. x .. " = {" .. tostring(table.concat(y,",")) .. "},"
 			coroutine.wrap(function()
-			print(printbeenest(y,tostring(x)))
+			print(funcs.printbeenest(y,tostring(x)))
 			end)()
 		else
 			rettable = rettable .. x .. " = {" .. tostring(table.concat(y,",")) .. "},"
 			coroutine.wrap(function()
-			print(printbeenest(y,tostring(x)))
+			print(funcs.printbeenest(y,tostring(x)))
 			end)()
 		end
 	elseif typeof(y):lower() == "function" then
@@ -374,5 +376,15 @@ end
 --ula gameid check end ^
 end
 --charfuncs ^
+--[[
+if game.PlaceId == 6907620011 then
+loadfile('ccessentials.lua')()
+end
+--]]
+--funcs.turtlespyload()
+getgenv().funcs.loaded = true
+for i,v in pairs(listfiles("funcsdependents")) do
+loadfile(v)()
+end
 charfuncs = nil
 end
