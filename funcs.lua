@@ -16,14 +16,16 @@ getgenv().funcs.runs = runservice
 getgenv().funcs.deb = deb
 getgenv().funcs.plrs = playerservice
 getgenv().funcs.lplr = playerservice.LocalPlayer
+getgenv().funcs.uip=game:GetService("UserInputService")
 getgenv().funcs.normalizeblue = function(nnnn)
 return "%"..nnnn
 end
-getgenv().funcs.normalizemagic = function(magic)
-return string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
+getgenv().funcs.normalizemagic = function(magic,p)
+local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
+return p and str[1] or str
 end
 getgenv().getchar = function()
-local ch=lplr.Character or lplr.CharacterAdded:Wait()
+local ch=funcs.lplr.Character or funcs.lplr.CharacterAdded.Wait(lplr.CharacterAdded)
 return ch
 end
 getgenv().funcs.rebindsl = function(KEYS)
@@ -47,10 +49,9 @@ if lded1 then
 funcs.sendnotif("autoclicker","loaded","rbxassetid://8209859518",3)
 
 local mym = funcs.lplr:GetMouse()
-local uip = game:GetService("UserInputService")
 getgenv().XxautocxX = false
-con = uip.InputBegan:Connect(function(inpuut,proc)
-if inpuut.UserInputType == Enum.UserInputType.Keyboard and uip:IsKeyDown(Enum.KeyCode.Q) then
+con = funcs.uip.InputBegan:Connect(function(inpuut,proc)
+if inpuut.UserInputType == Enum.UserInputType.Keyboard and funcs.uip:IsKeyDown(Enum.KeyCode.Q) then
 if inpuut.KeyCode == Enum.KeyCode.X then
 getgenv().XxautocxX = not getgenv().XxautocxX
 if XxautocxX then funcs.sendnotif("autoclicker","enabled","rbxassetid://8209859518",3) else funcs.sendnotif("autoclicker","disabled","rbxassetid://8209859518",3) end
@@ -69,8 +70,10 @@ funcs.sendnotif("autoclicker","removed","rbxassetid://8209859518",7)
 con:Disconnect()
 end
 end
-local ESPholder = Instance.new("Folder",game:GetService("CoreGui"))
-getgenv().funcs.addhook = function(x,txt)
+getgenv().funcs.instanceholder = funcs.instanceholder or Instance.new("Folder")
+funcs.instanceholder.Name=math.random(1,99999999)
+funcs.instanceholder.Parent=game:GetService("CoreGui")
+--[[getgenv().funcs.addhook = function(x,txt)
 				local BillboardGui = Instance.new("BillboardGui")
 				local TextLabel = Instance.new("TextLabel")
 				BillboardGui.Adornee = x
@@ -91,6 +94,76 @@ getgenv().funcs.addhook = function(x,txt)
 				TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
 				TextLabel.Text = txt
 				TextLabel.ZIndex = 10
+end--]]
+getgenv().funcs.getholder=function(name)
+local fd=name and funcs.instanceholder:FindFirstChild(name)
+if not fd then
+fd=Instance.new("Folder")
+fd.Name=tostring(name) or #funcs.instanceholder:GetChildren()+1
+fd.Parent=funcs.instanceholder
+end
+return fd
+end
+getgenv().funcs.addhook=function(v,tb)
+		v=v:IsA("Model") and (v.PrimaryPart or v:FindFirstChild("Humanoid") and v:FindFirstChild("Head") or v:FindFirstChildOfClass("BasePart")) or v
+		if not v then return 'fish_not_found' end
+		tb=tb or {}
+		tb={maxdis=tb.maxdis or tb.maxdist or tb.maxdistance or math.huge,
+		color=tb.color or tb.txtcolor or Color3.fromRGB(255,255,255),
+		text=tb.text or v:IsA("Model") and v.Name or v.Parent.Name,
+		txtcolor=tb.txtcolor or tb.textcolor or tb.color or Color3.fromRGB(255,255,255),
+		job=funcs.getholder(tb.job or "generic_esp"),
+		txtenabled=tb.txtenabled or tb.textenabled or false,
+		autoremove=tb.autoremove or false,
+		offset=tb.offset or Vector3.new(0,2,0),
+		dep=tb.additionaldependencies or tb.dep or {},
+		transp=tb.transp or tb.transparency or tb.trans or 0.8,
+		toreturn={}
+		}
+		if getproperties(v).Size then
+        local a = Instance.new("BoxHandleAdornment")
+        a.Size = v.Size
+        a.AlwaysOnTop = true
+        a.Parent = tb.job
+        a.ZIndex = 1
+        a.Transparency = tb.transp
+        a.Adornee = v
+        a.Color3 = tb.color
+		a.Name=v.Name
+		tb.toreturn.box=a
+		end
+		if tb.txtenabled then
+        local b = Instance.new("BillboardGui")
+        b.Adornee = v
+        b.MaxDistance = tb.maxdis
+        b.AlwaysOnTop = true
+        b.Parent = tb.job
+        b.ExtentsOffset = tb.offset
+        b.Size = UDim2.fromScale(4,2)
+		b.Name=v.Name
+		tb.toreturn.billboardgui=b
+        local c = Instance.new("TextBox")
+        c.Text = tb.text or v.Parent.Name
+        c.BackgroundTransparency = 1
+        c.Size = UDim2.fromScale(1,1)
+        c.TextScaled = true
+        c.Parent = b
+        c.TextColor3 = tb.txtcolor
+		tb.toreturn.textbox=c
+		end
+		local function justquit()
+		for i,v in pairs(tb.toreturn) do
+		funcs.deb:AddItem(v,0)
+		end
+		end
+		
+		if tb.autoremove then
+		v.Destroying:Connect(justquit)
+		end
+		for i,x in pairs(tb.dep) do
+		x.Destroying:Connect(justquit)
+		end
+		return tb.toreturn
 end
 
 getgenv().funcs.toplaceid = function(id)
@@ -120,16 +193,24 @@ getgenv().funcs.sendnotif = function(top,bottomtextuwu,icopain,durrrrr)
 funcs.sg:SetCore("SendNotification", {
 Title = top or "";
 Text = bottomtextuwu or ""; -- bottom text uwu
-Icon = icopain or "";
+Icon = icopain or "rbxassetid://9101806464";
 Duration = durrrrr or 5; -- durrrrr in seconds
+
 })
 end
+local http=game:GetService('HttpService')
 getgenv().funcs.save = function(name,data,encode)
 if encode then
-writefile(name,game:service'HttpService':JSONEncode(data))
+writefile(name,http:JSONEncode(data))
 else
 writefile(name,data)
 end
+end
+getgenv().funcs.load = function(name,default)
+
+	if not pcall(function() readfile(name) end) then writefile(name, http:JSONEncode(default)) end
+
+	return http:JSONDecode(readfile(name))
 end
 getgenv().funcs.sl = function()
 funcs.lplr.DevEnableMouseLock = not funcs.lplr.DevEnableMouseLock
@@ -176,11 +257,21 @@ getgenv().funcs.setsim = function()
 	error("incompatible")
 	end
 end
-getgenv().WaitForChildOfClass = function(parent, class)
-	local child = parent:FindFirstChildOfClass(class)
-	while not child or not child:IsA(class) do
-		child = parent.ChildAdded:Wait()
+getgenv().WaitForChildOfClass = function(parent, class, timeout)
+timeout=timeout or math.huge
+	local st,child=os.clock(),parent:FindFirstChildOfClass(class)
+	local sig
+	if not child then
+	sig=parent.ChildAdded:Connect(function(x)
+	if x:IsA(class) then
+	sig:Disconnect()
+	child=x
 	end
+	end)
+	task.delay(timeout,sig.Disconnect,sig)
+	
+	end
+	
 	return child
 end
 --proximity and touchinterest
@@ -259,21 +350,22 @@ rettable = mm .. " = " .. "{"
 end
 local pparent = ""
 	for x, y in pairs(xx) do
+	local isxokay=not tonumber(x) and tostring(x).." = "
 	if type(y) == "string" then
 		coroutine.wrap(function()
-			rettable = rettable .. '"'.. tostring(y) ..'", '
+			rettable = rettable ..isxokay.. '"'.. tostring(y) ..'", '
 		end)()
 	elseif type(y) == "number" then
 		coroutine.wrap(function()
-			rettable = rettable .. tostring(x) .. " = " .. tostring(y) ..','
+			rettable = rettable ..isxokay.. tostring(y) ..','
 		end)()
 	elseif typeof(y):lower() == "boolean" then
 		coroutine.wrap(function()
-			rettable = rettable .. tostring(x) .. " = " .. tostring(y) .. ","
+			rettable = rettable ..isxokay..tostring(y) .. ","
 		end)()
 	elseif type(y):lower() == "table" then
 		if pparent ~= "" then
-			rettable = rettable .. tostring(pparent) .. "." .. x .. " = {" .. tostring(table.concat(y,",")) .. "},"
+			rettable = rettable ..isxokay.. tostring(pparent) .. "." .. x .. " = {" .. tostring(table.concat(y,",")) .. "},"
 			coroutine.wrap(function()
 			print(funcs.printbeenest(y,tostring(x)))
 			end)()
@@ -285,11 +377,11 @@ local pparent = ""
 		end
 	elseif typeof(y):lower() == "function" then
 		coroutine.wrap(function()
-		rettable = rettable .. tostring(x) .. ","
+		rettable = rettable ..isxokay.. ","
 		end)()
 	elseif type(y):lower() == "instance" then
 		coroutine.wrap(function()
-		rettable = rettable .. y:GetFullName() .. ","
+		rettable = rettable ..isxokay.. y:GetFullName() .. ","
 		end)()
 	else
 		if pparent ~= "" then
@@ -382,9 +474,9 @@ loadfile('ccessentials.lua')()
 end
 --]]
 --funcs.turtlespyload()
-getgenv().funcs.loaded = true
-for i,v in pairs(listfiles("funcsdependents")) do
+getgenv().funcs_loaded = true
+--[[for i,v in pairs(listfiles("funcsdependents")) do
 loadfile(v)()
-end
+end--]]
 charfuncs = nil
 end
