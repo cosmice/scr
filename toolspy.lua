@@ -1,5 +1,5 @@
 getgenv().tspyen = true
---[[
+--[[kindaunoptimizedstillbetterthanmosthough
 local funcs = {}
 funcs.normalizeblue = function(nnnn)
 return "%"..nnnn
