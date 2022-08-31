@@ -141,6 +141,7 @@ local rem=car:WaitForChild("MainLocal",10)
 rem=rem and rem:WaitForChild("RemoteEvent",10)
 while rem and garlicboyrepell.Value==true and is_auto_enabled do
 rem:FireServer("escapeclick")
+rem:FireServer("escapeclick")
 task.wait()
 end
 
