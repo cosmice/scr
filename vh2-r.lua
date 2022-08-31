@@ -111,7 +111,7 @@ end
 				old_namecall = hookmetamethod(game, "__namecall", newcclosure(function(instance,...)
 				local ncm= getnamecallmethod()
 				local args={...}
-				if not checkcaller() and ncm=="FireServer" and (table.find(args,"Walkspeed Exploit") or table.find(args,"exploit") or table.find(args,"!") or table.find(args,"kick") or (#args>=3 and args[3]:lower():match("exploit")))  then
+				if not checkcaller() and ncm=="FireServer" and (table.find(args,"Walkspeed Exploit") or table.find(args,"exploit") or table.find(args,"!") or table.find(args,"kick") or (#args>=3 and args[3]:lower():match("exploit"))) or type(args[1])=="string" and args[1]=="Hitbox Extension Check" then
                 return
 				end;
 				return old_namecall(instance,...)
@@ -130,6 +130,27 @@ end)
 funcs.vmp.con=replicated.InGamePlayerValues.ChildAdded:Connect(linkedsword)
 local cu=funcs.lplr.Character:WaitForChild("MainLocal",10):WaitForChild("Customize",10)
 --cu:FireServer()
+local is_auto_enabled=false
+local function garlic(car)
+local garlicboyrepell=car:WaitForChild("charvalues",10)
+garlicboyrepell=garlicboyrepell and garlicboyrepell:WaitForChild("caught",10)
+if garlicboyrepell then
+garlicboyrepell.Changed:Connect(function(x)
+if x and is_auto_enabled then
+local rem=car:WaitForChild("MainLocal",10)
+rem=rem and rem:WaitForChild("RemoteEvent",10)
+while rem and garlicboyrepell.Value==true and is_auto_enabled do
+rem:FireServer("escapeclick")
+task.wait()
+end
+
+end
+end)
+
+end
+end
+garlic(getchar())
+funcs.lplr.CharacterAdded:Connect(garlic)
 print("vampire-1")
 --funcs.vmp.unlockall()
 -- Gui to Lua
@@ -177,6 +198,7 @@ txt.Font = Enum.Font.SourceSans
 txt.Text = [[commands:
 gg - grabgun
 ag - enable autograb
+esc - toggle autoesc
 rj
 ]]
 txt.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -206,6 +228,9 @@ if string.sub(x,1,4) == "cmds" then
 		cmdframe.Visible = not cmdframe.Visible
 elseif x == "rj" then
 rj()
+elseif x =="esc" then
+is_auto_enabled=not is_auto_enabled
+funcs.sendnotif("autoesc","status: "..tostring(is_auto_enabled),"rbxassetid://6678521436",5)
 elseif x=="gg" then
 local gn=workspace:FindFirstChild("gundropped")
 if gn then firetouchinterest(getchar():WaitForChild("HumanoidRootPart"),gn,0) end
