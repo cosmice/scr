@@ -107,11 +107,11 @@ end)
 end
 return {hook,values}
 end
-				local old_namecall
+			local old_namecall
 				old_namecall = hookmetamethod(game, "__namecall", newcclosure(function(instance,...)
 				local ncm= getnamecallmethod()
 				local args={...}
-				if not checkcaller() and ncm=="FireServer" and (table.find(args,"Walkspeed Exploit") or table.find(args,"exploit") or table.find(args,"!") or table.find(args,"kick") or (#args>=3 and args[3]:lower():match("exploit"))) or type(args[1])=="string" and args[1]=="Hitbox Extension Check" then
+				if not checkcaller() and ncm=="FireServer" and (table.find(args,"Walkspeed Exploit") or table.find(args,"?") or table.find(args,"exploit") or table.find(args,"kick") or (#args>=3 and args[3]:lower():match("exploit"))) or type(args[1])=="string" and args[1]=="Hitbox Extension Check" then
                 return
 				end;
 				return old_namecall(instance,...)
