@@ -1,4 +1,7 @@
 -- Gui to Lua
+if not funcs then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
+end
 local main = Instance.new("ScreenGui")
 local _txtbox = Instance.new("TextBox")
 local cmdframe = Instance.new("ScrollingFrame")
