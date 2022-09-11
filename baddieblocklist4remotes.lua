@@ -11,6 +11,7 @@ getgenv().BlockedRemotes = {
 local gmargs={
 [2788229376]={MainEvent={actiontype="block","TeleportDetect",1,"CHECKER_1",1,"OneMoreTime",1},SpoofStudio=true,anticrash=true	},
 [9115994499]={reportPlatform={actiontype="spoof","Mobile",1}	},
+[10491640406]={Damage={actiontype="blockall"} },
 [9143982021]={RemoteEvent={actiontype="block",CheckParent="ItemGui","cloud",1}	}
 }
 
@@ -43,6 +44,8 @@ local gmarg=gmargs[plid]~=nil and gmargs[plid][instance.Name]
 		return
 		end
 		end
+		elseif gmarg.actiontype=="blockall" then
+		return
 		elseif gmarg.actiontype=="spoof" then
 		for i=1,#gmarg,2 do
 		args[gmarg[i+1]]=gmarg[i]
