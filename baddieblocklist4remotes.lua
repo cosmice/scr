@@ -26,7 +26,7 @@ game:GetService("ScriptContext"):SetTimeout(1/15)
 funcs.sendnotif("h","ready")
 end)
 end
-oldNamecall = hookmetamethod(game, "__namecall", function(instance, ...)
+oldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(instance, ...)
 local ncm = getnamecallmethod()
 local args={...}
 local gmarg=gmargs[plid]~=nil and gmargs[plid][instance.Name]
@@ -60,4 +60,4 @@ local gmarg=gmargs[plid]~=nil and gmargs[plid][instance.Name]
         
 
         return oldNamecall(instance, table.unpack(args))
-end)
+end))
