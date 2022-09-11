@@ -1,5 +1,5 @@
 -- decided to release open-source, just credit me if youre gonna use this anywhere please :)
---[[FE UFO script made by quirky anime boy#7003, upgraded by [none-of-your-business]
+--[[FE UFO script made by quirky anime boy#5506, upgraded by [none-of-your-business]
 required hat: roblox.com/catalog/8151404994 (requires amazon prime to redeem)
 ]]
 do
