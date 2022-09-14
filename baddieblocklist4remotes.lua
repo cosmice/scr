@@ -1,3 +1,7 @@
+if not funcs then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
+end
+
 --baddie blocklist
 getgenv().BlockedRemotes = {
     "RagdollEvent",
