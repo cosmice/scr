@@ -124,8 +124,8 @@ task.spawn(function()
 local function HandlePluginError(err)
 warn(v.."- "..err)
 end
-local ldfile=loadfile(v)
-local suc,ldfile=xpcall(ldfile,HandlePluginError,v)
+local suc,ldfile=xpcall(loadfile,HandlePluginError,v)
+local suc,ldfile=suc and ldfile and xpcall(ldfile,HandlePluginError,v)
 if not suc or not ldfile then return end
 table.insert(tnstr,v.." cmds:")
 for x,c in pairs(ldfile) do
