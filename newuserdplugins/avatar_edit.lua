@@ -7,7 +7,7 @@ funcs.deb:AddItem(hn,0)
 end
 
 local plug={
-["r6"]=settype,
-["r15"]=settype
+["r6"]={func=settype}
 }
+plug.r15=plug.r6
 return plug
