@@ -67,7 +67,7 @@ plug["gtool"]={func=function(strt,strd,str)
 	end
 	end
 	end
-	
+	if not Char:FindFirstChildOfClass("Tool") then funcs.sendnotif("cmds/toolthing/bambi.exe","fucking idiot","rbxassetid://8119590978",4) return end
 	hum = hum:Destroy() or hum:Clone()
 	hum.Parent = Char
 	hum:ClearAllChildren()
@@ -119,7 +119,7 @@ plug["void"]={func=function(strt,strd,str)
 	end
 	end
 	if not getchar():FindFirstChildOfClass("Tool") then
-	funcs.sendnotif("cmds/toolthing/kill","no tools"..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) return
+	funcs.sendnotif("cmds/toolthing/kill","no bitches (tools) "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) return
 	end
 	hum = hum:Destroy() or hum:Clone()
 	hum.Parent = Char
