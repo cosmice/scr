@@ -106,7 +106,7 @@ end
 return fd
 end
 getgenv().funcs.addhook=function(v,tb)
-		v=v:IsA("Model") and (v.PrimaryPart or v:FindFirstChild("Humanoid") and v:FindFirstChild("Head") or v:FindFirstChildOfClass("BasePart")) or v
+		v=v:IsA("Model") and (v.PrimaryPart or v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Head") or v:FindFirstChildOfClass("BasePart")) or v
 		if not v then return 'fish_not_found' end
 		tb=tb or {}
 		tb={maxdis=tb.maxdis or tb.maxdist or tb.maxdistance or math.huge,
@@ -209,7 +209,7 @@ end
 end
 getgenv().funcs.load = function(name,default)
 
-	if not pcall(function() readfile(name) end) then writefile(name, http:JSONEncode(default)) end
+	if not isfile(name) then writefile(name, http:JSONEncode(default)) end
 
 	return http:JSONDecode(readfile(name))
 end
