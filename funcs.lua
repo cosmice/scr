@@ -12,6 +12,7 @@ local ruhb = runservice.Heartbeat
 local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 local tpserv = game:GetService("TeleportService")
 getgenv().wait = task.wait
+getgenv().spawn=task.spawn
 getgenv().funcs.runs = runservice
 getgenv().funcs.deb = deb
 getgenv().funcs.plrs = playerservice
@@ -215,7 +216,7 @@ end
 getgenv().funcs.sl = function()
 funcs.lplr.DevEnableMouseLock = not funcs.lplr.DevEnableMouseLock
 end
-getgenv().xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admin/oofkohls v2
+getgenv().funcs.xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admin/oofkohls v2
     local Found = {}
     local Target = String:lower()
         for i,v in pairs(game.Players:GetPlayers()) do
@@ -223,13 +224,8 @@ getgenv().xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admin/oofk
                 table.insert(Found,v)
             end
         end    
-	if mode and Found[1] then
-	return Found[1]
-	elseif mode then
-	return
-	end
-    return Found    
-	end
+    return not mode and Found or Found[1]    
+end
 getgenv().funcs.turtlespyload = function()
 loadfile("rspy.lua")()
 end
