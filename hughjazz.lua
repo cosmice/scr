@@ -163,8 +163,8 @@ end
 
 
 --plugins
-if isfolder("NonstopPeanutNovember") then
-for i,v in pairs(listfiles("NonstopPeanutNovember")) do
+if isfolder("November") then
+for i,v in pairs(listfiles("November")) do
 task.spawn(ldplug,v)
 task.wait()
 end
