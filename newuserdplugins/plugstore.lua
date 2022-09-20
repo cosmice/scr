@@ -25,7 +25,7 @@ gui._close.Visible = true
 gui.cmdframe.Visible = true
 gui.txt2.Visible=true gui.txt2.Active=true gui.txt.Active=false gui.txt.Visible=false
 if parg~="nn" then funcs.sendnotif("cmds/pstore","waaaa","rbxassetid://8119590978",5) end
-end,desc="lists plugs in internal ui"}
+end,desc="lists plugs"}
 
 plug.padd={func=function(strt,plrarg,str)
 if not strt[1] or not plrarg or not pind[plrarg] or not pind[plrarg][strt[1]] then funcs.sendnotif("cmds/padd/failed","exact plug not found","",5) end
