@@ -71,7 +71,7 @@ _close.Text = "close"
 _close.TextColor3 = Color3.fromRGB(255, 255, 255)
 _close.TextSize = 14.000
 
-local cmds=suscmds or {}
+local cmds=cmds or {}
 cmds["cmds"]=cmds["cmds"] or function()
 		_close.Active = not _close.Active
 		cmdframe.Active = not cmdframe.Active
@@ -176,5 +176,4 @@ task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v))() or v)
 task.wait()
 end
 end
-getgenv().suscmds=nil
 funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
