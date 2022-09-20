@@ -8,6 +8,9 @@ vars.funcs={}
 					funcs.rawmeta.__newindex(child,"CanCollide",false)
 				end
 			end
+		else
+		vars.funcs.nclip:Disconnect()
+		vars.funcs.nclip=nil
 		end
 	end
 
