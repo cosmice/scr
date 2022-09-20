@@ -1,4 +1,4 @@
--- Gui to Lua
+-- gui to lua
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
 end
