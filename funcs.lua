@@ -18,6 +18,7 @@ getgenv().funcs.deb = deb
 getgenv().funcs.plrs = playerservice
 getgenv().funcs.lplr = playerservice.LocalPlayer
 getgenv().funcs.uip=game:GetService("UserInputService")
+getgenv().funcs.rawmeta=getrawmetatable(game)
 getgenv().funcs.normalizeblue = function(nnnn)
 return "%"..nnnn
 end
