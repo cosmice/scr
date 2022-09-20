@@ -2,7 +2,6 @@ do
 task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
-funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{})
 ---get rid of annoying sound that made me think my computer was broken
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
@@ -64,7 +63,7 @@ v.Value=true
 end
 task.wait()
 end
-funcs.sendnotif("unlocked","shirts,pants,abilities dont save","rbxassetid://6678521436",5)
+funcs.sendnotif("unlocked","shirts,pants,abilities dont save","rbxassetid://9101806464",5)
 end
 funcs.vmp.default=function(x)
 if not x then
@@ -72,7 +71,7 @@ for i,v in pairs(vmpdata) do
 i.Value=v
 end
 vmpdata={}
-funcs.sendnotif("locked","reset to default","rbxassetid://6678521436",5)
+funcs.sendnotif("locked","reset to default","rbxassetid://9101806464",5)
 else
 for i,v in pairs(funcs.lplr.DataFolder.UnlockableItems:GetDescendants()) do
 if v.ClassName:match("Value") then
@@ -87,7 +86,7 @@ local function getsetting(values,setting,nm)
 if setting==2 then
 return values[3].Value and Color3.fromRGB(0,0,0) or values[1].Value and Color3.fromRGB(140,0,0) or values[2].Value and Color3.fromRGB(184,184,184) or Color3.fromRGB(150,81,107)
 else
-return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a uwu vampire" or values[2].Value and nm.." is a stupid detective" or nm.." is a 'survivor' (yikes)"
+return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a vampire uwu" or values[2].Value and nm.." is a stupid detective" or nm.." is a 'survivor' (yikes)"
 end
 end
 local function linkedsword(v)
@@ -129,7 +128,9 @@ end
 end)
 funcs.vmp.con=replicated.InGamePlayerValues.ChildAdded:Connect(linkedsword)
 local cu=funcs.lplr.Character:WaitForChild("MainLocal",10):WaitForChild("Customize",10)
---cu:FireServer()
+cu:FireServer("GunSkin", "Chocolate")
+cu:FireServer("VampireAbility", "Time")
+--cu:FireServer("HumanGadget", "Strength")
 local is_auto_enabled=false
 local function garlic(car)
 local garlicboyrepell=car:WaitForChild("charvalues",10)
@@ -152,9 +153,15 @@ end
 end
 garlic(getchar())
 funcs.lplr.CharacterAdded:Connect(garlic)
-print("vampire-1")
+print("vampire penis-1")
 --funcs.vmp.unlockall()
--- Gui to Lua
+local cmds={}
+if not isfolder("FailedNNN") or not isfile("FailedNNN\\gamespes.lua") then cmds.ExtraPlugins={'https://github.com/exceptional0/scr/blob/main/newuserdplugins/gamespes.lua'} end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/hughjazz.lua"))()
+--funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
+print("vampire penis-2")
+end
+--[[ Gui to Lua
 local main = Instance.new("ScreenGui")
 local _txtbox = Instance.new("TextBox")
 local cmdframe = Instance.new("ScrollingFrame")
@@ -196,12 +203,11 @@ txt.BackgroundTransparency = 1.000
 txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 txt.Font = Enum.Font.SourceSans
-txt.Text = [[commands:
+txt.Text = commands:
 gg - grabgun
 ag - enable autograb
 esc - toggle autoesc
 rj
-]]
 txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 txt.TextSize = 14.000
 txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -274,7 +280,4 @@ _txtbox:CaptureFocus()
 task.defer(stfu,"")
 end
 end
-us.InputBegan:Connect(onkeydown)
-funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
-print("vampire-2")
-end
+us.InputBegan:Connect(onkeydown)--]]
