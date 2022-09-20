@@ -17,7 +17,8 @@ local plug={noclip={func=function()
 	vars.float=Instance.new("Part")
 	funcs.rawmeta.__newindex(vars.float,"Name",vars.fn) 
 	funcs.rawmeta.__newindex(vars.float,"Size",vars.sz) 
-	funcs.rawmeta.__newindex(vars.float,"Parent",getchar()) 
+	funcs.rawmeta.__newindex(vars.float,"Parent",getchar())  --i am retarded
+	vars.float.Transparency=1
 	local rp=getchar():FindFirstChild("HumanoidRootPart")
 	while vars.float and rp and rp.Parent do 
 	funcs.rawmeta.__newindex(vars.float,"CFrame",rp.CFrame*CFrame.new(0,-vars.floatn,0))
@@ -42,12 +43,12 @@ local plug={noclip={func=function()
 	local Pos, Char = Cam.CFrame, getchar()
 	local Human = Char and Char:FindFirstChildWhichIsA("Humanoid")
 	local nHuman = Human:Clone(Human)
-	nHuman.Parent, speaker.Character = Char, nil
+	nHuman.Parent, funcs.lplr.Character = Char, nil
 	nHuman:SetStateEnabled(15, false)
 	nHuman:SetStateEnabled(1, false)
 	nHuman:SetStateEnabled(0, false)
 	nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
-	speaker.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, task.wait() and Pos
+	funcs.lplr.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, task.wait() and Pos
 	nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
 	local Script = Char:FindFirstChild("Animate")
 	if Script then
