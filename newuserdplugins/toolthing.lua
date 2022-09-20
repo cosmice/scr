@@ -5,7 +5,7 @@ keysen=false
 local plug={
 ["desc"]={desc="Z - kidnap M - hell N - Void B - Refresh"};
 ["tky"]={func=function(strt) vars.keysen=not vars.keysen; if strt[1]~="nn" then funcs.sendnotif("cmds/toolthing/tky",vars.keysen and "Z - kidnap M - hell N - Void B - Refresh" or "false","rbxassetid://6678521436",10) end end,desc="toggle keybinds (default: off)"};
-["proc"]={func=function(strt) vars.gamereq=not vars.gamereq; if strt[1]~="nn" then funcs.sendnotif("cmds/toolthing/proc",vars.gamereq,"rbxassetid://6678521436",5) end end,desc="disables gamereq requirement, use if keybinds dont work"};
+["proc"]={func=function(strt) vars.gamereq=not vars.gamereq; if strt[1]~="nn" then funcs.sendnotif("cmds/toolthing/proc",vars.gamereq and "true" or "false","rbxassetid://6678521436",5) end end,desc="disables gamereq requirement, use if keybinds dont work"};
 ["ref"]={func=function()
 local Char=getchar()
 	if Char:FindFirstChildOfClass("Humanoid") then Char:FindFirstChildOfClass("Humanoid"):ChangeState(15) end
@@ -17,33 +17,7 @@ local Char=getchar()
 	funcs.lplr.Character = Char
 	funcs.deb:AddItem(newChar,0)
 end,desc="refresh character"};
-["god"]={func=function()
-local Cam = workspace.CurrentCamera
-	local Pos, Char = Cam.CFrame, getchar()
-	local Human = Char and Char:FindFirstChildWhichIsA("Humanoid")
-	local nHuman = Human:Clone(Human)
-	nHuman.Parent, speaker.Character = Char, nil
-	nHuman:SetStateEnabled(15, false)
-	nHuman:SetStateEnabled(1, false)
-	nHuman:SetStateEnabled(0, false)
-	nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
-	speaker.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, task.wait() and Pos
-	nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-	local Script = Char:FindFirstChild("Animate")
-	if Script then
-		Script.Disabled = true
-		task.wait()
-		Script.Disabled = false
-	end
-	nHuman.Health = nHuman.MaxHealth
-end};
-["reset"]={func=function()
-local hnn=getchar():FindFirstChildOfClass("Humanoid")
-if hnn then
-hnn:SetStateEnabled(15, true)
-hnn.Health=0
-end
-end,desc="suicide"}
+Reservedpluginname="base.tool-manipulation"
 }
 
 
