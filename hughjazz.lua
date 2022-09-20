@@ -77,7 +77,7 @@ cmds["cmds"]=cmds["cmds"] or function()
 		cmdframe.Active = not cmdframe.Active
 		_close.Visible = not _close.Visible
 		cmdframe.Visible = not cmdframe.Visible
-		txt.Visible=true txt.Active=true
+		txt.Visible=true txt.Active=true txt2.Visible=false txt2.Active=false
 end
 cmds["rj"]=cmds["rj"] or rj
 local aliases={}
