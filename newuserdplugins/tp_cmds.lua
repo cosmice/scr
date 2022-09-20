@@ -16,6 +16,7 @@ end,desc="goto plr (arg[1])",aliases={to="goto"}},
 	task.wait()
 	end
 	vars.lgoto=nil
-end,desc="loopgoto plr (arg[1]), no arg to cancel"}
+end,desc="loopgoto plr (arg[1]), no arg to cancel"};
+Reservedpluginname="base.tp-cmds"
 }
 return plug
