@@ -128,7 +128,7 @@ local ldfile
 local function pl() ldfile=loadfile(v)() end
 xpcall(pl,HandlePluginError)
 if not ldfile then return end
-table.insert(tnstr,v.." cmds:")
+table.insert(tnstr,ldfile.Reservedpluginname or v.." cmds:")
 for x,c in pairs(ldfile) do
 if c.func then
 cmds[x]=c.func
