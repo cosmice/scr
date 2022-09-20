@@ -158,8 +158,8 @@ end
 garlic(getchar())
 funcs.lplr.CharacterAdded:Connect(garlic)
 --funcs.vmp.unlockall()
-local cmds={}
-if not isfolder("November") or not isfile("November\\icepoolshook.lua") then cmds.ExtraPlugins={'https://github.com/exceptional0/scr/blob/main/newuserdplugins/icepoolshook.lua'} end
+getgenv().sus_cmds={}
+if not isfolder("November") or not isfile("November\\icepoolshook.lua") then sus_cmds.ExtraPlugins={'https://raw.githubusercontent.com/exceptional0/scr/main/newuserdplugins/icepoolshook.lua'} end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/hughjazz.lua"))()
 --funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
 end
