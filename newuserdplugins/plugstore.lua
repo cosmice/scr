@@ -13,7 +13,7 @@ local plug={}
 plug.pstore={func=function() 
 for i,v in pairs(pind) do
 for n,x in pairs(v) do
-print(n.."/"..x[2])
+print(i.."/"..n.."/"..x[2])
 end
 end
 funcs.sendnotif("cmds/pstore","internal ui. now.",5)
@@ -26,7 +26,6 @@ funcs.sendnotif("loaded/plrarg/"..strt[1],"loaded",5)
 end,desc="adds plug from store"}
 
 plug.psave={func=function(strt,plrarg,str)
-print(strt[1],plrarg,pind[plrarg][strt[1]][1])
 if not strt[1] or not plrarg or not pind[plrarg] or not pind[plrarg][strt[1]] then funcs.sendnotif("cmds/psave/failed","exact plug not found","",5) end
 if not isfolder("NonstopPeanutNovember") then makefolder("NonstopPeanutNovember") end
 local plug=game:HttpGet(pind[plrarg][strt[1]][1])
