@@ -9,15 +9,22 @@ pind["base"]={
 ["ex"]={'https://raw.githubusercontent.com/exceptional0/scr/main/newuserdplugins/example.lua',"example"}
 }
 local plugss={
-Init=function(err,ldplug)
+Init=function(err,ldplug,gui)
 local plug={}
-plug.pstore={func=function() 
+plug.pstore={func=function(strt,parg) 
+local tx={}
 for i,v in pairs(pind) do
 for n,x in pairs(v) do
-print(i.."/"..n.."/"..x[2])
+table.insert(tx,i.."/"..n.."/"..x[2])
 end
 end
-funcs.sendnotif("cmds/pstore","internal ui. now.","rbxassetid://8119590978",5)
+gui.txt2.Text=table.concat(tx,"\n\n")
+gui._close.Active = not gui._close.Active
+gui.cmdframe.Active = not gui.cmdframe.Active
+gui._close.Visible = not gui._close.Visible
+gui.cmdframe.Visible = not gui.cmdframe.Visible
+gui.txt2.Visible=true gui.txt2.Active=true gui.txt.Active=false gui.txt.Visible=false
+if parg~="nn" then funcs.sendnotif("cmds/pstore","waaaa","rbxassetid://8119590978",5) end
 end,desc="lists plugs in internal ui"}
 
 plug.padd={func=function(strt,plrarg,str)
