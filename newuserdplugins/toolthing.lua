@@ -1,11 +1,49 @@
 local vars={
 gamereq=true,
-keysen=false
 }
+local tween
+local function kinesomona(input,gameprocessed)
+if (not vars.gamereq or not gameprocessed) then
+if input.KeyCode == Enum.KeyCode.Z then
+funcs.lplr:ClearCharacterAppearance()
+local h = getchar():WaitForChild("Humanoid",10)
+local hc=h:Clone()
+hc.Parent = getchar()
+hc.Name = "Human"
+
+h:Destroy()
+
+for _,v in pairs(funcs.lplr:WaitForChild("Backpack",20):GetDescendants()) do
+    if v.ClassName == "Tool" then
+        v.Parent = getchar()
+    end
+end
+vars.reddevredemption=true
+elseif input.KeyCode == Enum.KeyCode.M and vars.reddevredemption then
+vars.reddevredemption=false
+local tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(300, Enum.EasingStyle.Linear)
+local ch=getchar()
+tween = tweenService:Create(ch.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(0, -1000, 0)})
+tween:Play()
+task.wait(5)
+if ch and funcs.lplr.Character==ch and ch.Parent then
+plug.ref()
+end
+elseif input.KeyCode == Enum.KeyCode.N and vars.reddevredemption then
+vars.reddevredemption=false
+getchar():PivotTo(CFrame.new(Random.new():NextNumber(60000000000,100000000000),Random.new():NextNumber(60000000000,100000000000),Random.new():NextNumber(60000000000,100000000000)))
+elseif input.KeyCode == Enum.KeyCode.B and vars.reddevredemption then
+vars.reddevredemption=false
+plug.ref()
+end
+
+end
+end
+
 local plug={
 ["desc"]={desc="Z - kidnap M - hell N - Void B - Refresh"};
-["tky"]={func=function(strt) vars.keysen=not vars.keysen; if strt[1]~="nn" then funcs.sendnotif("cmds/toolthing/tky",vars.keysen and "Z - kidnap M - hell N - Void B - Refresh" or "false","rbxassetid://6678521436",10) end end,desc="toggle keybinds (default: off)"};
-["proc"]={func=function(strt) vars.gamereq=not vars.gamereq; if strt[1]~="nn" then funcs.sendnotif("cmds/toolthing/proc",vars.gamereq and "true" or "false","rbxassetid://6678521436",5) end end,desc="disables gamereq requirement, use if keybinds dont work"};
+["tky"]={func=function(strt,plrarg) if vars.keysen then vars.keysen:Disconnect() vars.keysen=nil else vars.keysen=funcs.uip.InputBegan:Connect(kinesomona) end if plrarg~="nn" then funcs.sendnotif("cmds/toolthing/tky",vars.keysen and "Z - kidnap M - hell N - Void B - Refresh" or "false","rbxassetid://6678521436",10) end end,desc="toggle keybinds (default: off)"};
+["proc"]={func=function(strt,plrarg) vars.gamereq=not vars.gamereq; if plrarg~="nn" then funcs.sendnotif("cmds/toolthing/proc",vars.gamereq and "true" or "false","rbxassetid://6678521436",5) end end,desc="disables gamereq requirement, use if keybinds dont work"};
 ["ref"]={func=function()
 local Char=getchar()
 	if Char:FindFirstChildOfClass("Humanoid") then Char:FindFirstChildOfClass("Humanoid"):ChangeState(15) end
@@ -123,43 +161,5 @@ plug["void"]={func=function(strt,strd,str)
 	if strt[2]~="nn" then funcs.sendnotif("cmds/toolthing/void","voided "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) end
 end}
 
-local tween
-funcs.uip.InputBegan:Connect(function(input,gameprocessed)
-if (not vars.gamereq or not gameprocessed) and vars.keysen then
-if input.KeyCode == Enum.KeyCode.Z then
-funcs.lplr:ClearCharacterAppearance()
-local h = getchar():WaitForChild("Humanoid",10)
-local hc=h:Clone()
-hc.Parent = getchar()
-hc.Name = "Human"
-
-h:Destroy()
-
-for _,v in pairs(funcs.lplr:WaitForChild("Backpack",20):GetDescendants()) do
-    if v.ClassName == "Tool" then
-        v.Parent = getchar()
-    end
-end
-vars.reddevredemption=true
-elseif input.KeyCode == Enum.KeyCode.M and vars.reddevredemption then
-vars.reddevredemption=false
-local tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(300, Enum.EasingStyle.Linear)
-local ch=getchar()
-tween = tweenService:Create(ch.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(0, -1000, 0)})
-tween:Play()
-task.wait(5)
-if ch and funcs.lplr.Character==ch and ch.Parent then
-plug.ref()
-end
-elseif input.KeyCode == Enum.KeyCode.N and vars.reddevredemption then
-vars.reddevredemption=false
-getchar():PivotTo(CFrame.new(Random.new():NextNumber(60000000000,100000000000),Random.new():NextNumber(60000000000,100000000000),Random.new():NextNumber(60000000000,100000000000)))
-elseif input.KeyCode == Enum.KeyCode.B and vars.reddevredemption then
-vars.reddevredemption=false
-plug.ref()
-end
-
-end
-end)
 
 return plug
