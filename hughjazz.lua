@@ -55,6 +55,10 @@ txt.TextSize = 14.000
 txt.TextXAlignment = Enum.TextXAlignment.Left
 txt.TextYAlignment = Enum.TextYAlignment.Top
 txt.AutomaticSize=3
+local txt2=txt:Clone()
+txt2.Parent=cmdframe
+txt2.Text=""
+txt2.Visible=false txt2.Active=false
 _close.Name = "_close"
 _close.Parent = main
 _close.Active = false
@@ -73,6 +77,7 @@ cmds["cmds"]=cmds["cmds"] or function()
 		cmdframe.Active = not cmdframe.Active
 		_close.Visible = not _close.Visible
 		cmdframe.Visible = not cmdframe.Visible
+		txt.Visible=true txt.Active=true
 end
 cmds["rj"]=cmds["rj"] or rj
 local aliases={}
@@ -106,6 +111,7 @@ local function ZURHG_fake_script() -- _close.LocalScript
 		cmdframe.Active = not cmdframe.Active
 		_close.Visible = not _close.Visible
 		cmdframe.Visible = not cmdframe.Visible
+		txt.Visible=false txt.Active=false txt2.Visible=false txt2.Active=false
 	end
 	_close.MouseButton1Click:Connect(onclick)
 end
@@ -130,7 +136,7 @@ local function HandlePluginError(err)
 printconsole(v.."- "..err,171,199,80)
 end
 local ldfile
-local function pl() ldfile=type(v)=='table' and v or loadfile(v)() if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug) end end
+local function pl() ldfile=type(v)=='table' and v or loadfile(v)() if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,{["txt2"]=txt2,["txt"]=txt,["cmdframe"]=cmdframe,["_close"]=_close}) end end
 xpcall(pl,HandlePluginError)
 if not ldfile then return end
 local nm=ldfile.Reservedpluginname or v
