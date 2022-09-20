@@ -7,7 +7,8 @@ funcs.deb:AddItem(hn,0)
 end
 
 local plug={
-["r6"]={func=settype}
+["r6"]={func=settype};
+Reservedpluginname="base.avatar_edit"
 }
 plug.r15=plug.r6
 return plug
