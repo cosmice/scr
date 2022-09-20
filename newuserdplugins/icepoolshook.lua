@@ -16,7 +16,6 @@ Reservedpluginname="VH2R"
 
 return plug
 end--]]
-
 }
 tb=tb[game.PlaceId]
 return tb and (type(tb)=='function' and tb() or type(tb)=='string' and loadstring(game:HttpGet(tb))() ) or tb
