@@ -1,4 +1,4 @@
--- gui to lua
+-- Gui to Lua
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
 end
@@ -156,8 +156,8 @@ end
 
 
 --plugins
-if isfolder("FailedNNN") then
-for i,v in pairs(listfiles("FailedNNN")) do
+if isfolder("FailedNonstopPeanutNovember") then
+for i,v in pairs(listfiles("FailedNonstopPeanutNovember")) do
 task.spawn(ldplug,v)
 task.wait()
 end
