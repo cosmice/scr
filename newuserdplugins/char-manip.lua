@@ -69,7 +69,8 @@ local plug={noclip={func=function()
 	if hnn then
 	hnn.Health=0
 	end
-	end,desc="suicide-hp=0"}
+	end,desc="suicide-hp=0"};
+	Reservedpluginname="base.char-manipulation"
 	}
 
 
