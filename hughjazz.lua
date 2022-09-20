@@ -1,4 +1,7 @@
 -- Gui to Lua
+if not funcs then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
+end
 local main = Instance.new("ScreenGui")
 local _txtbox = Instance.new("TextBox")
 local cmdframe = Instance.new("ScrollingFrame")
@@ -33,6 +36,8 @@ cmdframe.Size = UDim2.new(0.245578229, 0, 0.376923114, 0)
 cmdframe.Visible = false
 cmdframe.CanvasSize = UDim2.new(0, 0, 0.529999971, 0)
 cmdframe.Draggable=true
+cmdframe.AutomaticCanvasSize=3
+cmdframe.CanvasSize=UDim2.new(0.5,0,0,0)
 
 txt.Name = "txt"
 txt.Parent = cmdframe
@@ -43,12 +48,13 @@ txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 txt.Font = Enum.Font.SourceSans
 txt.Text = [[commands:
 rj
-plugin commands:]]
+plugin commands:
+]]
 txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 txt.TextSize = 14.000
 txt.TextXAlignment = Enum.TextXAlignment.Left
 txt.TextYAlignment = Enum.TextYAlignment.Top
-
+txt.AutomaticSize=3
 _close.Name = "_close"
 _close.Parent = main
 _close.Active = false
@@ -117,19 +123,20 @@ task.defer(stfu,"")
 end
 end
 us.InputBegan:Connect(onkeydown)
-if isfolder("FailedNNN") then
-local tnstr={txt.Text}
-for i,v in pairs(listfiles("FailedNNN")) do
-task.spawn(function()
+local function ldplug(v)
+local tnstr={}
 local function HandlePluginError(err)
 printconsole(v.."- "..err,171,199,80)
 end
 local ldfile
-local function pl() ldfile=loadfile(v)() end
+local function pl() ldfile=type(v)=='table' and v or loadfile(v)() end
 xpcall(pl,HandlePluginError)
 if not ldfile then return end
-table.insert(tnstr,ldfile.Reservedpluginname or v.." cmds:")
+local nm=ldfile.Reservedpluginname or v
+table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
+local typ=type(c)
+if typ~='table' and typ~='function' then continue end
 if c.func then
 cmds[x]=c.func
 end
@@ -143,11 +150,22 @@ for i,v in pairs(c.aliases) do
 aliases[i]=v
 end
 end
-
 end
-end)
+txt.Text=txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
+end
+
+
+--plugins
+if isfolder("FailedNNN") then
+for i,v in pairs(listfiles("FailedNNN")) do
+task.spawn(ldplug,v)
 task.wait()
 end
-txt.Text=table.concat(tnstr,"\n")
+end
+if cmds.ExtraPlugins then
+for i,v in pairs(cmds.ExtraPlugins) do
+task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v))() or v)
+task.wait()
+end
 end
 funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
