@@ -19,10 +19,10 @@ table.insert(tx,i.."/"..n.."/"..x[2])
 end
 end
 gui.txt2.Text=table.concat(tx,"\n\n")
-gui._close.Active = not gui._close.Active
-gui.cmdframe.Active = not gui.cmdframe.Active
-gui._close.Visible = not gui._close.Visible
-gui.cmdframe.Visible = not gui.cmdframe.Visible
+gui._close.Active = true
+gui.cmdframe.Active = true
+gui._close.Visible = true
+gui.cmdframe.Visible = true
 gui.txt2.Visible=true gui.txt2.Active=true gui.txt.Active=false gui.txt.Visible=false
 if parg~="nn" then funcs.sendnotif("cmds/pstore","waaaa","rbxassetid://8119590978",5) end
 end,desc="lists plugs in internal ui"}
