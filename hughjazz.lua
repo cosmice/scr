@@ -90,7 +90,7 @@ if aliases[cmd] then cmd=aliases[cmd] end
 if type(cmds[cmd])=='function' then
 cmds[cmd](strd,plrarg,x,cmd)
 elseif type(cmds[cmd])=='table' then
-cmds[cmd][1](strd,plrarg,x,cmd,cmds[cmd].args)
+cmds[cmd][1](strd,plrarg,x,cmd,cmds[cmd][2])
 end
 
 end
