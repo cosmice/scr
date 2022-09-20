@@ -87,8 +87,10 @@ local strd=string.split(x," ")
 local cmd,plrarg=strd[1],strd[2]
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmd] then cmd=aliases[cmd] end
-if cmds[cmd] then
+if type(cmds[cmd])=='function' then
 cmds[cmd](strd,plrarg,x,cmd)
+elseif type(cmds[cmd])=='table' then
+cmds[cmd][1](strd,plrarg,x,cmd,cmds[cmd].args)
 end
 
 end
@@ -144,7 +146,7 @@ for x,c in pairs(ldfile) do
 local typ=type(c)
 if typ~='table' or c.reserved then continue end
 if c.func then
-cmds[x]=c.func
+cmds[x]={c.func,c.args}
 end
 if c.desc then
 table.insert(tnstr,x.."- "..c.desc)
