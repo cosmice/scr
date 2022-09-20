@@ -123,20 +123,21 @@ task.defer(stfu,"")
 end
 end
 us.InputBegan:Connect(onkeydown)
+
 local function ldplug(v)
 local tnstr={}
 local function HandlePluginError(err)
 printconsole(v.."- "..err,171,199,80)
 end
 local ldfile
-local function pl() ldfile=type(v)=='table' and v or loadfile(v)() end
+local function pl() ldfile=type(v)=='table' and v or loadfile(v)() if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug) end end
 xpcall(pl,HandlePluginError)
 if not ldfile then return end
 local nm=ldfile.Reservedpluginname or v
 table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
 local typ=type(c)
-if typ~='table' and typ~='function' then continue end
+if typ~='table' or c.reserved then continue end
 if c.func then
 cmds[x]=c.func
 end
