@@ -4,7 +4,8 @@ pind["base"]={
 ["char-manip"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/char_manip.lua',"character manipulation/float,noclip,god,reset,dreset,etc."};
 ["gamespes"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/gamespes.lua',"game specific commands, makes hughjazz be a hub."};
 ["toolthing"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/toolthing.lua',"Z - kidnap M - hell N - Void B - Refresh/refresh,gtool,void,etc"};
-["tp-cmds"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"}
+["tp-cmds"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
+["plugstore"]={'https://raw.githubusercontent.com/exceptional0/scr/main/newuserdplugins/plugstore.lua',"plug store"}
 }
 local plugss={
 Init=function(err,ldplug)
