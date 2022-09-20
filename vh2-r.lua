@@ -159,7 +159,7 @@ garlic(getchar())
 funcs.lplr.CharacterAdded:Connect(garlic)
 --funcs.vmp.unlockall()
 local cmds={}
-if not isfolder("FailedNNN") or not isfile("FailedNNN\\gamespes") then cmds.ExtraPlugins={'https://github.com/exceptional0/scr/blob/main/newuserdplugins/gamespes.lua'} end
+if not isfolder("FailedNNN") or not isfile("FailedNNN\\gamespes.lua") then cmds.ExtraPlugins={'https://github.com/exceptional0/scr/blob/main/newuserdplugins/gamespes.lua'} end
 --loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/hughjazz.lua"))()
 --funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
 end
