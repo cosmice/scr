@@ -33,7 +33,7 @@ writefile("NonstopPeanutNovember\\"..strt[1]..".lua",plug)
 ldplug(loadstring(plug)())
 funcs.sendnotif("loaded/plrarg/"..strt[1],"loaded",5)
 end,desc="saves plug from store"}
-plug.Reservedpluginname="base.plug-store"
+plug.Reservedpluginname="base.plug-store" --a
 return plug
 end
 }
