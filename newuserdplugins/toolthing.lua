@@ -41,7 +41,7 @@ end
 end
 
 local plug={
-["desc"]={desc="Z - kidnap M - hell N - Void B - Refresh"};
+["desc"]={desc="Z - kidnap M - hell N - Void B - Refresh"}; --a
 ["tky"]={func=function(strt,plrarg) if vars.keysen then vars.keysen:Disconnect() vars.keysen=nil else vars.keysen=funcs.uip.InputBegan:Connect(kinesomona) end if plrarg~="nn" then funcs.sendnotif("cmds/toolthing/tky",vars.keysen and "Z - kidnap M - hell N - Void B - Refresh" or "false","rbxassetid://6678521436",10) end end,desc="toggle keybinds (default: off)"};
 ["proc"]={func=function(strt,plrarg) vars.gamereq=not vars.gamereq; if plrarg~="nn" then funcs.sendnotif("cmds/toolthing/proc",vars.gamereq and "true" or "false","rbxassetid://6678521436",5) end end,desc="disables gamereq requirement, use if keybinds dont work"};
 ["ref"]={func=function()
