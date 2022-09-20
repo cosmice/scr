@@ -1,6 +1,7 @@
 task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
+funcs.vmp.outfits={}
 ---get rid of annoying sound that made me think my computer was broken
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
