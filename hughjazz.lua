@@ -70,8 +70,7 @@ _close.Font = Enum.Font.SourceSans
 _close.Text = "close"
 _close.TextColor3 = Color3.fromRGB(255, 255, 255)
 _close.TextSize = 14.000
-
-local cmds=cmds or {}
+local cmds=sus_cmds or {}
 cmds["cmds"]=cmds["cmds"] or function()
 		_close.Active = not _close.Active
 		cmdframe.Active = not cmdframe.Active
@@ -169,11 +168,11 @@ task.spawn(ldplug,v)
 task.wait()
 end
 end
-
 if cmds.ExtraPlugins then
 for i,v in pairs(cmds.ExtraPlugins) do
 task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v))() or v)
 task.wait()
 end
 end
+getgenv().sus_cmds=nil
 funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
