@@ -1,5 +1,5 @@
 local tb={
-[10201298018]=function()
+[10201298018]='https://raw.githubusercontent.com/exceptional0/scr/main/newuserdgamespes/vh2-r.lua' --[[function()
 local plug={
 esc={func=function()
 is_auto_enabled=not is_auto_enabled
@@ -15,8 +15,8 @@ Reservedpluginname="VH2R"
 }
 
 return plug
-end
+end--]]
 
 }
 tb=tb[game.PlaceId]
-return type(tb)=='function' and tb() or tb
+return tb and (type(tb)=='function' and tb() or type(tb)=='string' and loadstring(game:HttpGet(tb))() ) or tb
