@@ -35,9 +35,9 @@ end,desc="adds plug from store: padd base toolthing"}
 
 plug.psave={func=function(strt,plrarg,str)
 if not strt[1] or not plrarg or not pind[plrarg] or not pind[plrarg][strt[1]] then funcs.sendnotif("cmds/psave/failed","exact plug not found","",5) end
-if not isfolder("NonstopPeanutNovember") then makefolder("NonstopPeanutNovember") end
+if not isfolder("November") then makefolder("November") end
 local plug=game:HttpGet(pind[plrarg][strt[1]][1])
-writefile("NonstopPeanutNovember\\"..strt[1]..".lua",plug)
+writefile("November\\"..strt[1]..".lua",plug)
 ldplug(loadstring(plug)())
 funcs.sendnotif("loaded/plrarg/"..strt[1],"loaded",5)
 end,desc="saves plug from store: psave base plugstore"}
