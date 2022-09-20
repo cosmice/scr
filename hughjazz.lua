@@ -122,11 +122,12 @@ local tnstr={txt.Text}
 for i,v in pairs(listfiles("FailedNNN")) do
 task.spawn(function()
 local function HandlePluginError(err)
-warn(v.."- "..err)
+printconsole(v.."- "..err,171,199,80)
 end
-local suc,ldfile=xpcall(loadfile,HandlePluginError,v)
-local suc,ldfile=suc and ldfile and xpcall(ldfile,HandlePluginError,v)
-if not suc or not ldfile then return end
+local ldfile
+local function pl() ldfile=loadfile(v)() end
+xpcall(pl,HandlePluginError)
+if not ldfile then return end
 table.insert(tnstr,v.." cmds:")
 for x,c in pairs(ldfile) do
 if c.func then
