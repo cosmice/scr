@@ -26,6 +26,24 @@ local plug={noclip={func=function()
 	end
 	funcs.deb:AddItem(vars.float,0) vars.float=nil
 	end};
+	cprop={reserved=true,func=function(strt,nn,str,cmd,arg) 
+	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
+	nn=tonumber(nn)
+	if hmnoid and nn then
+	if arg[2] then
+	vars["loop"..arg[1]]=nn
+	while vars.loopws and hmnoid do
+	hmnoid[arg[1]]=nn
+	end
+	else
+	hmnoid[arg[1]]=nn
+	end
+	
+	end
+	end};
+	nilvar={reserved=true,func=function(strt,nn,str,cmd,arg)
+	vars[arg]=nil
+	end};
 	--[[failed_floatt={func=function() 
 	vars.failed_floatt=not vars.failed_floatt
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
@@ -74,5 +92,11 @@ local plug={noclip={func=function()
 	Reservedpluginname="base.char-manipulation"
 	}
 
+	prop.loopws={func=prop.cprop.func,args={"WalkSpeed",true}}
+	prop.loopjp={func=prop.cprop.func,args={"JumpPower",true}}
+	prop.unloopws={func=prop.nilvar.func,args="loopWalkSpeed"}
+	prop.unloopjp={func=prop.nilvar.func,args="loopJumpPower"}
+	prop.ws={func=prop.cprop.func,args={"WalkSpeed"}}
+	prop.jp={func=prop.cprop.func,args={"JumpPower"}}
 
 return plug
