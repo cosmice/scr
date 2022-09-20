@@ -72,10 +72,10 @@ _close.TextColor3 = Color3.fromRGB(255, 255, 255)
 _close.TextSize = 14.000
 local cmds=sus_cmds or {}
 cmds["cmds"]=cmds["cmds"] or function()
-		_close.Active = not _close.Active
-		cmdframe.Active = not cmdframe.Active
-		_close.Visible = not _close.Visible
-		cmdframe.Visible = not cmdframe.Visible
+		_close.Active = true
+		cmdframe.Active = true
+		_close.Visible = true
+		cmdframe.Visible = true
 		txt.Visible=true txt.Active=true txt2.Visible=false txt2.Active=false
 end
 cmds["rj"]=cmds["rj"] or rj
