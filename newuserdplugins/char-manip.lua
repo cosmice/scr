@@ -31,9 +31,12 @@ local plug={noclip={func=function()
 	nn=tonumber(nn)
 	if hmnoid and nn then
 	if arg[2] then
-	vars["loop"..arg[1]]=nn
-	while vars.loopws and hmnoid do
+	local strnd="loop"..arg[1]
+	vars[strnd]=nil
+	vars[strnd]=nn
+	while vars[strnd] and hmnoid do
 	hmnoid[arg[1]]=nn
+	task.wait()
 	end
 	else
 	hmnoid[arg[1]]=nn
@@ -92,11 +95,11 @@ local plug={noclip={func=function()
 	Reservedpluginname="base.char-manipulation"
 	}
 
-	prop.loopws={func=prop.cprop.func,args={"WalkSpeed",true}}
-	prop.loopjp={func=prop.cprop.func,args={"JumpPower",true}}
-	prop.unloopws={func=prop.nilvar.func,args="loopWalkSpeed"}
-	prop.unloopjp={func=prop.nilvar.func,args="loopJumpPower"}
-	prop.ws={func=prop.cprop.func,args={"WalkSpeed"}}
-	prop.jp={func=prop.cprop.func,args={"JumpPower"}}
+	plug.loopws={func=plug.cprop.func,args={"WalkSpeed",true}}
+	plug.loopjp={func=plug.cprop.func,args={"JumpPower",true}}
+	plug.unloopws={func=plug.nilvar.func,args="loopWalkSpeed"}
+	plug.unloopjp={func=plug.nilvar.func,args="loopJumpPower"}
+	plug.ws={func=plug.cprop.func,args={"WalkSpeed"}}
+	plug.jp={func=plug.cprop.func,args={"JumpPower"}}
 
 return plug
