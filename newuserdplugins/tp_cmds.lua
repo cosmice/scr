@@ -17,7 +17,8 @@ local plug={
 ["goto"]={func=togo,desc="goto plr (arg[1])",aliases={to="goto"}};
 ["boto"]={func=function(strt,strd,str) 
 local oldpiv=getchar():GetPivot()
-for i = 1,tonumber(strt[1]) or 1 do
+strt=strt[1] and tonumber(strt[1]) or 1
+for i = 1,strt do
 togo(strt,strd,str)
 task.wait()
 getchar():PivotTo(oldpiv)
