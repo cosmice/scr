@@ -17,13 +17,13 @@ local plug={
 ["goto"]={func=togo,desc="goto plr (arg[1])",aliases={to="goto"}};
 ["boto"]={func=function(strt,strd,str) 
 local oldpiv=getchar():GetPivot()
-strt=strt[1] and tonumber(strt[1]) or 1
-for i = 1,strt do
+str=strt[1] and tonumber(strt[1]) or 1
+for i = 1,str do
 togo(strt,strd,str)
-task.wait(.05)
+task.wait(strt[2] and tonumber(strt[2]) or .05)
 getchar():PivotTo(oldpiv)
 end
-end,desc="goto arg[1] plr and back arg[2] amount of times"};
+end,desc="goto arg[1] plr and back arg[2] amount of times for arg[3] each"};
 ["lgoto"]={func=function(strt,strd,str)
 	local thp=strd and funcs.xgetplr(strd,true)
 	if not strd then vars.lgoto=nil return end
