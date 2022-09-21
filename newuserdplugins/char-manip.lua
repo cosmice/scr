@@ -48,7 +48,7 @@ local plug={noclip={func=function()
 	end
 	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
 	vars[strnd.."1"]=funcs.lplr.CharacterAdded:Connect(ochar)
-	
+	res()
 	else
 	hmnoid[arg[1]]=nn
 	end
