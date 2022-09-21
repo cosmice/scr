@@ -107,12 +107,12 @@ local plug={noclip={func=function()
 				return old_namecall(instance,meth,...)
 				end))
 				local old_nind
-				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,...)
+				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,ack,...)
 				local mc= old_index(rawget(funcs,"lplr"),"Character")
-				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(instance,"ClassName")=="Humanoid" and (mc and old_index(instance,"Parent")==mc) then
-                return old_nind(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
+				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(instance,"ClassName")=="Humanoid" and (mc and old_index(instance,"Parent")==mc) and old_index(instance,meth)>ack then
+                return old_nind(fakehum,meth,ack,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
 				end
-				return old_nind(instance,meth,...)
+				return old_nind(instance,meth,ack,...)
 				end))
 				--[[local old_newindex
 				old_newindex = hookmetamethod(game, "__newindex", newcclosure(function(self,ind,newval,...)
