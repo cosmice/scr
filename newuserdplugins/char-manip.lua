@@ -35,13 +35,20 @@ local plug={noclip={func=function()
 	if hmnoid and nn then
 	if arg[2] then
 	local strnd="loop"..arg[1]
-	vars[strnd]=nil
-	vars[strnd]=true
-	while vars[strnd] and hmnoid do
-	hmnoid[arg[1]]=nn
-	task.wait()
+	if vars[strnd] then vars[strnd]:Disconnect() vars[strnd]=nil end
+	local function res()
 	hmnoid[arg[1]]=nn
 	end
+	local function ochar(ch)
+	if not vars[strnd] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil end
+	local hmnoid=WaitForChildOfClass(ch,"Humanoid")
+	if hmnoid then
+	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
+	end
+	end
+	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
+	vars[strnd.."1"]=funcs.lplr.CharacterAdded:Connect(ochar)
+	
 	else
 	hmnoid[arg[1]]=nn
 	end
@@ -49,7 +56,7 @@ local plug={noclip={func=function()
 	end
 	end};
 	nilvar={reserved=true,func=function(strt,nn,str,cmd,arg)
-	vars[arg]=nil
+	if vars[arg] then vars[arg]:Disconnect() vars[arg]=nil end
 	end};
 	view={desc="view plr",func=function(strt,plrarg) 
 	local plr=plrarg and funcs.xgetplr(plrarg,true)
