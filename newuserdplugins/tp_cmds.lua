@@ -6,14 +6,23 @@ local function cdtp(kk)
 		getchar():PivotTo(maus.Hit)
 	end
 end
-
-local plug={
-["goto"]={func=function(strt,strd,str)
+local function togo(strt,strd,str)
 	local thp=strd and funcs.xgetplr(strd,true)
 	if thp and thp.Character then
 	getchar():PivotTo(thp.Character:GetPivot())
 	end
-end,desc="goto plr (arg[1])",aliases={to="goto"}},
+end
+vars.cdtp=funcs.uip.InputBegan:Connect(cdtp)
+local plug={
+["goto"]={func=togo,desc="goto plr (arg[1])",aliases={to="goto"}};
+["boto"]={func=function(strt,strd,str) 
+local oldpiv=getchar():GetPivot()
+for i = 1,strt[1] or 1 do
+togo(strt,strd,str)
+task.wait()
+getchar():PivotTo(oldpiv)
+end
+end,desc="goto player and back"};
 ["lgoto"]={func=function(strt,strd,str)
 	local thp=strd and funcs.xgetplr(strd,true)
 	if not strd then vars.lgoto=nil return end
