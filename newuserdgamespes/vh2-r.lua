@@ -1,7 +1,7 @@
 task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
-funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{})
+funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{rainbowglory={{"HatTwo", "Transient Harmonica"},{"Shirt", "Black Splatter Hoodie"},{"Pants", "Black Biker Jeans"},{"HatOne", "Bunny Ears"},{"HatThree", "Nerd Glasses"},{"HairColour","Rainbow"},{"SkinColour","Brown"},{"HairOne","Manga Hero Hair"},{"HairTwo","Bald"},{"Face","Sad Face"}}})
 ---get rid of annoying sound that made me think my computer was broken
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
