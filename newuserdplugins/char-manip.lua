@@ -34,7 +34,7 @@ local plug={noclip={func=function()
 	nn=nn and tonumber(nn)
 	if hmnoid and nn then
 	if arg[2] then
-	local strnd="loop"..arg[1]..tostring(nn)
+	local strnd="loop"..arg[1]
 	if vars[strnd] then vars[strnd]:Disconnect() vars[strnd]=nil end
 	local function res()
 	hmnoid[arg[1]]=nn
