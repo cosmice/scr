@@ -1,8 +1,7 @@
 task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
-funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{rainbowglory={{"HatTwo", "Transient Harmonica"},{"Shirt", "Black Splatter Hoodie"},{"Pants", "Black Biker Jeans"},{"HatOne", "Bunny Ears"},{"HatThree", "Nerd Glasses"},{"HairColour","Rainbow"},{"SkinColour","Brown"},{"HairOne","Manga Hero Hair"},{"HairTwo","Bald"},{"Face","Sad Face"}}})
----get rid of annoying sound that made me think my computer was broken
+funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{})
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
 v:Stop()
@@ -86,7 +85,7 @@ local function getsetting(values,setting,nm)
 if setting==2 then
 return values[3].Value and Color3.fromRGB(0,0,0) or values[1].Value and Color3.fromRGB(140,0,0) or values[2].Value and Color3.fromRGB(184,184,184) or Color3.fromRGB(150,81,107)
 else
-return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a sexy vampire" or values[2].Value and nm.." is a stupid detective daddy" or nm.." is a 'survivor' (yikes)"
+return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a uwu vampire" or values[2].Value and nm.." is a stupid detective" or nm.." is a 'survivor' (yikes)"
 end
 end
 local function linkedsword(v)
