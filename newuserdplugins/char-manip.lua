@@ -92,26 +92,26 @@ local plug={noclip={func=function()
 				old_index = hookmetamethod(game, "__index", newcclosure(function(self,getting,...)
 				local mc=old_index(rawget(funcs,"lplr"),"Character")
 				if not checkcaller() and old_index(self,"ClassName")=="Humanoid" and (mc and old_index(self,"Parent")==mc ) and ffind(rawget(tb,"index"),getting) then
-				return old_index(fakehum,getting,...);
+				return old_index(fakehum,getting,...)
 				--[[elseif not checkcaller() and (mc~=nil and (self==mc or (old_index(self,"ClassName")=="BasePart" or old_index(self,"ClassName")=="Part" or old_index(self,"ClassName"=="MeshPart") and old_index(self,"Parent")==mc and old_index(old_index(getcallingscript(),"Parent"),"Parent")==mc))) and ffind(rawget(tb,"chind"),getting) then
 				return old_index(ffind(fakebp,old_index(self,"Name")) or self,getting,...)--]]
-				end;
-				return old_index(self,getting,...);
+				end
+				return old_index(self,getting,...)
 				end))
 				local old_namecall
 				old_namecall = hookmetamethod(game, "__namecall", newcclosure(function(instance,meth,...)
 				local ncm,mc= getnamecallmethod(),old_index(rawget(funcs,"lplr"),"Character")
-				if not checkcaller() and ncm=="GetPropertyChangedSignal" and old_index(self,"ClassName")=="Humanoid"  and (mc and old_index(self,"Parent")==mc) and ffind(rawget(tb,"namecall"),meth) then
+				if not checkcaller() and ncm=="GetPropertyChangedSignal" and old_index(instance,"ClassName")=="Humanoid"  and (mc and old_index(instance,"Parent")==mc) and ffind(rawget(tb,"namecall"),meth) then
                 return old_namecall(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
-				end;
+				end
 				return old_namecall(instance,meth,...)
 				end))
 				local old_nind
 				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,...)
 				local mc= old_index(rawget(funcs,"lplr"),"Character")
-				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(self,"ClassName")=="Humanoid" and (mc and old_index(self,"Parent")==mc) then
+				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(instance,"ClassName")=="Humanoid" and (mc and old_index(instance,"Parent")==mc) then
                 return old_nind(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
-				end;
+				end
 				return old_nind(instance,meth,...)
 				end))
 				--[[local old_newindex
