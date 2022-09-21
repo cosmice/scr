@@ -90,9 +90,9 @@ local plug={noclip={func=function()
 				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,...)
 				local mc= old_index(rawget(funcs,"lplr"),"Character")
 				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and instance.ClassName=="Humanoid" and instance.Parent==mc then
-                return old_namecall(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
+                return old_nind(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
 				end;
-				return old_namecall(instance,meth,...)
+				return old_nind(instance,meth,...)
 				end))
 				--[[local old_newindex
 				old_newindex = hookmetamethod(game, "__newindex", newcclosure(function(self,ind,newval,...)
