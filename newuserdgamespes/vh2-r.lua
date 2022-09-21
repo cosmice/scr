@@ -1,7 +1,7 @@
 task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
-funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{})
+funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{rainbowglory={{"HatTwo", "Transient Harmonica"},{"Shirt", "Black Splatter Hoodie"},{"Pants", "Black Biker Jeans"},{"HatOne", "Bunny Ears"},{"HatThree", "Nerd Glasses"},{"HairColour","Rainbow"},{"SkinColour","Brown"},{"HairOne","Manga Hero Hair"},{"HairTwo","Bald"},{"Face","Sad Face"}}})
 ---get rid of annoying sound that made me think my computer was broken
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
@@ -86,7 +86,7 @@ local function getsetting(values,setting,nm)
 if setting==2 then
 return values[3].Value and Color3.fromRGB(0,0,0) or values[1].Value and Color3.fromRGB(140,0,0) or values[2].Value and Color3.fromRGB(184,184,184) or Color3.fromRGB(150,81,107)
 else
-return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a uwu vampire" or values[2].Value and nm.." is a stupid detective" or nm.." is a 'survivor' (yikes)"
+return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a sexy vampire" or values[2].Value and nm.." is a stupid detective daddy" or nm.." is a 'survivor' (yikes)"
 end
 end
 local function linkedsword(v)
@@ -123,7 +123,7 @@ local gunt=false
 workspace.ChildAdded:Connect(function(gun)
 if gun.Name=="gundropped" then
 funcs.addhook(gun,{color=Color3.fromRGB(100,0,0),txtenabled=true,text="gun",autoremove=true,dep=values,transp=0.33})
-if gunt and replicated.InGamePlayerValues:FindFirstChild(funcs.lplr.Name) then firetouchinterest(getchar():WaitForChild("Head",10),gun,0) end
+if gunt and replicated.InGamePlayerValues:FindFirstChild(funcs.lplr.Name) then local piv=getchar():GetPivot() getchar():PivotTo(gun) task.wait() getchar():PivotTo(piv) end
 end
 end)
 funcs.vmp.con=replicated.InGamePlayerValues.ChildAdded:Connect(linkedsword)
@@ -141,7 +141,8 @@ if x and is_auto_enabled then
 local rem=car:WaitForChild("MainLocal",10)
 rem=rem and rem:WaitForChild("RemoteEvent",10)
 while rem and garlicboyrepell.Value==true and is_auto_enabled do
-garlicboyrepell.clickcounter=6
+local cc =garlicboyrepell:WaitForChild("clickcounter",10)
+if cc then cc.Value=6 end
 --garlicboyrepell.Value=false
 rem:FireServer("escape")
 task.wait(.5)
