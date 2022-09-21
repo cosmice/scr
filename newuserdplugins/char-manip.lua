@@ -106,14 +106,17 @@ local plug={noclip={func=function()
 				end
 				return old_namecall(instance,meth,...)
 				end))
+				if parg then
 				local old_nind
 				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,ack,...)
 				local mc= old_index(rawget(funcs,"lplr"),"Character")
-				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(instance,"ClassName")=="Humanoid" and (mc and old_index(instance,"Parent")==mc) and old_index(instance,meth)>ack then
+				local rn=old_index(instance,meth)
+				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(instance,"ClassName")=="Humanoid" and (mc and old_index(instance,"Parent")==mc) and rn and rn>(tonumber(ack) or rn) then
                 return old_nind(fakehum,meth,ack,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
 				end
 				return old_nind(instance,meth,ack,...)
 				end))
+				end
 				--[[local old_newindex
 				old_newindex = hookmetamethod(game, "__newindex", newcclosure(function(self,ind,newval,...)
 				local mc=funcs.lplr.Character
@@ -135,7 +138,7 @@ local plug={noclip={func=function()
 				table.insert(tb.index,"StateChanged")
 				for _, signal in pairs(getconnections(hum.StateChanged)) do signal:Disable() nc+=1 end
 				end--]]
-				print(--[[parg~="" and rgtyp==0 and "disabled-method2: "..nc or--]] "disabled-method1: "..nc)
+				print(parg and "disabled-method2: "..nc or "disabled-method1: "..nc)
 				print(#getconnections(hum.Changed),#getconnections(hum:GetPropertyChangedSignal("WalkSpeed")),#getconnections(hum:GetPropertyChangedSignal("JumpPower")),#getconnections(hum.StateChanged),#getconnections(hum.ChildAdded),#getconnections(hum.ChildRemoved))
 	end};
 	--[[failed_floatt={func=function() 
