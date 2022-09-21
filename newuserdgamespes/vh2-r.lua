@@ -2,6 +2,7 @@ task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
 funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{})
+---get rid of annoying sound that made me think my computer was broken
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
 v:Stop()
@@ -122,7 +123,7 @@ local gunt=false
 workspace.ChildAdded:Connect(function(gun)
 if gun.Name=="gundropped" then
 funcs.addhook(gun,{color=Color3.fromRGB(100,0,0),txtenabled=true,text="gun",autoremove=true,dep=values,transp=0.33})
-if gunt and replicated.InGamePlayerValues:FindFirstChild(funcs.lplr.Name) then local piv=getchar():GetPivot() getchar():PivotTo(gun:GetPivot()) task.wait() getchar():PivotTo(piv) end
+if gunt and replicated.InGamePlayerValues:FindFirstChild(funcs.lplr.Name) then local piv,prr=getchar():GetPivot(),getchar().PrimaryPart or getchar().PrimaryPart:Wait() ; getchar():PivotTo(gun:GetPivot()) task.wait(.202) firetouchinterest(prr,gun,0)  firetouchinterest(prr,gun,1) getchar():PivotTo(piv) end
 end
 end)
 funcs.vmp.con=replicated.InGamePlayerValues.ChildAdded:Connect(linkedsword)
@@ -141,10 +142,10 @@ local rem=car:WaitForChild("MainLocal",10)
 rem=rem and rem:WaitForChild("RemoteEvent",10)
 while rem and garlicboyrepell.Value==true and is_auto_enabled do
 local cc =garlicboyrepell:WaitForChild("clickcounter",10)
-if cc then cc.Value=6 end
+if cc then cc.Value=40 end
 --garlicboyrepell.Value=false
 rem:FireServer("escape")
-task.wait(.5)
+task.wait(.2)
 end
 
 end
@@ -160,8 +161,8 @@ is_auto_enabled=not is_auto_enabled
 funcs.sendnotif("autoesc","status: "..tostring(is_auto_enabled),"rbxassetid://6678521436",5)
 end,desc="enable autoescape"};
 gg={func=function()
-local gn=workspace:FindFirstChild("gundropped")
-if gn then firetouchinterest(getchar():WaitForChild("HumanoidRootPart",20),gn,0) end end,desc="gungrab"};
+local gun=workspace:FindFirstChild("gundropped")
+if gun then local piv,prr=getchar():GetPivot(),getchar().PrimaryPart or getchar().PrimaryPart:Wait() ; getchar():PivotTo(gun:GetPivot()) task.wait(.202) firetouchinterest(prr,gun,0)  firetouchinterest(prr,gun,1) getchar():PivotTo(piv) end end,desc="gungrab"};
 ag={func=function() gunt=not gunt
 funcs.sendnotif("auto-gun","status: "..tostring(gunt),"rbxassetid://6678521436",5) end,desc="autogg"};
 Reservedpluginname="VH2R"
