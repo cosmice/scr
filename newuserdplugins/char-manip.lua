@@ -51,6 +51,25 @@ local plug={noclip={func=function()
 	nilvar={reserved=true,func=function(strt,nn,str,cmd,arg)
 	vars[arg]=nil
 	end};
+	view={desc="view plr",func=function(strt,plrarg) 
+	local plr=plrarg and funcs.xgetplr(plrarg,true)
+	if plr then
+	if not getproperties(plr.Character or plr.CharacterAdded:Wait()).PrimaryPart then plr.Character.PrimaryPart:Wait() end
+	local function viewchanged()
+	workspace.CurrentCamera.CameraSubject=plr.Character
+	end
+	viewchanged()
+	local function specadded(ch)
+	if not getproperties(ch).PrimaryPart then ch.PrimaryPart:Wait() end
+	workspace.CurrentCamera.CameraSubject=ch
+	end
+	vars.viewchanged=workspace.CurrentCamera:GetPropertyChangedSignal("CameraSubject"):Connect(viewChangedFunc)
+	vars.specadd=plr.CharacterAdded:Connect(specadded)
+	
+	end
+	
+	end};
+	unview={func=function() if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() return end end};
 	antiac={desc="attempt to bypass speed checks",func=function(strt,parg)
 				local nc=0
 				local tb={index={"Changed","WalkSpeed","JumpPower","ChildAdded","ChildRemoved"},namecall={"WalkSpeed","JumpPower"},chind={"ChildAdded","ChildRemoved"}}
@@ -111,11 +130,11 @@ local plug={noclip={func=function()
 											for _, signal in pairs(getconnections(hum:GetPropertyChangedSignal("JumpPower"))) do signal:Disable() nc+=1 end
 				--for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") then for _, signal in pairs(getconnections(v.ChildAdded)) do signal:Disable() nc+=1 end end end
 				--for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") then for _, signal in pairs(getconnections(v.ChildRemoved)) do signal:Disable() nc+=1 end end end
-				--[[if parg=="" and rgtyp==0 then
+				if parg=="" and rgtyp==0 then
 				table.insert(tb.index,"StateChanged")
 				for _, signal in pairs(getconnections(hum.StateChanged)) do signal:Disable() nc+=1 end
-				end--]]
-				print(--[[parg~="" and rgtyp==0 and "disabled-method2: "..nc or--]] "disabled-method1: "..nc)
+				end
+				print(parg~="" and rgtyp==0 and "disabled-method2: "..nc or "disabled-method1: "..nc)
 				print(#getconnections(hum.Changed),#getconnections(hum:GetPropertyChangedSignal("WalkSpeed")),#getconnections(hum:GetPropertyChangedSignal("JumpPower")),#getconnections(hum.StateChanged),#getconnections(hum.ChildAdded),#getconnections(hum.ChildRemoved))
 	end};
 	--[[failed_floatt={func=function() 
