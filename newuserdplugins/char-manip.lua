@@ -40,7 +40,7 @@ local plug={noclip={func=function()
 	hmnoid[arg[1]]=nn
 	end
 	local function ochar(ch)
-	if not vars[strnd] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil end
+	if not vars[strnd] and vars[strnd.."1"] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil return end
 	local hmnoid=WaitForChildOfClass(ch,"Humanoid")
 	if hmnoid then
 	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
