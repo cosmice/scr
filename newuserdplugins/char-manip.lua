@@ -71,6 +71,8 @@ local plug={noclip={func=function()
 	end};
 	unview={func=function() workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() ; if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil return end end};
 	antiac={desc="attempt to bypass speed checks",func=function(strt,parg)
+				if vars.antiac then return end
+				vars.antiac=true
 				local nc=0
 				local tb={index={"Changed","WalkSpeed","JumpPower","ChildAdded","ChildRemoved"},namecall={"WalkSpeed","JumpPower"},chind={"ChildAdded","ChildRemoved"}}
 				local fakechar=Instance.new("Model")
