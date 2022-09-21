@@ -20,10 +20,10 @@ local oldpiv=getchar():GetPivot()
 strt=strt[1] and tonumber(strt[1]) or 1
 for i = 1,strt do
 togo(strt,strd,str)
-task.wait()
+task.wait(.05)
 getchar():PivotTo(oldpiv)
 end
-end,desc="goto player and back"};
+end,desc="goto arg[1] plr and back arg[2] amount of times"};
 ["lgoto"]={func=function(strt,strd,str)
 	local thp=strd and funcs.xgetplr(strd,true)
 	if not strd then vars.lgoto=nil return end
