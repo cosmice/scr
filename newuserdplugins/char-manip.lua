@@ -113,7 +113,7 @@ local plug={noclip={func=function()
 				end
 				return old_namecall(instance,meth,...)
 				end))
-				if parg then
+				--[[if parg then
 				local old_nind
 				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,ack)
 				local mc= old_index(rawget(funcs,"lplr"),"Character")
@@ -123,7 +123,7 @@ local plug={noclip={func=function()
 				end
 				return old_nind(instance,meth,ack)
 				end))
-				end
+				end--]]
 				--[[local old_newindex
 				old_newindex = hookmetamethod(game, "__newindex", newcclosure(function(self,ind,newval,...)
 				local mc=funcs.lplr.Character
