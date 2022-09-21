@@ -31,15 +31,16 @@ local plug={noclip={func=function()
 	end};
 	cprop={reserved=true,func=function(strt,nn,str,cmd,arg) 
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
-	nn=tonumber(nn)
+	nn=nn and tonumber(nn)
 	if hmnoid and nn then
 	if arg[2] then
 	local strnd="loop"..arg[1]
 	vars[strnd]=nil
-	vars[strnd]=nn
+	vars[strnd]=true
 	while vars[strnd] and hmnoid do
 	hmnoid[arg[1]]=nn
 	task.wait()
+	hmnoid[arg[1]]=nn
 	end
 	else
 	hmnoid[arg[1]]=nn
@@ -69,7 +70,7 @@ local plug={noclip={func=function()
 				--getgenv().funcs.speedbpenabled=not getgenv().funcs.speedbpenabled
 				local old_index
 				old_index = hookmetamethod(game, "__index", newcclosure(function(self,getting,...)
-				local mc=old_index(funcs.lplr,"Character")
+				local mc=old_index(rawget(funcs,"lplr"),"Character")
 				if not checkcaller() and old_index(self,"ClassName")=="Humanoid" and (mc and old_index(self,"Parent")==mc ) and ffind(rawget(tb,"index"),getting) then
 				return old_index(fakehum,getting,...);
 				--[[elseif not checkcaller() and (mc~=nil and (self==mc or (old_index(self,"ClassName")=="BasePart" or old_index(self,"ClassName")=="Part" or old_index(self,"ClassName"=="MeshPart") and old_index(self,"Parent")==mc and old_index(old_index(getcallingscript(),"Parent"),"Parent")==mc))) and ffind(rawget(tb,"chind"),getting) then
@@ -79,8 +80,16 @@ local plug={noclip={func=function()
 				end))
 				local old_namecall
 				old_namecall = hookmetamethod(game, "__namecall", newcclosure(function(instance,meth,...)
-				local ncm,mc= getnamecallmethod(),old_index(funcs.lplr,"Character")
+				local ncm,mc= getnamecallmethod(),old_index(rawget(funcs,"lplr"),"Character")
 				if not checkcaller() and ncm=="GetPropertyChangedSignal" and instance.ClassName=="Humanoid" and instance.Parent==mc and ffind(rawget(tb,"namecall"),meth) then
+                return old_namecall(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
+				end;
+				return old_namecall(instance,meth,...)
+				end))
+				local old_nind
+				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,...)
+				local mc= old_index(rawget(funcs,"lplr"),"Character")
+				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and instance.ClassName=="Humanoid" and instance.Parent==mc then
                 return old_namecall(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
 				end;
 				return old_namecall(instance,meth,...)
