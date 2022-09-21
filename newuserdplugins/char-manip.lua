@@ -132,11 +132,11 @@ local plug={noclip={func=function()
 											for _, signal in pairs(getconnections(hum:GetPropertyChangedSignal("JumpPower"))) do signal:Disable() nc+=1 end
 				--for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") then for _, signal in pairs(getconnections(v.ChildAdded)) do signal:Disable() nc+=1 end end end
 				--for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") then for _, signal in pairs(getconnections(v.ChildRemoved)) do signal:Disable() nc+=1 end end end
-				if parg=="" and rgtyp==0 then
+				--[[if parg=="" and rgtyp==0 then
 				table.insert(tb.index,"StateChanged")
 				for _, signal in pairs(getconnections(hum.StateChanged)) do signal:Disable() nc+=1 end
-				end
-				print(parg~="" and rgtyp==0 and "disabled-method2: "..nc or "disabled-method1: "..nc)
+				end--]]
+				print(--[[parg~="" and rgtyp==0 and "disabled-method2: "..nc or--]] "disabled-method1: "..nc)
 				print(#getconnections(hum.Changed),#getconnections(hum:GetPropertyChangedSignal("WalkSpeed")),#getconnections(hum:GetPropertyChangedSignal("JumpPower")),#getconnections(hum.StateChanged),#getconnections(hum.ChildAdded),#getconnections(hum.ChildRemoved))
 	end};
 	--[[failed_floatt={func=function() 
