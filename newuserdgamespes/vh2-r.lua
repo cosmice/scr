@@ -144,7 +144,7 @@ local cc =garlicboyrepell:WaitForChild("clickcounter",10)
 if cc then cc.Value=6 end
 --garlicboyrepell.Value=false
 rem:FireServer("escape")
-task.wait(.5)
+task.wait(3)
 end
 
 end
