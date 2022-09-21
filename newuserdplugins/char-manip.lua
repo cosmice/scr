@@ -85,7 +85,6 @@ local plug={noclip={func=function()
 				end
 				end
 				local fakehum=WaitForChildOfClass(getchar(),"Humanoid"):Clone()
-				fakehum:ClearAllChildren()
 				fakehum.Parent=fakechar
 				local ffind=table.find
 				--getgenv().funcs.speedbpenabled=not getgenv().funcs.speedbpenabled
@@ -102,7 +101,7 @@ local plug={noclip={func=function()
 				local old_namecall
 				old_namecall = hookmetamethod(game, "__namecall", newcclosure(function(instance,meth,...)
 				local ncm,mc= getnamecallmethod(),old_index(rawget(funcs,"lplr"),"Character")
-				if not checkcaller() and ncm=="GetPropertyChangedSignal" and instance.ClassName=="Humanoid" and instance.Parent==mc and ffind(rawget(tb,"namecall"),meth) then
+				if not checkcaller() and ncm=="GetPropertyChangedSignal" and old_index(self,"ClassName")=="Humanoid"  and (mc and old_index(self,"Parent")==mc) and ffind(rawget(tb,"namecall"),meth) then
                 return old_namecall(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
 				end;
 				return old_namecall(instance,meth,...)
@@ -110,7 +109,7 @@ local plug={noclip={func=function()
 				local old_nind
 				old_nind = hookmetamethod(game, "__newindex", newcclosure(function(instance,meth,...)
 				local mc= old_index(rawget(funcs,"lplr"),"Character")
-				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and instance.ClassName=="Humanoid" and instance.Parent==mc then
+				if not checkcaller() and (meth=="WalkSpeed" or meth=="JumpPower") and old_index(self,"ClassName")=="Humanoid" and (mc and old_index(self,"Parent")==mc) then
                 return old_nind(fakehum,meth,...) -- FireServer() doesn't return anything, so usually there's no need to wait(9e9), unless you're trying to block a ban remote that crashes your game afterwards
 				end;
 				return old_nind(instance,meth,...)
@@ -125,11 +124,11 @@ local plug={noclip={func=function()
 				end))--]]
 				local hum=WaitForChildOfClass(getchar(),"Humanoid")
 				local rgtyp=hum.RigType
-                for _, signal in pairs(getconnections(hum.Changed)) do signal:Disable() nc+=1 end
-				   for _, signal in pairs(getconnections(hum.ChildAdded)) do signal:Disable() nc+=1 end
-				   				   for _, signal in pairs(getconnections(hum.ChildRemoved)) do signal:Disable() nc+=1 end
-										for _, signal in pairs(getconnections(hum:GetPropertyChangedSignal("WalkSpeed"))) do signal:Disable() nc+=1 end
-											for _, signal in pairs(getconnections(hum:GetPropertyChangedSignal("JumpPower"))) do signal:Disable() nc+=1 end
+                for _, signal in pairs(getconnections(hum.Changed)) do signal:Disable() nc+=1 task.wait() end
+				   for _, signal in pairs(getconnections(hum.ChildAdded)) do signal:Disable() nc+=1 task.wait() end
+				   				   for _, signal in pairs(getconnections(hum.ChildRemoved)) do signal:Disable() nc+=1 task.wait() end
+										for _, signal in pairs(getconnections(hum:GetPropertyChangedSignal("WalkSpeed"))) do signal:Disable() nc+=1 task.wait() end
+											for _, signal in pairs(getconnections(hum:GetPropertyChangedSignal("JumpPower"))) do signal:Disable() nc+=1 task.wait() end
 				--for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") then for _, signal in pairs(getconnections(v.ChildAdded)) do signal:Disable() nc+=1 end end end
 				--for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") then for _, signal in pairs(getconnections(v.ChildRemoved)) do signal:Disable() nc+=1 end end end
 				--[[if parg=="" and rgtyp==0 then
