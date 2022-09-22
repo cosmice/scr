@@ -37,7 +37,7 @@ vars.funcs={}
 	
 	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
-	if #arg>=3 then nn=arg[3] else nn=nn and tonumber(nn) end
+	if #arg>=3 then nn=arg[3] funcs.sendnotif("cprop/"..cmd,tostring(arg[3]),"rbxassetid://8119590978",5) else nn=nn and tonumber(nn) end
 	if hmnoid and nn~=nil then
 	if arg[2] then
 	local strnd="loop"..arg[1]
@@ -206,11 +206,14 @@ local plug={noclip={func=function()
 	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},desc="repeatedly sets your JumpPower"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
 	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
-	["nostun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false};["aliases"]={["unlay"]="nostun"}};
+	["nstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false},["aliases"]={["nostun"]="nstun";["enstun"]="estun"}};
+	["estun"]={["func"]=vars.funcs.nilvar;["args"]="loopPlatformStand"};
 	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};desc="sets walkspeed"};
 	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};desc="sets jumppower"};
-	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false}};
+	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false};["aliases"]={["unlay"]="unstun"}};
 	["stun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,true}};
+	["sp"]={func=function(strt,nn,str,cmd,arg) vars["sp"..(nn or "1")]=getchar():GetPivot() end;desc="caches current pos (arg[1] or 1)"};
+	["lp"]={func=function(strt,nn,str,cmd,arg) nn="sp"..(nn or 1) if vars[nn] then getchar():PivotTo(vars[nn]) end end;desc="loads cached pos (arg[1] or 1)"};
 	["reset"]={func=function()
 	local hnn=getchar():FindFirstChildOfClass("Humanoid")
 	if hnn then
