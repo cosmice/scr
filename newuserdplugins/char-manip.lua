@@ -115,13 +115,13 @@ local plug={noclip={func=function()
 	view={desc="view plr",func=function(strt,plrarg) 
 	local plr=plrarg and funcs.xgetplr(plrarg,true)
 	if plr then
-	if not (plr.Character or plr.CharacterAdded:Wait()).PrimaryPart then plr.Character.PrimaryPart:Wait() end
+	if not (plr.Character or plr.CharacterAdded:Wait()).PrimaryPart then plr.Character:GetPropertyChangedSignal("PrimaryPart"):Wait() end
 	local function viewchanged()
 	workspace.CurrentCamera.CameraSubject=plr.Character
 	end
 	viewchanged()
 	local function specadded(ch)
-	if not ch.PrimaryPart then ch.PrimaryPart:Wait() end
+	if ch and not ch.PrimaryPart then ch:GetPropertyChangedSignal("PrimaryPart"):Wait() end
 	workspace.CurrentCamera.CameraSubject=ch
 	end
 	vars.viewchanged=workspace.CurrentCamera:GetPropertyChangedSignal("CameraSubject"):Connect(viewChangedFunc)
@@ -255,8 +255,18 @@ local plug={noclip={func=function()
 	funcs.lplr.CameraMinZoomDistance=nn
 	end};
 	["nzoom"]={["func"]=function() funcs.sendnotif("zoom:","min: "..funcs.lplr.CameraMinZoomDistance.." max: "..funcs.lplr.CameraMaxZoomDistance,"rbxassetid://6678521436",5) end;["desc"]="notifies your min/max zoom"};
-	["cdcol"]={["desc"]="toggle: makes parts you click on with middlemouse not collide, exluding the part you're standing on";["func"]=function() if vars.cdcol then vars.cdcol:Disconnect() vars.cdcol=nil else vars.cdcol = funcs.uip.InputBegan:Connect(vars.funcs.cdcol) end end};
+	["cdcol"]={["desc"]="toggle: makes parts you click on with middlemouse not collide, exluding the part you're standing on";["func"]=function() if vars.cdcol then vars.cdcol:Disconnect() vars.cdcol=nil else vars.cdcol = funcs.uip.InputBegan:Connect(vars.funcs.cdcol) end funcs.sendnotif("cdcol",vars.cdcol and "true" or "false","rbxassetid://8119590978",5) end};
 	["cdcolg"]={["desc"]="toggle: ground collision on m3";["func"]=vars.funcs.togglevar;["args"]="cdcolg"};
+	["nh"]={["desc"]="notify humanoid stats";["func"]=function() local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
+	if hmnoid then funcs.sendnotif("nh","ws: "..tostring(hmnoid.WalkSpeed).." jp:"..tostring(hmnoid.JumpPower).." HP:"..tostring(hmnoid.Health).."/"..tostring(hmnoid.MaxHealth),"rbxassetid://8119590978",5)
+	end 
+	end};
+	["light"]={["desc"]="arg[1]=range,arg[2]=brightness";["func"]=function(strt,parg)  if vars.light then funcs.deb:AddItem(vars.light,0) vars.light=nil return end vars.light = Instance.new("PointLight")
+	vars.light.Parent = getchar().PrimaryPart or getchar().PrimaryPart:Wait(5)
+	vars.light.Name=vars.fn+1
+	vars.light.Range = parg or 9
+	vars.light.Brightness=strt[1] or 5
+	end};
 	["reset"]={["func"]=function()
 	local hnn=getchar():FindFirstChildOfClass("Humanoid")
 	if hnn then
