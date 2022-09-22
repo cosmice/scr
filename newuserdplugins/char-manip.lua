@@ -13,26 +13,32 @@ vars.funcs={}
 		vars.funcs.nclip=nil
 		end
 	end
-
-local plug={noclip={func=function()
-	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil else vars.noclipping = funcs.runs.Stepped:Connect(vars.funcs.nclip) end end};
-	float={func=function() if vars.float then funcs.deb:AddItem(vars.float,0) vars.float=nil return end
-	vars.float=Instance.new("Part")
-	funcs.rawmeta.__newindex(vars.float,"Name",vars.fn) 
-	funcs.rawmeta.__newindex(vars.float,"Size",vars.sz) 
-	funcs.rawmeta.__newindex(vars.float,"Parent",getchar())  --i am retarded
-	vars.float.Transparency=1
-	local rp=getchar():FindFirstChild("HumanoidRootPart")
-	while vars.float and rp and rp.Parent do 
-	funcs.rawmeta.__newindex(vars.float,"CFrame",rp.CFrame*CFrame.new(0,-vars.floatn,0))
-	task.wait()
+	vars.funcs.lay=function(strt,nn,str,cmd,arg) 
+	local human = funcs.lplr.Character and funcs.lplr.Character:FindFirstChildOfClass('Humanoid')
+	if not human then
+		return
 	end
-	funcs.deb:AddItem(vars.float,0) vars.float=nil
-	end};
-	cprop={reserved=true,func=function(strt,nn,str,cmd,arg) 
+	if cmd=="layh" then --skip checking other elseifs if cmd=="layh"
+	elseif cmd=="lay" then
+	human.PlatformStand = true
+	elseif cmd=="lays" then
+	human.Sit=true
+	end
+	task.wait(.1)
+	for _, v in ipairs(human:GetPlayingAnimationTracks()) do
+		v:Stop()
+	end
+	getchar():PivotTo(getchar():GetPivot() * CFrame.Angles(math.pi * .5, 0, 0))
+	end
+	
+	vars.funcs.nilvar=function(strt,nn,str,cmd,arg)
+	if vars[arg] then vars[arg]:Disconnect() vars[arg]=nil end
+	end
+	
+	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
-	nn=nn and tonumber(nn)
-	if hmnoid and nn then
+	if #arg>=3 then nn=arg[3] else nn=nn and tonumber(nn) end
+	if hmnoid and nn~=nil then
 	if arg[2] then
 	local strnd="loop"..arg[1]
 	if vars[strnd] then vars[strnd]:Disconnect() vars[strnd]=nil end
@@ -54,10 +60,26 @@ local plug={noclip={func=function()
 	end
 	
 	end
+	end
+
+local plug={noclip={func=function()
+	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil else vars.noclipping = funcs.runs.Stepped:Connect(vars.funcs.nclip) end end};
+	float={func=function() if vars.float then funcs.deb:AddItem(vars.float,0) vars.float=nil return end
+	vars.float=Instance.new("Part")
+	funcs.rawmeta.__newindex(vars.float,"Name",vars.fn) 
+	funcs.rawmeta.__newindex(vars.float,"Size",vars.sz) 
+	funcs.rawmeta.__newindex(vars.float,"Parent",getchar())  --i am retarded
+	funcs.rawmeta.__newindex(vars.float,"Transparency",1)
+	local rp=getchar():FindFirstChild("HumanoidRootPart")
+	while vars.float and rp and rp.Parent do 
+	funcs.rawmeta.__newindex(vars.float,"CFrame",rp.CFrame*CFrame.new(0,-vars.floatn,0))
+	task.wait()
+	end
+	funcs.deb:AddItem(vars.float,0) vars.float=nil
 	end};
-	nilvar={reserved=true,func=function(strt,nn,str,cmd,arg)
-	if vars[arg] then vars[arg]:Disconnect() vars[arg]=nil end
-	end};
+	lay={func=vars.funcs.lay;desc="character horizontal, stuns you too"};
+	lays={func=vars.funcs.lay;desc="character horizontal, also makes you sit"};
+	layh={func=vars.funcs.lay;desc="turns your character horizontal"};
 	view={desc="view plr",func=function(strt,plrarg) 
 	local plr=plrarg and funcs.xgetplr(plrarg,true)
 	if plr then
@@ -180,6 +202,15 @@ local plug={noclip={func=function()
 	end
 	nHuman.Health = nHuman.MaxHealth
 	end};
+	["loopws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed",true},desc="repeatedly sets your WalkSpeed"};
+	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},desc="repeatedly sets your JumpPower"};
+	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
+	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
+	["nostun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false}};
+	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};desc="sets walkspeed"};
+	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};desc="sets jumppower"};
+	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false}};
+	["stun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,true}};
 	["reset"]={func=function()
 	local hnn=getchar():FindFirstChildOfClass("Humanoid")
 	if hnn then
@@ -196,11 +227,5 @@ local plug={noclip={func=function()
 	Reservedpluginname="base.char-manipulation"
 	}
 
-	plug.loopws={func=plug.cprop.func,args={"WalkSpeed",true}}
-	plug.loopjp={func=plug.cprop.func,args={"JumpPower",true}}
-	plug.unloopws={func=plug.nilvar.func,args="loopWalkSpeed"}
-	plug.unloopjp={func=plug.nilvar.func,args="loopJumpPower"}
-	plug.ws={func=plug.cprop.func,args={"WalkSpeed"}}
-	plug.jp={func=plug.cprop.func,args={"JumpPower"}}
 
 return plug
