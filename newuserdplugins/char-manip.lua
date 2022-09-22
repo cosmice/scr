@@ -206,7 +206,7 @@ local plug={noclip={func=function()
 	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},desc="repeatedly sets your JumpPower"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
 	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
-	["nostun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false}};
+	["nostun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false};["aliases"]={["unlay"]="nostun"}};
 	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};desc="sets walkspeed"};
 	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};desc="sets jumppower"};
 	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false}};
