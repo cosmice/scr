@@ -1,5 +1,9 @@
-local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999))}
-vars.funcs={}
+local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={}}
+vars.mouse=funcs.lplr:GetMouse()
+vars.funcs.getproperties=getproperties or function(x)
+return x:IsA("BasePart") or x:IsA("MeshPart")
+end
+
 	vars.funcs.nclip=function()
 	local ch=getchar()
 		if ch ~= nil then
@@ -30,11 +34,39 @@ vars.funcs={}
 	end
 	getchar():PivotTo(getchar():GetPivot() * CFrame.Angles(math.pi * .5, 0, 0))
 	end
-	
+  vars.funcs.checkgr= function(char,setg)
+  local ray = Ray.new(char:WaitForChild("HumanoidRootPart",5).Position,-(char:WaitForChild("HumanoidRootPart",5).CFrame.UpVector * 100))
+  local part, pos = workspace:FindPartOnRay(ray,char)
+ 
+  if part and pos then
+  return part   
+  end
+  end
+	vars.cdcolg=true
+	vars.funcs.cdcol=function(kk)
+	local hh=vars.mouse.Target
+		if kk.UserInputType == Enum.UserInputType.MouseButton3 and hh and vars.funcs.getproperties(hh).CanCollide~=nil and (not vars.cdcolg or vars.funcs.checkgr(getchar())~=hh) then
+			hh.CanCollide=not hh.CanCollide
+			if not hh.CanCollide then
+			local hook=funcs.addhook(hh,{autoremove=true,transp=0.9,txtenabled=true})
+			local con
+			local function cc()
+			if hh.CanCollide then
+			con:Disconnect()
+			con=nil
+			hook.justquit()
+			end
+			end
+			con=hh:GetPropertyChangedSignal("CanCollide"):Connect(cc)
+			end
+		end
+	end
 	vars.funcs.nilvar=function(strt,nn,str,cmd,arg)
 	if vars[arg] then vars[arg]:Disconnect() vars[arg]=nil end
 	end
-	
+	vars.funcs.togglevar=function(strt,nn,str,cmd,arg)
+	vars[arg]=not vars[arg]
+	end
 	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
 	if #arg>=3 then nn=arg[3] funcs.sendnotif("cprop/"..cmd,tostring(arg[3]),"rbxassetid://8119590978",5) else nn=nn and tonumber(nn) end
@@ -223,6 +255,8 @@ local plug={noclip={func=function()
 	funcs.lplr.CameraMinZoomDistance=nn
 	end};
 	["nzoom"]={["func"]=function() funcs.sendnotif("zoom:","min: "..funcs.lplr.CameraMinZoomDistance.." max: "..funcs.lplr.CameraMaxZoomDistance,"rbxassetid://6678521436",5) end;["desc"]="notifies your min/max zoom"};
+	["cdcol"]={["desc"]="toggle: makes parts you click on with middlemouse not collide, exluding the part you're standing on";["func"]=function() if vars.cdcol then vars.cdcol:Disconnect() vars.cdcol=nil else vars.cdcol = funcs.uip.InputBegan:Connect(vars.funcs.cdcol) end end};
+	["cdcolg"]={["desc"]="toggle: ground collision on m3";["func"]=vars.funcs.togglevar;["args"]="cdcolg"};
 	["reset"]={["func"]=function()
 	local hnn=getchar():FindFirstChildOfClass("Humanoid")
 	if hnn then
