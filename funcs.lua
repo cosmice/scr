@@ -163,10 +163,10 @@ getgenv().funcs.addhook=function(v,tb)
 		end
 		
 		if tb.autoremove then
-		v.Destroying:Connect(justquit)
+		v.Destroying:Connect(tb.toreturn.justquit)
 		end
 		for i,x in pairs(tb.dep) do
-		x.Destroying:Connect(justquit)
+		x.Destroying:Connect(tb.toreturn.justquit)
 		end
 		return tb.toreturn
 end
