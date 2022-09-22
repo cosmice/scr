@@ -136,6 +136,8 @@ pst[t]=v
 end
 table.foreach(getrenv(),merge)
 table.foreach(getgenv(),merge)
+pst.powersupply.pst=pst
+merge=nil
 local function ldplug(v)
 local tnstr={}
 local function HandlePluginError(err)
