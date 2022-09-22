@@ -153,9 +153,12 @@ getgenv().funcs.addhook=function(v,tb)
         c.TextColor3 = tb.txtcolor
 		tb.toreturn.textbox=c
 		end
-		local function justquit()
+		tb.toreturn.justquit=function()
 		for i,v in pairs(tb.toreturn) do
+		tb.toreturn[i]=nil
+		if typeof(v)=='Instance' then
 		funcs.deb:AddItem(v,0)
+		end
 		end
 		end
 		
