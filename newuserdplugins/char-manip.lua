@@ -18,15 +18,15 @@ vars.funcs={}
 	if not human then
 		return
 	end
+	task.wait(.1)
+	for _, v in ipairs(human:GetPlayingAnimationTracks()) do
+		v:Stop()
+	end
 	if cmd=="layh" then --skip checking other elseifs if cmd=="layh"
 	elseif cmd=="lay" then
 	human.PlatformStand = true
 	elseif cmd=="lays" then
 	human.Sit=true
-	end
-	task.wait(.1)
-	for _, v in ipairs(human:GetPlayingAnimationTracks()) do
-		v:Stop()
 	end
 	getchar():PivotTo(getchar():GetPivot() * CFrame.Angles(math.pi * .5, 0, 0))
 	end
