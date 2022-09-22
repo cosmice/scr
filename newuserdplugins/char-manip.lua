@@ -202,19 +202,28 @@ local plug={noclip={func=function()
 	end
 	nHuman.Health = nHuman.MaxHealth
 	end};
-	["loopws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed",true},desc="repeatedly sets your WalkSpeed"};
-	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},desc="repeatedly sets your JumpPower"};
+	["loopws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed",true},["desc"]="repeatedly sets your WalkSpeed"};
+	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},["desc"]="repeatedly sets your JumpPower"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
 	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
 	["nstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false},["aliases"]={["nostun"]="nstun";["enstun"]="estun"}};
 	["estun"]={["func"]=vars.funcs.nilvar;["args"]="loopPlatformStand"};
-	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};desc="sets walkspeed"};
-	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};desc="sets jumppower"};
+	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};["desc"]="sets walkspeed"};
+	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};["desc"]="sets jumppower"};
 	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false};["aliases"]={["unlay"]="unstun"}};
 	["stun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,true}};
-	["sp"]={func=function(strt,nn,str,cmd,arg) vars["sp"..(nn or "1")]=getchar():GetPivot() end;desc="caches current pos (arg[1] or 1)"};
-	["lp"]={func=function(strt,nn,str,cmd,arg) nn="sp"..(nn or 1) if vars[nn] then getchar():PivotTo(vars[nn]) end end;desc="loads cached pos (arg[1] or 1)"};
-	["reset"]={func=function()
+	["sp"]={["func"]=function(strt,nn,str,cmd,arg) vars["sp"..(nn or "1")]=getchar():GetPivot() end;["desc"]="caches current pos (arg[1] or 1)"};
+	["lp"]={["func"]=function(strt,nn,str,cmd,arg) nn="sp"..(nn or 1) if vars[nn] then getchar():PivotTo(vars[nn]) end end;["desc"]="loads cached pos (arg[1] or 1)"};
+	["sit"]={["func"]=vars.funcs.cprop;["args"]={"Sit",false,true}};
+	["unsit"]={["func"]=vars.funcs.cprop;["args"]={"Sit",false,false}};
+	["maxzoom"]={["func"]=function(strt,nn,str,cmd,arg)
+	funcs.lplr.CameraMaxZoomDistance=nn
+	end;["aliases"]={["mz"]="maxzoom";["nz"]="minzoom"}};
+	["minzoom"]={["func"]=function(strt,nn,str,cmd,arg)
+	funcs.lplr.CameraMinZoomDistance=nn
+	end};
+	["nzoom"]={["func"]=function() funcs.sendnotif("zoom:","min: "..funcs.lplr.CameraMinZoomDistance.." max: "..funcs.lplr.CameraMaxZoomDistance,"rbxassetid://6678521436",5) end;["desc"]="notifies your min/max zoom"};
+	["reset"]={["func"]=function()
 	local hnn=getchar():FindFirstChildOfClass("Humanoid")
 	if hnn then
 	hnn:SetStateEnabled(15, true)
