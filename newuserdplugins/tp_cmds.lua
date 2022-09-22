@@ -2,7 +2,7 @@ local vars={
 }
 local maus=funcs.lplr:GetMouse()
 local function cdtp(kk)
-	if kk.UserInputType == Enum.UserInputType.MouseButton1 and funcs.uip:IsKeyDown(Enum.KeyCode.K) then
+	if kk.UserInputType == Enum.UserInputType.MouseButton3 and funcs.uip:IsKeyDown(Enum.KeyCode.K) then
 		getchar():PivotTo(maus.Hit)
 	end
 end
@@ -34,6 +34,8 @@ end,desc="goto arg[1] plr and back arg[2] amount of times for arg[3] each"};
 	end
 	vars.lgoto=nil
 end,desc="loopgoto plr (arg[1]), no arg to cancel"};
+["b"]={["func"]=function(strt,nn,str,cmd,arg) nn=tonumber(nn) or 2 for i = 1,30 do local piv=getchar():GetPivot() getchar():PivotTo(piv + (-piv.LookVector * nn/4)) ; piv=getchar():GetPivot() getchar():PivotTo(piv + (-piv.LookVector * nn/4)) task.wait(0) end end;["desc"]="tp backwards arg[1] or 6"};
+["f"]={["func"]=function(strt,nn,str,cmd,arg) nn=tonumber(nn) or 2 for i = 1,30 do local piv=getchar():GetPivot() getchar():PivotTo(piv + (piv.LookVector * nn/4)) ; piv=getchar():GetPivot() getchar():PivotTo(piv + (piv.LookVector * nn/4))  task.wait(0) end end;["desc"]="tp forwards arg[1] or 6"};
 ["cdtp"]={func=function(strt,plrarg) if vars.cdtp then vars.cdtp:Disconnect() vars.cdtp=nil else vars.cdtp=funcs.uip.InputBegan:Connect(cdtp) end if plrarg~="nn" then funcs.sendnotif("cmds/toolthing/bambi.exe",vars.cdtp and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end,desc="toggle click tp (k+click)"};
 Reservedpluginname="base.tp-cmds"
 }
