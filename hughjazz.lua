@@ -113,7 +113,7 @@ local function ZURHG_fake_script() -- gnn._close.LocalScript
 		gnn.cmdframe.Active = not gnn.cmdframe.Active
 		gnn._close.Visible = not gnn._close.Visible
 		gnn.cmdframe.Visible = not gnn.cmdframe.Visible
-		gnn.txt.Visible=false gnn.txt.Active=false txt2.Visible=false txt2.Active=false
+		gnn.txt.Visible=false gnn.txt.Active=false gnn.txt2.Visible=false gnn.txt2.Active=false
 	end
 	gnn._close.MouseButton1Click:Connect(onclick)
 end
@@ -130,17 +130,23 @@ task.defer(stfu,"")
 end
 end
 funcs.uip.InputBegan:Connect(onkeydown)
-
+local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn}}
+local function merge(t,v)
+pst[t]=v
+end
+table.foreach(getrenv(),merge)
+table.foreach(getgenv(),merge)
 local function ldplug(v)
 local tnstr={}
 local function HandlePluginError(err)
 printconsole(v.."- "..err,171,199,80)
 end
+local nnnnnn
 local ldfile
-local function pl() ldfile=type(v)=='table' and v or loadfile(v)() if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
+local function pl() ldfile=type(v)=='table' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end ; if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
 xpcall(pl,HandlePluginError)
-if not ldfile then return end
-local nm=ldfile.Reservedpluginname or v
+if not ldfile or not nnnnnn then return end
+local nm=type(ldfile)=='table' and ldfile.Reservedpluginname or v
 table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
 local typ=type(c)
@@ -161,7 +167,7 @@ end
 end
 gnn.txt.Text=gnn.txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
 end
-
+pst.powersupply.ldplug=ldplug
 
 --plugins
 if isfolder("November") then
