@@ -263,7 +263,7 @@ local plug={noclip={func=function()
 	end 
 	end};
 	["light"]={["desc"]="arg[1]=range,arg[2]=brightness";["func"]=function(strt,parg)  if vars.light then funcs.deb:AddItem(vars.light,0) vars.light=nil return end vars.light = Instance.new("PointLight")
-	vars.light.Parent = getchar().PrimaryPart or getchar().PrimaryPart:Wait(5)
+	vars.light.Parent = getchar().PrimaryPart or getchar():GetPropertyChangedSignal("PrimaryPart"):Wait()
 	vars.light.Name=vars.fn+1
 	vars.light.Range = parg or 9
 	vars.light.Brightness=strt[1] or 5
