@@ -114,6 +114,7 @@ local plug={noclip={func=function()
 	layh={func=vars.funcs.lay;desc="turns your character horizontal"};
 	view={desc="view plr",func=function(strt,plrarg) 
 	local plr=plrarg and funcs.xgetplr(plrarg,true)
+	if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil end 
 	if plr then
 	if not (plr.Character or plr.CharacterAdded:Wait()).PrimaryPart then plr.Character:GetPropertyChangedSignal("PrimaryPart"):Wait() end
 	local function viewchanged()
