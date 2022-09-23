@@ -132,6 +132,7 @@ cu:FireServer("GunSkin", "Chocolate")
 cu:FireServer("VampireAbility", "Time")
 --cu:FireServer("HumanGadget", "Strength")
 local is_auto_enabled=false
+local is_rr_enabled=false
 local function garlic(car)
 local garlicboyrepell=car:WaitForChild("charvalues",10)
 garlicboyrepell=garlicboyrepell and garlicboyrepell:WaitForChild("caught",10)
@@ -139,15 +140,17 @@ if garlicboyrepell then
 garlicboyrepell.Changed:Connect(function(x)
 if x and is_auto_enabled then
 local rem=car:WaitForChild("MainLocal",10)
+local ch=getchar()
 rem=rem and rem:WaitForChild("RemoteEvent",10)
-while rem and garlicboyrepell.Value==true and is_auto_enabled do
+while rem and garlicboyrepell and garlicboyrepell.Value==true and is_auto_enabled do
 local cc =garlicboyrepell:WaitForChild("clickcounter",10)
 if cc then cc.Value=40 end
 --garlicboyrepell.Value=false
 rem:FireServer("escape")
 task.wait(.2)
 end
-
+local hmnoid=funcs.lplr.Character:FindFirstChildOfClass("Humanoid")
+if is_rr_enabled and funcs.lplr.Character and funcs.lplr.Character==ch and hmnoid and hmnoid.MoveDirection.Magnitude>0 then for i = 1,30 do if not ch or not ch.Parent then break end local piv=ch:GetPivot() ch:PivotTo(piv + (piv.LookVector * .12)) ; piv=ch:GetPivot() ; ch:PivotTo(piv + (piv.LookVector * .12)) task.wait(0) end end
 end
 end)
 
@@ -160,9 +163,10 @@ esc={func=function()
 is_auto_enabled=not is_auto_enabled
 funcs.sendnotif("autoesc","status: "..tostring(is_auto_enabled),"rbxassetid://6678521436",5)
 end,desc="enable autoescape"};
+dsh={func=function() is_rr_enabled=not is_rr_enabled funcs.sendnotif("autodsh","status: "..tostring(is_rr_enabled),"rbxassetid://6678521436",5) end;desc="autodash (requires you to be moving to look slightly more legit) (requires autoescape)"};
 gg={func=function()
 local gun=workspace:FindFirstChild("gundropped")
-if gun then local piv,prr=getchar():GetPivot(),getchar().PrimaryPart or getchar().PrimaryPart:Wait() ; getchar():PivotTo(gun:GetPivot()) task.wait(.202) firetouchinterest(prr,gun,0)  firetouchinterest(prr,gun,1) getchar():PivotTo(piv) end end,desc="gungrab"};
+if gun then local prr=getchar().PrimaryPart or getchar():GetPropertyChangedSignal("PrimaryPart"):Wait() ; getchar():PivotTo(gun:GetPivot()) firetouchinterest(prr,gun,0)  firetouchinterest(prr,gun,1) end end,desc="gungrab"};
 ag={func=function() gunt=not gunt
 funcs.sendnotif("auto-gun","status: "..tostring(gunt),"rbxassetid://6678521436",5) end,desc="autogg"};
 Reservedpluginname="VH2R"
