@@ -27,7 +27,7 @@ local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.norma
 return p and str[1] or str
 end
 getgenv().getchar=function(x,y)
-local ch=vars.IPityTheFool.Character or vars.IPityTheFool.CharacterAdded:Wait()
+local ch=funcs.lplr or funcs.lplr.CharacterAdded:Wait()
 if ch and x~=nil then
 return y and ch:FindFirstChildOfClass(x) or not y and ch:FindFirstChild(x)
 else
