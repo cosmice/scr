@@ -26,8 +26,9 @@ getgenv().funcs.normalizemagic = function(magic,p)
 local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
 return p and str[1] or str
 end
-getgenv().getchar=function(x,y)
-local ch=funcs.lplr or funcs.lplr.CharacterAdded:Wait()
+getgenv().getchar=function(x,y,p)
+p=p or funcs.lplr
+local ch=p.Character or p.CharacterAdded:Wait()
 if ch and x~=nil then
 return y and ch:FindFirstChildOfClass(x) or not y and ch:FindFirstChild(x)
 else
