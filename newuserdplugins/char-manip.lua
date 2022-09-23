@@ -66,7 +66,8 @@ end
 	end
 	vars.funcs.togglevar=function(strt,nn,str,cmd,arg)
 	vars[arg]=not vars[arg]
-	end
+	if nn~="nn" then funcs.sendnotif(arg,vars[arg] and "true" or "false","rbxassetid://8119590978",5) end
+	end;
 	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
 	if #arg>=3 then nn=arg[3] funcs.sendnotif("cprop/"..cmd,tostring(arg[3]),"rbxassetid://8119590978",5) else nn=nn and tonumber(nn) end
