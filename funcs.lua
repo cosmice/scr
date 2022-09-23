@@ -26,9 +26,13 @@ getgenv().funcs.normalizemagic = function(magic,p)
 local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
 return p and str[1] or str
 end
-getgenv().getchar = function()
-local ch=funcs.lplr.Character or funcs.lplr.CharacterAdded.Wait(lplr.CharacterAdded)
+getgenv().getchar=function(x,y)
+local ch=vars.IPityTheFool.Character or vars.IPityTheFool.CharacterAdded:Wait()
+if ch and x~=nil then
+return y and ch:FindFirstChildOfClass(x) or not y and ch:FindFirstChild(x)
+else
 return ch
+end
 end
 getgenv().funcs.rebindsl = function(KEYS)
 local mouseLockController = funcs.lplr.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("CameraModule"):WaitForChild("MouseLockController")
