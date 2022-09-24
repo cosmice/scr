@@ -23,7 +23,7 @@ getgenv().funcs.rawmeta=getrawmetatable(game)
 funcs.protectedlist={}
 funcs.newind=hookmetamethod(game,"__index",newcclosure(function(...)
 local ret={rawget(funcs,"newind")(...)}
-if  not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
+if not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
 return
 end
 return unpack(ret)
