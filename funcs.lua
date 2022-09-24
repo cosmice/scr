@@ -22,18 +22,18 @@ getgenv().funcs.uip=game:GetService("UserInputService")
 getgenv().funcs.rawmeta=getrawmetatable(game)
 funcs.protectedlist={}
 funcs.newind=hookmetamethod(game,"__index",newcclosure(function(...)
-local ret=rawget(funcs,"newind")(...)
-if ret and ffind(rawget(funcs,"protectedlist"),ret) then
+local ret={rawget(funcs,"newind")(...)}
+if  not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
 return
 end
-return ret
+return unpack(ret)
 end))
 funcs.nmcall=hookmetamethod(game,"__namecall",newcclosure(function(...)
-local ret=rawget(funcs,"nmcall")(...)
-if ret and ffind(rawget(funcs,"protectedlist"),ret) then
+local ret={rawget(funcs,"nmcall")(...)}
+if not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
 return
 end
-return ret
+return unpack(ret)
 end))
 getgenv().funcs.normalizeblue = function(nnnn)
 return "%"..nnnn
