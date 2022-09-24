@@ -11,6 +11,7 @@ local rustepped = runservice.Stepped
 local ruhb = runservice.Heartbeat
 local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 local tpserv = game:GetService("TeleportService")
+local ffind=table.find
 getgenv().wait = task.wait
 getgenv().spawn=task.spawn
 getgenv().funcs.runs = runservice
@@ -19,6 +20,21 @@ getgenv().funcs.plrs = playerservice
 getgenv().funcs.lplr = playerservice.LocalPlayer
 getgenv().funcs.uip=game:GetService("UserInputService")
 getgenv().funcs.rawmeta=getrawmetatable(game)
+funcs.protectedlist={}
+funcs.newind=hookmetamethod(game,"__index",newcclosure(function(...)
+local ret=rawget(funcs,"newind")(...)
+if ret and ffind(rawget(funcs,"protectedlist"),ret) then
+return
+end
+return ret
+end))
+funcs.nmcall=hookmetamethod(game,"__namecall",newcclosure(function(...)
+local ret=rawget(funcs,"nmcall")(...)
+if ret and ffind(rawget(funcs,"protectedlist"),ret) then
+return
+end
+return ret
+end))
 getgenv().funcs.normalizeblue = function(nnnn)
 return "%"..nnnn
 end
