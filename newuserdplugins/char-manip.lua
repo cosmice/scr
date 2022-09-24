@@ -1,9 +1,9 @@
-local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={}}
+local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
 end
-
+	vars.zerozerozero=Vector3.new(0,0,0)
 	vars.funcs.nclip=function()
 	local ch=getchar()
 		if ch ~= nil then
@@ -94,7 +94,10 @@ end
 	
 	end
 	end
-
+	vars.funcs.DestroyLonely=function()
+	funcs.deb:AddItem(vars.light,0)
+	vars.light=nil
+	end
 local plug={noclip={func=function()
 	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil else vars.noclipping = funcs.runs.Stepped:Connect(vars.funcs.nclip) end end};
 	float={func=function() if vars.float then funcs.deb:AddItem(vars.float,0) vars.float=nil return end
@@ -133,6 +136,100 @@ local plug={noclip={func=function()
 	
 	end};
 	unview={func=function() workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() ; if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil return end end};
+	klink={["func"]=function(strt,nn,str,cmd,arg) 
+		local tvars={}	
+		tvars.target = nn and funcs.xgetplr(nn,true)
+		if tvars.target==nil then return end
+		workspace.FallenPartsDestroyHeight = 0 / 0;
+		tvars.tchr = getchar(nil,nil,tvars.target)
+		tvars.thum = tvars.tchr:FindFirstChildOfClass("Humanoid")
+		if tvars.thum.SeatPart then tvars=nil return end
+		tvars.ftime = os.clock()
+		tvars.rot = 0
+		tvars.tools = {}
+		tvars.originalDeathGrips = {}
+		tvars.hum = getchar("Humanoid",true)
+		tvars.root = tvars.hum.RootPart or tvars.hum:GetPropertyChangedSignal("RootPart"):Wait(4.2)
+		tvars.troot = tvars.tchr:FindFirstChild("HumanoidRootPart")
+		tvars.origCF = getchar():GetPivot()
+		tvars.otrig = tvars.hum.PlatformStand --tvars.hum:GetState()
+		tvars.origFpdh = workspace.FallenPartsDestroyHeight;
+		tvars.sittingen=tvars.hum:GetStateEnabled(Enum.HumanoidStateType.Seated);		
+		tvars.vel1=Vector3.new(0,999999*9,0)
+		tvars.PhysProps={}
+		--tvars.hum:ChangeState(16)
+		tvars.hum:SetStateEnabled(Enum.HumanoidStateType.Seated,false)
+		tvars.hum:UnequipTools()
+		--[[tvars.at0=Instance.new("Attachment")
+		tvars.at0.Name=vars.fn
+		tvars.at0.Parent=tvars.root
+		tvars.at1=tvars.at0:Clone()
+		tvars.at1.Parent=tvars.troot--]]
+		--[[for i,v in ipairs(funcs.lplr.Backpack:GetChildren()) do
+			if v:IsA("Tool") and v:FindFirstChild("Handle") then
+				table.insert(tvars.tools, v)
+				table.insert(tvars.originalDeathGrips, v.Grip)
+				v.Handle.Massless = true
+				v.Grip = CFrame.new(5773, 5774, 5773)
+				v.Parent = getchar()
+			end
+		end--]]
+		tvars.gcons={}
+		for i,v in pairs(getconnections(tvars.root.ChildAdded)) do table.insert(tvars.gcons,v) end
+		for i,v in pairs(getconnections(tvars.root.DescendantAdded)) do table.insert(tvars.gcons,v) end
+		for i,v in pairs(tvars.gcons) do if v then v:Disable() end end
+		tvars.bav = Instance.new("BodyAngularVelocity")
+		table.insert(funcs.protectedlist,tvars.bav)
+		tvars.bav.AngularVelocity = tvars.vel1
+		tvars.bav.MaxTorque = Vector3.new(0,math.huge,0)
+	--[[tvars.ap = Instance.new("AlignPosition")
+	tvars.ap.RigidityEnabled=true
+	tvars.ap.Attachment0=tvars.at0
+	tvars.ap.Attachment1=tvars.at1
+	tvars.ap.Parent=tvars.root--]]
+	for i,child in pairs(getchar():GetDescendants()) do
+		if child:IsA("BasePart") then
+			table.insert(tvars.PhysProps,{child,child.CustomPhysicalProperties})
+			child.CustomPhysicalProperties = PhysicalProperties.new(math.huge, 0.3, 0.5)
+		end
+	end
+	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end vars.noclipping = funcs.runs.Stepped:Connect(vars.funcs.nclip)
+	tvars.con=funcs.runs.Heartbeat:Connect(function()
+		if tvars and os.clock() - tvars.ftime >= vars.flingtime then
+			tvars.con:Disconnect()
+		elseif tvars and tvars.root and tvars.bav and tvars.hum then
+			tvars.hum.PlatformStand=true
+			tvars.root.CFrame=((tvars.troot.CFrame*CFrame.new(0,1.7,0))*tvars.root.CFrame.Rotation --[[CFrame.Angles(0,math.rad(tvars.rot),0)--]] + tvars.troot.Velocity * (1.181 / 10)) --[[tvars.thum.MoveDirection * tvars.thum.WalkSpeed * .4--]]
+			tvars.bav.AngularVelocity = tvars.bav.AngularVelocity==vars.zerozerozero and tvars.vel1 or vars.zerozerozero
+			--tvars.rot=tvars.rot==93.4 and 0 or 93.4
+		end
+	end)
+	tvars.bav.Parent = tvars.root
+	--tvars.bv.Parent = tvars.root
+	task.wait(vars.flingtime)
+	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end
+		tvars.hum.PlatformStand=false
+		tvars.hum:SetStateEnabled(Enum.HumanoidStateType.Seated,tvars.hum:GetStateEnabled(Enum.HumanoidStateType.Seated) or tvars.sittingen)
+		--funcs.deb:AddItem(tvars.at0,0)
+		--funcs.deb:AddItem(tvars.at1,0)
+		table.remove(funcs.protectedlist,table.find(funcs.protectedlist,tvars.bav))
+		funcs.deb:AddItem(tvars.bav,0)
+		tvars.root.Velocity = vars.zerozerozero
+		tvars.root.RotVelocity = vars.zerozerozero
+		getchar():PivotTo(tvars.origCF);
+		workspace.FallenPartsDestroyHeight = tvars.origFpdh
+		for i,v in pairs(tvars.PhysProps) do
+		if v[1] ~= nil then
+		v[1].CustomPhysicalProperties=v[2]
+		end
+		end
+		for i,v in pairs(tvars.gcons) do if v then v:Enable() end end
+		--[[for i,v in ipairs(tvars.tools) do
+			if tvars.originalDeathGrips[i] then
+				v.Grip = tvars.originalDeathGrips[i]
+			end
+		end--]]
+		tvars.hum:UnequipTools(); tvars=nil; end};
 	antiac={desc="attempt to bypass speed checks",func=function(strt,parg)
 				if vars.antiac then return end
 				vars.antiac=true
@@ -268,6 +365,7 @@ local plug={noclip={func=function()
 	vars.light.Name=vars.fn+1
 	vars.light.Range = parg or 9
 	vars.light.Brightness=strt[1] or 5
+	vars.light.Parent.Destroying:Connect(vars.funcs.DestroyLonely)
 	end};
 	["reset"]={["func"]=function()
 	local hnn=getchar():FindFirstChildOfClass("Humanoid")
