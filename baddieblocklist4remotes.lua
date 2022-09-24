@@ -1,16 +1,12 @@
-if not funcs then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
-end
-
 --baddie blocklist
 getgenv().BlockedRemotes = {
-    "RagdollEvent",
-	"FallDamage",
-	"SetHP",
-	"WalkSpeedChanged",
-	"AFK",
+--    "RagdollEvent",
+--	"FallDamage",
+	--"SetHP",
+	--"WalkSpeedChanged",
+	--"AFK",
 --	"reportPlatform",
-	"ye"
+--	"ye"
 } --// block, spoof, {remove} (wip)
 local gmargs={
 [2788229376]={MainEvent={actiontype="block","TeleportDetect",1,"CHECKER_1",1,"OneMoreTime",1},SpoofStudio=true,anticrash=true	},
