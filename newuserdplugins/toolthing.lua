@@ -84,7 +84,7 @@ plug["gtool"]={func=function(strt,strd,str)
 	hum.Parent = Char
 	hum:ClearAllChildren()
 	task.spawn(function()
-		speaker.CharacterAdded:Wait():PivotTo(task.wait() and hrppos)
+		funcs.lplr.CharacterAdded:Wait():PivotTo(task.wait() and hrppos)
 	end)
 	local vHRP = v:WaitForChild("HumanoidRootPart",20)
 	while Char and Char.Parent and vHRP and vHRP.Parent do
