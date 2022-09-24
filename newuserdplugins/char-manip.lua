@@ -229,7 +229,7 @@ local plug={noclip={func=function()
 				v.Grip = tvars.originalDeathGrips[i]
 			end
 		end--]]
-		tvars.hum:UnequipTools(); tvars=nil; end};
+		tvars.hum:UnequipTools(); tvars=nil; end;["desc"]="flingkill";["aliases"]={["pling"]="klink";["flingkill"]="klink"}};
 	antiac={desc="attempt to bypass speed checks",func=function(strt,parg)
 				if vars.antiac then return end
 				vars.antiac=true
@@ -333,6 +333,8 @@ local plug={noclip={func=function()
 	end
 	nHuman.Health = nHuman.MaxHealth
 	end};
+	["ftouchinterests"]={["func"]=function(strt,nn) nn=nn and funcs.xgetplr(nn,true) or funcs.lplr for i,v in pairs(workspace:GetDescendants()) do if v:IsA("TouchTransmitter") then firetouchinterest(getchar(nil,nil,nn):FindFirstChildOfClass("BasePart") or getchar(nil,nil,nn):FindFirstChildOfClass("MeshPart"),v.Parent,0) firetouchinterest(getchar(nil,nil,nn):FindFirstChildOfClass("BasePart") or getchar(nil,nil,nn):FindFirstChildOfClass("MeshPart"),v.Parent,1) end task.wait() end end;["desc"]="dumbass"};
+	["fcd"]={["func"]=function() for i,v in pairs(workspace:GetDescendants()) do if v:IsA("ClickDetector") then fireclickdetector(v) end task.wait() end end;["desc"]="firecd"};
 	["loopws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed",true},["desc"]="repeatedly sets your WalkSpeed"};
 	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},["desc"]="repeatedly sets your JumpPower"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
