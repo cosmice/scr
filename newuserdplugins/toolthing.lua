@@ -79,7 +79,7 @@ plug["gtool"]={func=function(strt,strd,str)
 	end
 	end
 	end
-	if not Char:FindFirstChildOfClass("Tool") then funcs.sendnotif("cmds/toolthing/bambi.exe","fucking idiot","rbxassetid://8119590978",4) return end
+	if not Char:FindFirstChildOfClass("Tool") then funcs.sendnotif("cmds/toolthing/bambi.exe","fucking idiot","rbxassetid://8119590978",4) workspace.CurrentCamera.CameraSubject=hum return end
 	hum = hum:Destroy() or hum:Clone()
 	hum.Parent = Char
 	hum:ClearAllChildren()
@@ -114,7 +114,7 @@ plug["void"]={func=function(strt,strd,str)
 	local Char = getchar()
 	local hum = Char:FindFirstChildWhichIsA('Humanoid')
 	local hrp = hum and hum.RootPart
-	local hrppos = hrp.CFrame
+	local hrppos = Char:GetPivot()
 	
 	if strt[1] then
 	local bp=funcs.lplr:FindFirstChildWhichIsA("Backpack") 
@@ -131,7 +131,7 @@ plug["void"]={func=function(strt,strd,str)
 	end
 	end
 	if not getchar():FindFirstChildOfClass("Tool") then
-	funcs.sendnotif("cmds/toolthing/kill","no bitches (tools) "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) return
+	funcs.sendnotif("cmds/toolthing/kill","no bitches (tools) "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) workspace.CurrentCamera.CameraSubject=hum return
 	end
 	hum = hum:Destroy() or hum:Clone()
 	hum.Parent = Char
@@ -160,6 +160,59 @@ plug["void"]={func=function(strt,strd,str)
 	plug.ref()
 	if strt[2]~="nn" then funcs.sendnotif("cmds/toolthing/void","voided "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) end
 end}
-
+plug["bring"]={func=function(strt,strd,str)
+	local thp=strd and funcs.xgetplr(strd,true)
+	if not thp then return end
+	local v = thp.Character or thp.CharacterAdded:Wait()
+	workspace.CurrentCamera.CameraSubject = v
+	local Char = getchar()
+	local hum = Char:FindFirstChildWhichIsA('Humanoid')
+	local hrp = hum and hum.RootPart
+	local hrppos = Char:GetPivot()
+	
+	if strt[1] then
+	local bp=funcs.lplr:FindFirstChildWhichIsA("Backpack") 
+	if strt[1]=="2" and bp then
+	if bp then
+	for i,v in pairs(bp:GetChildren()) do
+	if v:IsA("Tool") then
+	v.Parent=getchar()
+	end
+	end
+	end
+	elseif strt[1]=="1" and bp then
+	bp:FindFirstChildOfClass("Tool").Parent=Char
+	end
+	end
+	if not getchar():FindFirstChildOfClass("Tool") then
+	funcs.sendnotif("cmds/toolthing/kill","no bitches (tools) "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) workspace.CurrentCamera.CameraSubject=hum return
+	end
+	hum = hum:Destroy() or hum:Clone()
+	hum.Parent = Char
+	hum:ClearAllChildren()
+	task.spawn(function()
+		speaker.CharacterAdded:Wait():PivotTo(task.wait() and hrppos)
+	end)
+	local vHRP = v:WaitForChild("HumanoidRootPart",20)
+	while Char and Char.Parent and vHRP and vHRP.Parent do
+		funcs.lplr:ClearCharacterAppearance()
+		local Tools = false
+		for _, v in ipairs(Char:GetChildren()) do
+			if v:IsA('BackpackItem') and v:FindFirstChild('Handle') then
+				Tools = true
+				firetouchinterest(v.Handle, vHRP, 0)
+				firetouchinterest(v.Handle, vHRP, 1)
+			end
+		end
+		if not Tools then
+			break
+		end
+		hrp.CFrame = vHRP.CFrame
+		task.wait()
+	end
+	getchar():PivotTo(hrppos)
+	plug.ref()
+	if strt[2]~="nn" then funcs.sendnotif("cmds/toolthing/void","voided "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) end
+end;desc="barely working my code is dogshit"}
 
 return plug
