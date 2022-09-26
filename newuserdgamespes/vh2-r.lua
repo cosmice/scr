@@ -2,7 +2,7 @@ task.wait(2)
 getgenv().funcs.vmp={}
 local vmpdata={}
 funcs.vmp.outfits=funcs.load("vmp_outfits.lua",{})
-----get rid of annoying sound that made me think my computer was broken
+---get rid of annoying sound that made me think my computer was broken
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId=="rbxassetid://9116267995" then
 v:Stop()
@@ -110,8 +110,10 @@ end
 				old_namecall = hookmetamethod(game, "__namecall", newcclosure(function(instance,...)
 				local ncm= getnamecallmethod()
 				local args={...}
-				if not checkcaller() and ncm=="FireServer" and (table.find(args,"Walkspeed Exploit") or table.find(args,"?") or table.find(args,"exploit") or table.find(args,"kick") or (#args>=3 and args[3]:lower():match("exploit"))) or type(args[1])=="string" and args[1]=="Hitbox Extension Check" then
-                return
+				if not checkcaller() and ncm=="FireServer" and #args>=1 and (table.find(args,"Walkspeed Exploit") or table.find(args,"exploit") or table.find(args,"kick") or (#args>=2 and (type(args[3])=="string" and args[3]:lower():match("exploit") or type(args[2])=="string" and args[2]:lower():match("exploit") or type(args[1])=="string" and args[1]:lower():match("exploit") ))) or type(args[1])=="string" and args[1]=="Hitbox Extension Check" then
+                print(instance.Name)
+				table.foreach(args,print)
+				return
 				end;
 				return old_namecall(instance,...)
 				end))
@@ -123,13 +125,13 @@ local gunt=false
 workspace.ChildAdded:Connect(function(gun)
 if gun.Name=="gundropped" then
 funcs.addhook(gun,{color=Color3.fromRGB(100,0,0),txtenabled=true,text="gun",autoremove=true,dep=values,transp=0.33})
-if gunt and replicated.InGamePlayerValues:FindFirstChild(funcs.lplr.Name) then local piv,prr=getchar():GetPivot(),getchar().PrimaryPart or getchar().PrimaryPart:Wait() ; getchar():PivotTo(gun:GetPivot()) task.wait(.202) firetouchinterest(prr,gun,0)  firetouchinterest(prr,gun,1) getchar():PivotTo(piv) end
+if gunt and replicated.InGamePlayerValues:FindFirstChild(funcs.lplr.Name) then local piv,prr=getchar():GetPivot(),getchar().PrimaryPart or getchar():GetPropertyChangedSignal("PrimaryPart"):Wait() ; getchar():PivotTo(gun:GetPivot()) task.wait(.202) firetouchinterest(prr,gun,0)  firetouchinterest(prr,gun,1) getchar():PivotTo(piv) end
 end
 end)
 funcs.vmp.con=replicated.InGamePlayerValues.ChildAdded:Connect(linkedsword)
 local cu=funcs.lplr.Character:WaitForChild("MainLocal",10):WaitForChild("Customize",10)
-cu:FireServer("GunSkin", "Chocolate")
-cu:FireServer("VampireAbility", "Time")
+--cu:FireServer("GunSkin", "Chocolate")
+--cu:FireServer("VampireAbility", "Time")
 --cu:FireServer("HumanGadget", "Strength")
 local is_auto_enabled=false
 local is_rr_enabled=false
@@ -150,7 +152,7 @@ rem:FireServer("escape")
 task.wait(.2)
 end
 local hmnoid=funcs.lplr.Character:FindFirstChildOfClass("Humanoid")
-if is_rr_enabled and funcs.lplr.Character and funcs.lplr.Character==ch and hmnoid and hmnoid.MoveDirection.Magnitude>0 then for i = 1,30 do if not ch or not ch.Parent then break end local piv=ch:GetPivot() ch:PivotTo(piv + (piv.LookVector * .12)) ; piv=ch:GetPivot() ; ch:PivotTo(piv + (piv.LookVector * .12)) task.wait(0) end end
+if is_rr_enabled and funcs.lplr.Character and funcs.lplr.Character==ch and hmnoid and hmnoid.MoveDirection.Magnitude>0 then for i = 1,30 do if not ch or not ch.Parent then break end local piv=ch:GetPivot() ch:PivotTo(piv + (piv.LookVector * .121)) ; piv=ch:GetPivot() ; ch:PivotTo(piv + (piv.LookVector * .121)) task.wait(0) end end
 end
 end)
 
