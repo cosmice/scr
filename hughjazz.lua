@@ -2,6 +2,7 @@
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
 end
+if not game:IsLoaded() then game.Loaded:Wait() end
 local gnn={
 main = Instance.new("ScreenGui");
 _txtbox = Instance.new("TextBox");
@@ -71,6 +72,8 @@ gnn._close.Font = Enum.Font.SourceSans
 gnn._close.Text = "close"
 gnn._close.TextColor3 = Color3.fromRGB(255, 255, 255)
 gnn._close.TextSize = 14.000
+local mvars={}
+mvars.kbind=Enum.KeyCode.BackSlash
 local cmds=sus_cmds or {}
 cmds["cmds"]=cmds["cmds"] or function()
 		gnn._close.Active = true
@@ -79,7 +82,18 @@ cmds["cmds"]=cmds["cmds"] or function()
 		gnn.cmdframe.Visible = true
 		gnn.txt.Visible=true gnn.txt.Active=true gnn.txt2.Visible=false gnn.txt2.Active=false
 end
+mvars.ck=function(kk)
+if kk.KeyCode~=Enum.KeyCode.Return then
+mvars.kbind=kk.KeyCode or mvars.kbind
+mvars.con:Disconnect() mvars.con=nil
+end
+end
 cmds["rj"]=cmds["rj"] or rj
+cmds["kbind"]=cmds["kbind"] or function()
+if not mvars.con then
+mvars.con=funcs.uip.InputBegan:Connect(mvars.ck)
+else mvars.con:Disconnect() mvars.con=nil end
+end
 local aliases={}
 
 -- Scripts:
@@ -124,7 +138,7 @@ end
 local function onkeydown(x)
 local txtfocused = funcs.uip:GetFocusedTextBox()
 if txtfocused then return end
-if x.KeyCode == Enum.KeyCode.BackSlash then
+if x.KeyCode == mvars.kbind then
 gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
 end
