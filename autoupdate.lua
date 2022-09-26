@@ -13,4 +13,4 @@ task.wait()
 end
 writefile("lastautoupdate.txt",tostring(os.time()))
 end
-loadfile("autorun.lua")()
+--loadfile("autorun.lua")()
