@@ -14,8 +14,8 @@ end
 				end
 			end
 		else
-		vars.funcs.nclip:Disconnect()
-		vars.funcs.nclip=nil
+		vars.noclipping:Disconnect()
+		vars.noclipping=nil
 		end
 	end
 	vars.funcs.cdfkill=function(kk)
@@ -160,14 +160,23 @@ local plug={noclip={func=function()
 		end
 	end
 	vars.toolk=funcs.uip.InputBegan:Connect(cdtk) end if strt[1]~="nn" then funcs.sendnotif("cmds/char-manip/bambi.exe",vars.toolk and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end};
+	["cap"]={["func"]=function() funcs.lplr:ClearCharacterAppearance() end;["desc"]="clear character appearance"};
 	["tk"]={["func"]=function(strt,nn)
 	nn=nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model"))) or type(nn)=='string' and funcs.xgetplr(nn,true)
 	nn=nn and (nn:IsA("Player") and getchar(nil,nil,nn) or not nn:IsA("Player") and nn)
-	nn=nn and (nn.PrimaryPart or nn:GetPropertyChangedSignal("PrimaryPart"):Wait(4))
+	local nntb={}
+	if nn then
+	for i,v in pairs(nn:GetChildren()) do
+	if v:IsA("BasePart") or v:IsA("MeshPart") then table.insert(nntb,v) end task.wait()
+	end
+	else return
+	end
+
 	local maxdis=strt[1] and tonumber(strt[1])
 	local tl=getchar("Tool",true);
 	local hl={}
 	local orp=tl and tl.Parent
+	if not tl or not nn or not orp then return end
 	for i,v in pairs(tl:GetChildren()) do
 	if (v:IsA("BasePart")  or v:IsA("MeshPart")) then
 	table.insert(hl,v)
@@ -179,14 +188,17 @@ local plug={noclip={func=function()
 	for i,v in pairs(hl) do
 	if v and nn and (not maxdis or (nn.Position-v.Position)<=maxdis) then 
 	tl:Activate()
-	firetouchinterest(v,nn,0)
-	firetouchinterest(v,nn,1)
+	for intv,xv in pairs(nntb) do
+	firetouchinterest(v,xv,0)
+	firetouchinterest(v,xv,1)
+	funcs.runs.RenderStepped:Wait()
+	end
 	else
 	table.remove(hl,i)
 	end
 	end
 	end
-	if hk and hk.justquit then hk.justquit() end hl=nil tl=nil orp=nil nn=nil end
+	if hk and hk.justquit then hk.justquit() end hl=nil tl=nil orp=nil nn=nil nntb=nil end
 	end};
 	["ftime"]={["func"]=function(strt,nn) vars.flingtime=nn and tonumber(nn) or vars.flingtime end;["desc"]="change flingtime"};
 	["klink"]={["func"]=function(strt,nn,str,cmd,arg) 
