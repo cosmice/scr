@@ -264,7 +264,7 @@ local plug={noclip={func=function()
 			tvars.con:Disconnect()
 		elseif tvars and tvars.root and tvars.bav and tvars.hum then
 			tvars.hum.PlatformStand=true
-			tvars.root.CFrame=((tvars.troot.CFrame*CFrame.new(0,1.7,0))*tvars.root.CFrame.Rotation --[[CFrame.Angles(0,math.rad(tvars.rot),0)--]] + tvars.troot.Velocity * (1.14 / 10)) --[[tvars.thum.MoveDirection * tvars.thum.WalkSpeed * .4--]]
+			tvars.root.CFrame=((tvars.troot.CFrame*CFrame.new(0,1.7,0))*tvars.root.CFrame.Rotation --[[CFrame.Angles(0,math.rad(tvars.rot),0)--]] + tvars.troot.Velocity * (.9 / 10)) --[[tvars.thum.MoveDirection * tvars.thum.WalkSpeed * .4--]]
 			tvars.bav.AngularVelocity = tvars.bav.AngularVelocity==vars.zerozerozero and tvars.vel1 or vars.zerozerozero
 			--tvars.rot=tvars.rot==93.4 and 0 or 93.4
 		end
@@ -378,6 +378,7 @@ local plug={noclip={func=function()
 	end
 	end};--]]
 	floatn={func=function(strt,plrarg) local nn=tonumber(plrarg) if nn then vars.floatn=nn end end,desc="set how under float part goes"};
+	["rvel"]={["func"]=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") or v:IsA("MeshPart") then v.Velocity=vars.zerozerozero v.RotVelocity=vars.zerozerozero end end end};
 	["god"]={func=function()
 	local Cam = workspace.CurrentCamera
 	local Pos, Char = Cam.CFrame, getchar()
