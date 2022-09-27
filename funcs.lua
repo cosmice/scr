@@ -1,6 +1,6 @@
 --funcs.lua
 do
-getgenv().funcs = {}
+getgenv().funcs = funcs or {}
 local playerservice = game:GetService("Players")
 local deb = game:GetService("Debris")
 local lplr = playerservice.LocalPlayer
@@ -20,7 +20,8 @@ getgenv().funcs.plrs = playerservice
 getgenv().funcs.lplr = playerservice.LocalPlayer
 getgenv().funcs.uip=game:GetService("UserInputService")
 getgenv().funcs.rawmeta=getrawmetatable(game)
-funcs.protectedlist={}
+funcs.protectedlist={};
+local newind
 funcs.newind=hookmetamethod(game,"__index",newcclosure(function(...)
 local ret={rawget(funcs,"newind")(...)}
 if not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
@@ -41,6 +42,21 @@ end
 getgenv().funcs.normalizemagic = function(magic,p)
 local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
 return p and str[1] or str
+end
+funcs.rndmstr=function(minim,lenim)
+local array = {}
+	local length = math.random(minim or 10,lenim or 20)
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	array=table.concat(array)
+	local rndm=math.random(1,4);
+	if rndm==1 then
+		array=array..tostring(math.random(1,9999999))
+	elseif rndm==2 then
+		array=tostring(math.random(1,9999999))..array
+	end
+return array
 end
 getgenv().getchar=function(x,y,p)
 p=p or funcs.lplr
@@ -127,21 +143,36 @@ fd.Parent=funcs.instanceholder
 end
 return fd
 end
+local function verval(vals,def)
+
+if type(vals)=='table' then
+for i,v in ipairs(vals) do
+if v~= nil then
+return v
+end
+end
+elseif vals~=nil then
+return vals
+end
+return def
+end
+
 getgenv().funcs.addhook=function(v,tb)
-		v=v:IsA("Model") and (v.PrimaryPart or v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Head") or v:FindFirstChildOfClass("BasePart")) or v
+		v=v:IsA("Model") and (v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Head") or v.PrimaryPart or v:FindFirstChildOfClass("BasePart")) or v
 		if not v then return 'fish_not_found' end
 		tb=tb or {}
-		tb={maxdis=tb.maxdis or tb.maxdist or tb.maxdistance or math.huge,
-		color=tb.color or tb.txtcolor or Color3.fromRGB(255,255,255),
-		text=tb.text or v:IsA("Model") and v.Name or v.Parent.Name,
-		txtcolor=tb.txtcolor or tb.textcolor or tb.color or Color3.fromRGB(255,255,255),
-		job=funcs.getholder(tb.job or "generic_esp"),
-		txtenabled=tb.txtenabled or tb.textenabled or false,
-		autoremove=tb.autoremove or false,
-		offset=tb.offset or Vector3.new(0,2,0),
-		dep=tb.additionaldependencies or tb.dep or {},
-		transp=tb.transp or tb.transparency or tb.trans or 0.8,
-		toreturn={}
+		tb={["maxdis"]=verval({tb.maxdis,tb.maxdist,tb.maxdistance},math.huge),
+		["color"]=verval({tb.color;tb.txtcolor},Color3.fromRGB(255,255,255)),
+		["text"]=tb.text or v:IsA("Model") and v.Name or v.Parent.Name,
+		["txtcolor"]=verval({tb.txtcolor,tb.textcolor,tb.color},Color3.fromRGB(255,255,255)),
+		["job"]=funcs.getholder(tb.job or "generic_esp"),
+		["txtenabled"]=verval({tb.textenabled,tb.txtenabled},true),
+		["autorem"]=verval({tb.autoremove,tb.autorem},true),
+		["offset"]=verval(tb.offset,Vector3.new(0,2,0)),
+		["dep"]=verval({tb.additionaldependencies;tb.dep},{}),
+		["transp"]=verval({tb.transp,tb.transparency,tb.trans},.8),
+		["rez"]=verval({tb.rez,tb.res},true),
+		["toreturn"]={}
 		}
 		if getproperties(v).Size then
         local a = Instance.new("BoxHandleAdornment")
@@ -165,7 +196,7 @@ getgenv().funcs.addhook=function(v,tb)
         b.Size = UDim2.fromScale(4,2)
 		b.Name=v.Name
 		tb.toreturn.billboardgui=b
-        local c = Instance.new("TextBox")
+        local c = Instance.new("TextLabel")
         c.Text = tb.text or v.Parent.Name
         c.BackgroundTransparency = 1
         c.Size = UDim2.fromScale(1,1)
@@ -173,19 +204,45 @@ getgenv().funcs.addhook=function(v,tb)
         c.Parent = b
         c.TextColor3 = tb.txtcolor
 		tb.toreturn.textbox=c
+		if tb["rez"] and tb.toreturn.box then
+		local function M_e_M_e_M_e()
+		if c~=nil then
+		c.TextWrap=false
+		c.TextScaled=false
 		end
-		tb.toreturn.justquit=function()
-		for i,v in pairs(tb.toreturn) do
-		tb.toreturn[i]=nil
-		if typeof(v)=='Instance' then
-		funcs.deb:AddItem(v,0)
+		end
+		local function M_L_M_L_M_L()
+		if c~=nil then
+		c.TextWrap=true
+		c.TextScaled=true
 		end
 		end
+		tb.toreturn.box.MouseEnter:Connect(M_e_M_e_M_e)
+		tb.toreturn.box.MouseLeave:Connect(M_L_M_L_M_L)
 		end
 		
-		if tb.autoremove then
+		end
+		
+
+		tb.toreturn.justquit=function()
+		--print("a")
+		for i,vv in pairs(tb.toreturn) do
+		tb.toreturn[i]=nil
+		if typeof(vv)=='Instance' then
+		funcs.deb:AddItem(vv,0)
+		end
+		end
+		v,tb=nil,nil
+		end
+		if tb.autorem then
+		v.AncestryChanged:Connect(function(x,y)
+		if  y==nil and tb and tb.toreturn and tb.toreturn.justquit then
+		tb.toreturn.justquit()
+		end
+		end)
 		v.Destroying:Connect(tb.toreturn.justquit)
 		end
+		
 		for i,x in pairs(tb.dep) do
 		x.Destroying:Connect(tb.toreturn.justquit)
 		end
