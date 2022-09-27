@@ -93,18 +93,20 @@ local function linkedsword(v)
 local linkedcharacter=funcs.plrs:FindFirstChild(v.Name)
 if not linkedcharacter or linkedcharacter.Name==funcs.lplr.Name or not linkedcharacter.Character then return end
 local values={v:WaitForChild("vampire",10),v:WaitForChild("detective",10),v:WaitForChild("died",10)}
-local hook=funcs.addhook(linkedcharacter.Character,{color=getsetting(values,2),txtenabled=true,text=getsetting(values,1,v.Name),autoremove=true,dep=values,transp=0.6})
+local hook=funcs.addhook(linkedcharacter.Character,{color=getsetting(values,2),txtenabled=true,text=getsetting(values,1,v.Name),autoremove=true,dep={unpack(values),v,linkedcharacter.CharacterRemoving},transp=0.6})
 if typeof(hook)=='string' then return end
-for i,x in pairs(values) do
-x.Changed:Connect(function()
+local function chngv()
+if hook and hook.textbox and hook.box then
 local color=getsetting(values,2)
 hook.box.Color3=color
-if hook.textbox then
 hook.textbox.Text=getsetting(values,1,v.Name)
 hook.textbox.TextColor3=color
 end
-end)
 end
+for i,x in pairs(values) do
+x.Changed:Connect(chngv)
+end
+linkedcharacter,linkedplayer=nil,nil
 return {hook,values}
 end
 			local old_namecall
@@ -112,8 +114,8 @@ end
 				local ncm= getnamecallmethod()
 				local args={...}
 				if not checkcaller() and ncm=="FireServer" and #args>=1 and (table.find(args,"Walkspeed Exploit") or table.find(args,"exploit") or table.find(args,"kick") or (#args>=2 and (type(args[3])=="string" and args[3]:lower():match("exploit") or type(args[2])=="string" and args[2]:lower():match("exploit") or type(args[1])=="string" and args[1]:lower():match("exploit") ))) or type(args[1])=="string" and args[1]=="Hitbox Extension Check" then
-                --print(instance.Name)
-		--		table.foreach(args,print)
+                print(instance.Name)
+				table.foreach(args,print)
 				return
 				end;
 				return old_namecall(instance,...)
