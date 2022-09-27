@@ -146,7 +146,7 @@ end
 local function verval(vals,def)
 
 if type(vals)=='table' then
-for i,v in ipairs(vals) do
+for i,v in pairs(vals) do
 if v~= nil then
 return v
 end
@@ -174,10 +174,13 @@ getgenv().funcs.addhook=function(v,tb)
 		["transp"]=verval({tb.transp,tb.transparency,tb.trans},.8),
 		["rez"]=verval({tb.rez,tb.res},true),
 		["toreturn"]={};
-		["1h"]=verval(tb["1h"],true)
+		["1h"]=verval(tb["1h"],true);
+		["cons"]=tb.cons or {}
 		}
 		local fh=tb["1h"] and funcs.hookedinst[v]
-		table.foreach(funcs.hookedinst,funcs.clearnil) if fh then fh.toreturn.justquit() end funcs.hookedinst[v]=tb
+		table.foreach(funcs.hookedinst,funcs.clearnil)
+		if fh and fh.toreturn and fh.toreturn.justquit then fh.toreturn.justquit() end
+		funcs.hookedinst[v]=tb
 		if getproperties(v).Size then
         local a = Instance.new("BoxHandleAdornment")
         a.Size = v.Size
@@ -243,27 +246,31 @@ getgenv().funcs.addhook=function(v,tb)
 		
 
 		tb.toreturn.justquit=function()
-		--print("a")
+		if not tb then return end
 		for i,vv in pairs(tb.toreturn) do
 		if typeof(vv)=='Instance' then
 		funcs.deb:AddItem(vv,0)
 		end
 		tb.toreturn[i]=nil
 		end
-		v,tb,fh=nil,nil,nil
+		for i,vv in pairs(tb.cons) do
+		if vv then vv:Disconnect() end
+		end
+		funcs.hookedinst[v]=nil
+		v,tb=nil,nil
 		end
 		if tb.autorem then
 		--if a then a:GetPropertyChangedSignal("Adornee"):Connect(tb.autorema) end
 		--if b then b:GetPropertyChangedSignal("Adornee"):Connect(tb.autoremb) end
-		v.AncestryChanged:Connect(function(x,y) if not y and tb and tb.toreturn and tb.toreturn.justquit then tb.toreturn.justquit() end end)
-		v.Destroying:Connect(tb.toreturn.justquit)
+		table.insert(tb.cons,v.AncestryChanged:Connect(function(x,y) if not y and tb and tb.toreturn and tb.toreturn.justquit then tb.toreturn.justquit() end end))
+		table.insert(tb.cons,v.Destroying:Connect(tb.toreturn.justquit))
 		end
 		
 		for i,x in pairs(tb.dep) do
 		if typeof(x)=="Instance" then
-		x.Destroying:Connect(tb.toreturn.justquit)
+		table.insert(tb.cons,x.Destroying:Connect(tb.toreturn.justquit))
 		elseif typeof(x)=="RBXScriptSignal" then
-		x:Connect(tb.toreturn.justquit)
+		table.insert(tb.cons,x:Connect(tb.toreturn.justquit))
 		end
 		end
 		return tb.toreturn
