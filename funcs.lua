@@ -156,7 +156,7 @@ return vals
 end
 return def
 end
-funcs.clearnil=function(i,v) if v==nil then table.remove(tr,i) end end
+funcs.clearnil=function(i,v) if i==nil or v==nil then table.remove(tr,i) end end
 funcs.hookedinst={}
 getgenv().funcs.addhook=function(v,tb)
 		v=v:IsA("Model") and (v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Head") or v.PrimaryPart or v:FindFirstChildOfClass("BasePart")) or v
@@ -176,8 +176,8 @@ getgenv().funcs.addhook=function(v,tb)
 		["toreturn"]={};
 		["1h"]=verval(tb["1h"],true)
 		}
-		local fh=tb["1h"] and table.find(funcs.hookedinst,v)
-		if not fh then table.foreach(funcs.hookedinst,funcs.clearnil) table.insert(funcs.hookedinst,v) else return 'already_hooked' end
+		local fh=tb["1h"] and funcs.hookedinst[v]
+		table.foreach(funcs.hookedinst,funcs.clearnil) if fh then fh.toreturn.justquit() end funcs.hookedinst[v]=tb
 		if getproperties(v).Size then
         local a = Instance.new("BoxHandleAdornment")
         a.Size = v.Size
@@ -209,7 +209,7 @@ getgenv().funcs.addhook=function(v,tb)
 		tb.toreturn.billboardgui=b
 		if tb.autorem then
 		tb.autoremb=function()
-		if b.Adornee==nil and tb and tb.toreturn  then
+		if b.Adornee==nil and tb and tb.toreturn then
 		tb.toreturn.justquit()
 		end
 		end
@@ -245,10 +245,10 @@ getgenv().funcs.addhook=function(v,tb)
 		tb.toreturn.justquit=function()
 		--print("a")
 		for i,vv in pairs(tb.toreturn) do
-		tb.toreturn[i]=nil
 		if typeof(vv)=='Instance' then
 		funcs.deb:AddItem(vv,0)
 		end
+		tb.toreturn[i]=nil
 		end
 		v,tb,fh=nil,nil,nil
 		end
@@ -260,7 +260,11 @@ getgenv().funcs.addhook=function(v,tb)
 		end
 		
 		for i,x in pairs(tb.dep) do
+		if typeof(x)=="Instance" then
 		x.Destroying:Connect(tb.toreturn.justquit)
+		elseif typeof(x)=="RBXScriptSignal" then
+		x:Connect(tb.toreturn.justquit)
+		end
 		end
 		return tb.toreturn
 end
