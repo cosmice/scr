@@ -94,6 +94,7 @@ local linkedcharacter=funcs.plrs:FindFirstChild(v.Name)
 if not linkedcharacter or linkedcharacter.Name==funcs.lplr.Name or not linkedcharacter.Character then return end
 local values={v:WaitForChild("vampire",10),v:WaitForChild("detective",10),v:WaitForChild("died",10)}
 local hook=funcs.addhook(linkedcharacter.Character,{color=getsetting(values,2),txtenabled=true,text=getsetting(values,1,v.Name),autoremove=true,dep=values,transp=0.6})
+if typeof(hook)=='string' then return end
 for i,x in pairs(values) do
 x.Changed:Connect(function()
 local color=getsetting(values,2)
