@@ -176,7 +176,8 @@ getgenv().funcs.addhook=function(v,tb)
 		["toreturn"]={};
 		["1h"]=verval(tb["1h"],true)
 		}
-		if not table.find(funcs.hookedinst,v) and tb["1h"] then table.foreach(funcs.hookedinst,funcs.clearnil) table.insert(funcs.hookedinst,v) end
+		local fh=tb["1h"] and table.find(funcs.hookedinst,v)
+		if not fh then table.foreach(funcs.hookedinst,funcs.clearnil) table.insert(funcs.hookedinst,v) else return 'already_hooked' end
 		if getproperties(v).Size then
         local a = Instance.new("BoxHandleAdornment")
         a.Size = v.Size
@@ -249,7 +250,7 @@ getgenv().funcs.addhook=function(v,tb)
 		funcs.deb:AddItem(vv,0)
 		end
 		end
-		v,tb=nil,nil
+		v,tb,fh=nil,nil,nil
 		end
 		if tb.autorem then
 		--if a then a:GetPropertyChangedSignal("Adornee"):Connect(tb.autorema) end
