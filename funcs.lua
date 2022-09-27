@@ -156,7 +156,8 @@ return vals
 end
 return def
 end
-
+funcs.clearnil=function(i,v) if v==nil then table.remove(tr,i) end end
+funcs.hookedinst={}
 getgenv().funcs.addhook=function(v,tb)
 		v=v:IsA("Model") and (v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Head") or v.PrimaryPart or v:FindFirstChildOfClass("BasePart")) or v
 		if not v then return 'fish_not_found' end
@@ -172,8 +173,10 @@ getgenv().funcs.addhook=function(v,tb)
 		["dep"]=verval({tb.additionaldependencies;tb.dep},{}),
 		["transp"]=verval({tb.transp,tb.transparency,tb.trans},.8),
 		["rez"]=verval({tb.rez,tb.res},true),
-		["toreturn"]={}
+		["toreturn"]={};
+		["1h"]=verval(tb["1h"],true)
 		}
+		if not table.find(funcs.hookedinst,v) and tb["1h"] then table.foreach(funcs.hookedinst,funcs.clearnil) table.insert(funcs.hookedinst,v) end
 		if getproperties(v).Size then
         local a = Instance.new("BoxHandleAdornment")
         a.Size = v.Size
@@ -185,6 +188,13 @@ getgenv().funcs.addhook=function(v,tb)
         a.Color3 = tb.color
 		a.Name=v.Name
 		tb.toreturn.box=a
+		if tb.autorem then
+		tb.autorema=function()
+		if a.Adornee==nil and tb and tb.toreturn then
+		tb.toreturn.justquit()
+		end
+		end
+		end
 		end
 		if tb.txtenabled then
         local b = Instance.new("BillboardGui")
@@ -196,6 +206,13 @@ getgenv().funcs.addhook=function(v,tb)
         b.Size = UDim2.fromScale(4,2)
 		b.Name=v.Name
 		tb.toreturn.billboardgui=b
+		if tb.autorem then
+		tb.autoremb=function()
+		if b.Adornee==nil and tb and tb.toreturn  then
+		tb.toreturn.justquit()
+		end
+		end
+		end
         local c = Instance.new("TextLabel")
         c.Text = tb.text or v.Parent.Name
         c.BackgroundTransparency = 1
@@ -235,11 +252,9 @@ getgenv().funcs.addhook=function(v,tb)
 		v,tb=nil,nil
 		end
 		if tb.autorem then
-		v.AncestryChanged:Connect(function(x,y)
-		if  y==nil and tb and tb.toreturn and tb.toreturn.justquit then
-		tb.toreturn.justquit()
-		end
-		end)
+		--if a then a:GetPropertyChangedSignal("Adornee"):Connect(tb.autorema) end
+		--if b then b:GetPropertyChangedSignal("Adornee"):Connect(tb.autoremb) end
+		v.AncestryChanged:Connect(function(x,y) if not y and tb and tb.toreturn and tb.toreturn.justquit then tb.toreturn.justquit() end end)
 		v.Destroying:Connect(tb.toreturn.justquit)
 		end
 		
@@ -261,15 +276,6 @@ end
 getgenv().funcs.copyplaceid = function()
 setclipboard(game.PlaceId)
 end--]]
-getgenv().unfuck = function(Table,playername)
-for i = 1,#Table do
-local zZZ = Table[i]
-if zZZ == playername then
-table.remove(Table,i)
-print("removed")
-end
-end
-end
 
 getgenv().funcs.sg = game:GetService("StarterGui")
 getgenv().funcs.sendnotif = function(top,bottomtextuwu,icopain,durrrrr)
