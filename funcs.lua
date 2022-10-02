@@ -4,7 +4,7 @@ getgenv().funcs = funcs or {}
 local playerservice = game:GetService("Players")
 local deb = game:GetService("Debris")
 local lplr = playerservice.LocalPlayer
-local charfuncs = false
+local bm = false
 local nofaceon = false
 local runservice = game:GetService("RunService")
 local rustepped = runservice.Stepped
@@ -12,6 +12,7 @@ local ruhb = runservice.Heartbeat
 local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 local tpserv = game:GetService("TeleportService")
 local ffind=table.find
+local checkcaller=clonefunction(checkcaller)
 getgenv().wait = task.wait
 getgenv().spawn=task.spawn
 getgenv().funcs.runs = runservice
@@ -20,29 +21,35 @@ getgenv().funcs.plrs = playerservice
 getgenv().funcs.lplr = playerservice.LocalPlayer
 getgenv().funcs.uip=game:GetService("UserInputService")
 getgenv().funcs.rawmeta=getrawmetatable(game)
-funcs.protectedlist={};
+funcs.protectedlist=funcs.protectedlist or {};
 local newind
-funcs.newind=hookmetamethod(game,"__index",newcclosure(function(...)
+funcs.newind=funcs.newind or hookmetamethod(game,"__index",newcclosure(function(...)
 local ret={rawget(funcs,"newind")(...)}
 if not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
 return
 end
 return unpack(ret)
 end))
-funcs.nmcall=hookmetamethod(game,"__namecall",newcclosure(function(...)
+funcs.nmcall=funcs.nmcall or hookmetamethod(game,"__namecall",newcclosure(function(...)
 local ret={rawget(funcs,"nmcall")(...)}
 if not checkcaller() and #ret>=1 and ffind(rawget(funcs,"protectedlist"),ret[1]) then
 return
 end
 return unpack(ret)
 end))
-getgenv().funcs.normalizeblue = function(nnnn)
+local function normalizeblue(nnnn) --changed from global to local, you most likely don't need this in your script or globals.
 return "%"..nnnn
 end
 getgenv().funcs.normalizemagic = function(magic,p)
-local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",funcs.normalizeblue)
+local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",normalizeblue)
 return p and str[1] or str
 end
+
+funcs.regularcall=function(xy,yx,...) --i hate the fact pcall/xpcall returns multiple arguments with a burning passion
+local s,r=xy(yx,...)
+return s and r --only return r if function yx succeeded, so you don't have to make another local and do another check if s is true, just if r isnt nil
+end
+
 funcs.rndmstr=function(minim,lenim)
 local array = {}
 	local length = math.random(minim or 10,lenim or 20)
@@ -353,13 +360,40 @@ getgenv().funcs.setsim = function()
 	error("incompatible")
 	end
 end
-getgenv().WaitForChildOfClass = function(parent, class)
-	local child = parent:FindFirstChildOfClass(class)
-	while parent and not child or not child:IsA(class) do
-		child = parent.ChildAdded:Wait()
-	end
-	return child
+local function tablematch(x,y)
+for ii,vv in pairs(x) do if y[ii] and y[ii]~=vv then return false end end 
+return true
 end
+getgenv().funcs.wfcofclass = function(parent: Instance, class: string, RELEASEDATE: number?, recursive: boolean?, options: table?)
+	options=options or {}
+	local vrs={}
+	vrs.child = parent:FindFirstChildWhichIsA(class,recursive);
+	if vrs.child and (not options.reqprop or tablematch(getproperties(vrs.child),options.reqprop)) and (not options.reqhprop or tablematch(getproperties(vrs.child),options.reqhprop)) then return vrs.child end
+	vrs.bndable=Instance.new("BindableEvent")
+	vrs.wfcfunc=function(x)
+		if x:IsA(class) and (not options.reqprop or tablematch(getproperties(x),options.reqprop)) and (not options.reqhprop or tablematch(gethiddenproperties(x),options.reqhprop)) then
+			vrs.bndable:Fire(x)
+		end
+	end
+	vrs.evf=function(x) vrs.child=nil for i,v in pairs(vrs) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end vrs[i]=nil end vrs=nil return x end
+	vrs.evc=vrs.bndable.Event:Connect(vrs.evf)
+	vrs.con=parent[recursive and "DescendantAdded" or "ChildAdded"]:Connect(vrs.wfcfunc)
+    if type(RELEASEDATE)~="boolean" then task.delay(RELEASEDATE or 10,vrs.bndable.Fire,vrs.bndable) end
+	return vrs.bndable.Event:Wait()
+end 
+--[[
+funcs.wfcofclass(parent: Instance, class: string, RELEASEDATE: number?, recursive: boolean?, options: table?)
+options={
+reqprop={"Name"="amongus"} --only return if Instance.Name=amongus
+reqhprop={"HiddenImpostor"="Coral"} -- only return if <hidden> Instance.HiddenImpostor="Coral"
+}
+--]]
+--[[
+task.spawn(function() local bitch=funcs.wfcofclass(getchar(),"BodyVelocity") print(bitch:GetFullName()) end)
+task.wait()
+local stupidretard=Instance.new("BodyVelocity",getchar())
+--]]
+
 --proximity and touchinterest
 --[[getgenv().funcs.prox = function()
 for i,v in pairs(workspace:GetDescendants()) do
@@ -495,26 +529,7 @@ getgenv().rj = function() --infinite yield
 end
 end
 
-
-if charfuncs == true then
---ex: toenable: noface(true,"Head")
-
-getgenv().funcs.noface = function(x,head)
-if x ~= true then
-nofaceon = false
-else
-nofaceon = true
-local lchar = lplr.Character or lplr.CharacterAdded:Wait()
-
-deb:AddItem(lchar:WaitForChild(head),0)
-lplr.CharacterAdded:Connect(function(del)
-deb:AddItem(lchar:WaitForChild(head),0)
-end)
-
-end
---if x ~= ^
-end
---noface^
+--[[[noface^
 local ch = lplr.Character or lplr.CharacterAdded:Wait()
 if game.PlaceId == 6003728526 then
 getgenv().ulanonametag = function()
@@ -552,7 +567,8 @@ end
 
 end
 --ula gameid check end ^
-end
+end--]]
+
 --charfuncs ^
 --[[
 if game.PlaceId == 6907620011 then
@@ -564,5 +580,4 @@ getgenv().funcs_loaded = true
 --[[for i,v in pairs(listfiles("funcsdependents")) do
 loadfile(v)()
 end--]]
-charfuncs = nil
 end
