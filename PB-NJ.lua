@@ -25,12 +25,14 @@ local getn=clonefunction(table.getn)
 local tbi=clonefunction(table.insert)
 local setreadonly=clonefunction(setreadonly)
 local rndmmath=clonefunction(math.random)
+local shar=clonefunction(string.char)
 --local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
 
 local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
 local rawm=getrawmetatable(game)
 local indr=clonefunction(rawm.__index)
+local rnind=clonefunction(rawm.__newindex)
 --local rf=function(bx,x) for i,v in pairs(bx) do if rawequal(v,x) then return i end end end
 modif_funcs.modif={}
 modif_funcs.modif.req=newcclosure(function(...) local args={...} if type(rawget(arg,1))=='string' and hashfunc(rawget(arg,1))==rawget(srvs,'ky') then remve(args,1) args=unpack(args) print("request succeeded: ",args) rawget(modif_funcs,'req')(args) else print("request attempted: ",...) return true end end)
@@ -93,14 +95,14 @@ local function rndmstr(minim,lenim)
 local array = {}
 	local length = rndmmath(minim or 10,lenim or 20)
 	for i = 1, length do
-		array[i] = string.char(rndmmath(32, 126))
+		rawset(array,i,shar(rndmmath(32, 126)))
 	end
-	array=table.concat(array)
+	array=concat(array)
 	local rndm=rndmmath(1,4);
 	if rndm==1 then
-		array=array..tostring(rndmmath(1,9999999))
+		array=array..dothetostring(rndmmath(1,9999999))
 	elseif rndm==2 then
-		array=tostring(rndmmath(1,9999999))..array
+		array=dothetostring(rndmmath(1,9999999))..array
 	end
 return array
 end
