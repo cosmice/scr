@@ -1,4 +1,4 @@
-local clonefunction=clonefunction(clonefunction)
+local clonefunction=clonefunction(clonefunction) --schizo behavior dear sir
 local modif_funcs={}
 
 modif_funcs.req=clonefunction(syn.request)
@@ -30,7 +30,7 @@ local shar=clonefunction(string.char)
 local getnamecallmethod=clonefunction(getnamecallmethod)
 local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
-
+getgenv().iwbtg=true
 local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
 local rawm=getrawmetatable(game)
 local indr=clonefunction(rawm.__index)
@@ -51,7 +51,7 @@ modif_funcs.propn={}
 modif_funcs.modif.newprot=function(x,y,sy)
 tbi(rawget(modif_funcs,'protinst'),indr(x,y))
 rawset(rawget(modif_funcs,'toradora'),y,hookfunction(indr(x,y),newcclosure(function(...)
-if checkcaller() and x and ffind(rawget(modif_funcs,'protinst'),indr(x,y)) then print(...) return true end
+if checkcaller() and iwbtg and x and ffind(rawget(modif_funcs,'protinst'),indr(x,y)) then print(...) return true end
 return rawget(rawget(modif_funcs,'toradora'),y)(...)
 end)))
 if not ffind(rawget(modif_funcs,'superprotnms'),y) then tbi(rawget(modif_funcs,'superprotnms'),y) end
@@ -70,7 +70,7 @@ tbi(rawget(modif_funcs,'superprotinst'),indr(x,y)) end
 end
 modif_funcs.modif.newprot(game,'HttpPostAsync')
 modif_funcs.modif.newprot(game,'HttpGetAsync')
-modif_funcs.modif.newprot(game,'HttpGet')
+--modif_funcs.modif.newprot(game,'HttpGet')
 modif_funcs.modif.newprot(game,'HttpPost')
 modif_funcs.modif.blockins(game,'ScreenshotReady')
 modif_funcs.modif.newprot(rawget(srvs,'http'),'PostAsync')
@@ -112,8 +112,8 @@ end
 local newinsh
 newinsh=hookmetamethod(game,'__index',newcclosure(function(x,y,...)
 local cach=newinsh(x,y,...)
-if checkcaller() and cach and y and x and (ffind(rawget(modif_funcs,'superprotinst'),cach) or ffind(rawget(modif_funcs,'protinst'),x) and ffind(rawget(modif_funcs,'propn'),y) ) then
-print('attemped ind prot inst: '..y)
+if(checkcaller() and cach and y and x and (ffind(rawget(modif_funcs,'superprotinst'),cach) or ffind(rawget(modif_funcs,'protinst'),x) and ffind(rawget(modif_funcs,'propn'),y) )) and iwbtg then
+--print('attemped ind prot inst: '..y)
 if type(cach)=='string' then return rndmstr(5,30) else
 return end
 end
@@ -125,7 +125,7 @@ getgenv().getproperties=newcclosure(function(x,...)
 local ins=ongp(x,...)
 if not x or not ffind(rawget(modif_funcs,'protinst'),x) then return ins end
 for unholy,sinner in pairs(ins) do
-if ffind(rawget(modif_funcs,'propn'),unholy) or ffind(rawget(modif_funcs,'superprotinst'),sinner) then  
+if (ffind(rawget(modif_funcs,'propn'),unholy) or ffind(rawget(modif_funcs,'superprotinst'),sinner)) and iwbtg then  
 local sin=type(sinner)
 if sin=='string' then rawset(ins,unholy,rndmstr(4,glen(sinner))) elseif sin=='number' then rawset(ins,unholy,rndmmath(1,148541421)) end
 end
@@ -138,8 +138,9 @@ end
 local oem
 oem=hookmetamethod(game,'__namecall',newcclosure(function(x,anacalmonds,...)
 local nmc=getnamecallmethod()
-if checkcaller() and nmc and indr(x,nmc) and ffind(rawget(modif_funcs,'superprotnms'),nmc) and (not anacalmonds or not type(anacalmonds)=='string' or hashfunc(anacalmonds)~=rawget(srvs,'ky')) then --rawget to prevent .__index spying on firewall
+if iwbtg and (checkcaller() and nmc and indr(x,nmc) and ffind(rawget(modif_funcs,'superprotnms'),nmc) and (not anacalmonds or not type(anacalmonds)=='string' or hashfunc(anacalmonds)~=rawget(srvs,'ky'))) then --rawget to prevent .__index spying on firewall
 print('attempt on life: '..nmc..'     ..First Five Years Of Life')
+print(x,anacalmonds,...)
 return true
 end
 return oem(x,anacalmonds,...)
