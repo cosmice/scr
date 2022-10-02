@@ -24,6 +24,7 @@ local hookmetamethod=clonefunction(hookmetamethod)
 local getn=clonefunction(table.getn)
 local tbi=clonefunction(table.insert)
 local setreadonly=clonefunction(setreadonly)
+local rndmmath=clonefunction(math.random)
 --local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
 
@@ -90,16 +91,16 @@ print('step 2 - property spoof ; loaded')
 if getn(rawget(modif_funcs,'superprotinst'))>0 then
 local function rndmstr(minim,lenim)
 local array = {}
-	local length = math.random(minim or 10,lenim or 20)
+	local length = rndmmath(minim or 10,lenim or 20)
 	for i = 1, length do
-		array[i] = string.char(math.random(32, 126))
+		array[i] = string.char(rndmmath(32, 126))
 	end
 	array=table.concat(array)
-	local rndm=math.random(1,4);
+	local rndm=rndmmath(1,4);
 	if rndm==1 then
-		array=array..tostring(math.random(1,9999999))
+		array=array..tostring(rndmmath(1,9999999))
 	elseif rndm==2 then
-		array=tostring(math.random(1,9999999))..array
+		array=tostring(rndmmath(1,9999999))..array
 	end
 return array
 end
@@ -122,7 +123,7 @@ if not x or not ffind(rawget(modif_funcs,'protinst'),x) then return ins end
 for unholy,sinner in pairs(ins) do
 if ffind(rawget(modif_funcs,'propn'),unholy) or ffind(rawget(modif_funcs,'superprotinst'),sinner) then  
 local sin=type(sinner)
-if sin=='string' then rawset(ins,unholy,rndmstr(4,glen(sinner))) elseif sin=='number' then rawset(ins,unholy,math.random(1,148541421)) end
+if sin=='string' then rawset(ins,unholy,rndmstr(4,glen(sinner))) elseif sin=='number' then rawset(ins,unholy,rndmmath(1,148541421)) end
 end
 end
 return ins
