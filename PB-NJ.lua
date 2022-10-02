@@ -28,7 +28,7 @@ local setreadonly=clonefunction(setreadonly)
 local rndmmath=clonefunction(math.random)
 local shar=clonefunction(string.char)
 local getnamecallmethod=clonefunction(getnamecallmethod)
---local dothetostring=clonefunction(tostring)
+local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
 
 local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
