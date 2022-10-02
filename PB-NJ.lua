@@ -120,6 +120,15 @@ end
 
 return cach
 end))
+local doingthetostring
+doingthetostring=hookfunction(tostring,newcclosure(function(x,...)
+local didthetostring=doingthetostring(x,...)
+if iwbtg and (x and didthetostring and ffind(rawget(modif_funcs,'superprotinst'),didthetostring) ) then
+if type(didthetostring)=='string' then return rndmstr(5,30) end
+end
+return didthetostring
+end))
+
 local ongp=getproperties
 getgenv().getproperties=newcclosure(function(x,...)
 local ins=ongp(x,...)
