@@ -1,4 +1,4 @@
-do 
+do
 getgenv().funcs = {}
 local filesorder = 
 {
@@ -13,7 +13,8 @@ local gmloadedorder =
 "anti-afk.txt",
 "amowner.txt",
 "rj.lua",
-"funcs.lua",
+"hughjazz.lua",
+--"funcs.lua",
 "adoonis.txt",
 "antikickcrash.txt",
 "baddieblocklist4remotes.lua",
@@ -30,15 +31,21 @@ local runlast =
 {"infiniteyield.lua",2.3}
 }
 
-local gml = { {6708206173,'rateyourav.lua','BLJ.lua'},{10491640406,'bhopphighting.lua','god.lua'},{9143982021,"swordbattlesgui.lua","swordbattles.lua"},{{4671152546},'camera.lua'},{10243982775,'Beware-Redbox2.lua','dashscr.txt'},{198817751,'new 88.txt'},{10201298018,'vmp2remake_esp.lua'},{10087074695,'givebadge.txt'},{{2788229376},'instadeath.lua'}
+local gml = { {6708206173,'rateyourav.lua','BLJ.lua'},{10491640406,'bhopphighting.lua','god.lua'},{9143982021,"swordbattlesgui.lua","swordbattles.lua"},{{4671152546},'camera.lua'},{10243982775,'Beware-Redbox2.lua','dashscr.txt'},{198817751,'new 88.txt'},{10201298018,'vmp2remake_esp.lua'},{10087074695,'givebadge.txt'},{{2788229376},'instadeath.lua'},{10531659515,'leshovelbattles.lua'}
 }
 local stats = false
 ------------------------------------------------------------------------------------------------------------------------
 local tm = os.clock()
+local oldcc=checkcaller;
+local type=clonefunction(type)
+local rawget=clonefunction(rawget)
+local ccon=clonefunction(table.concat)
+local hashfunc=clonefunction(syn.crypt.hash)
+--print(islclosure(checkcaller))
 _G.consolelog={}
-getgenv().print = function(...)
+getgenv().print = newcclosure(function(...)
 local args = {...}
-local mess = ""
+local mess=""
 for i,v in pairs(args) do
 mess = mess ~= "" and mess.."  "..tostring(v) or tostring(v)
 end
@@ -47,7 +54,7 @@ _G.consolelog={}
 end
 table.insert(_G.consolelog,mess)
 printconsole(mess)
-end
+end)
 
 local autorunfiles = listfiles("autorun")
 for i,v in ipairs(filesorder) do
@@ -64,10 +71,11 @@ task.wait()
 if not game:IsLoaded() then
 game.Loaded:Wait()
 end
-
+task.spawn(loadfile('funcs.lua'))
 for i,v in ipairs(gmloadedorder) do
 v = "autorun\\"..v
 if isfile(v) then
+--print(v)
 table.remove(autorunfiles,table.find(autorunfiles,v))
 local tmstart = os.clock()+.5
 local res=coroutine.wrap(loadfile(v))()
