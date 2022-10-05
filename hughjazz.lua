@@ -2,6 +2,7 @@
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
 end
+local cmds=sus_cmds or {}
 local gnn={
 main = Instance.new("ScreenGui");
 _txtbox = Instance.new("TextBox");
@@ -10,6 +11,12 @@ txt = Instance.new("TextLabel");
 _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protectgui and (function(x) syn.protectgui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
+game:BindToClose(function()
+if gnn and gnn.event then
+gnn.event:Fire('closing') task.wait(.35)
+end
+end)
+
 gnn.main.Name = "main"
 gnn.main.Parent = gnn.gprot(x)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -47,7 +54,7 @@ gnn.txt.BackgroundTransparency = 1.000
 gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
-gnn.txt.Text = [[commands:
+gnn.txt.Text = cmds['Ctxt'] or [[commands:
 rj
 usave - save settings
 saves - toggle autosave (off by default)
@@ -81,7 +88,6 @@ gnn.fcks={}
 gnn.cns={}
 if isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
 mvars.rainbowins={gnn.txt,gnn._txtbox,gnn.txt2,gnn._close,gnn.cmdframe}
-local cmds=sus_cmds or {}
 cmds["cmds"]=cmds["cmds"] or function()
 		gnn._close.Active = true
 		gnn.cmdframe.Active = true
@@ -89,11 +95,11 @@ cmds["cmds"]=cmds["cmds"] or function()
 		gnn.cmdframe.Visible = true
 		gnn.txt.Visible=true gnn.txt.Active=true gnn.txt2.Visible=false gnn.txt2.Active=false
 end
-cmds['usave']=cmds['usave'] or function()
-funcs.save('FailedNovember.lua',mvars,true)
+cmds['usave']=cmds['usave'] or function(x)
+if type(x)=='table' or x=='closing' then funcs.save('FailedNovember.lua',mvars,true) end
 end
 cmds['saves']=cmds['saves'] or function()
-if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.saves=game.OnClose:Connect(cmds['usave']) while gnn.cns.saves do cmds['usave']() task.wait(mvars.saveintv) end end  
+if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.saves=gnn.event.Event:Connect(cmds['usave']) while gnn.cns.saves do cmds['usave']() task.wait(mvars.saveintv) end end  
 funcs.sendnotif("cmds/bambi.exe",vars.cns.saves and "hi" or "fucking idiot","rbxassetid://8119590978",4) 
 end
 cmds['savesint']=cmds['savesint'] or function(strd,plrarg)
@@ -235,5 +241,4 @@ task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v))() or v)
 task.wait(0)
 end
 end
-getgenv().sus_cmds=nil
 funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
