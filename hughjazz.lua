@@ -11,11 +11,6 @@ txt = Instance.new("TextLabel");
 _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protectgui and (function(x) syn.protectgui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
-game:BindToClose(function()
-if gnn and gnn.event then
-gnn.event:Fire('closing') task.wait(.35)
-end
-end)
 
 gnn.main.Name = "main"
 gnn.main.Parent = gnn.gprot(x)
@@ -96,10 +91,10 @@ cmds["cmds"]=cmds["cmds"] or function()
 		gnn.txt.Visible=true gnn.txt.Active=true gnn.txt2.Visible=false gnn.txt2.Active=false
 end
 cmds['usave']=cmds['usave'] or function(x)
-if type(x)=='table' or x=='closing' then funcs.save('FailedNovember.lua',mvars,true) end
+funcs.save('FailedNovember.lua',mvars,true)
 end
 cmds['saves']=cmds['saves'] or function()
-if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.saves=gnn.event.Event:Connect(cmds['usave']) while gnn.cns.saves do cmds['usave']() task.wait(mvars.saveintv) end end  
+if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.saves=game.Close:Connect(cmds['usave']) while gnn.cns.saves do cmds['usave']() task.wait(mvars.saveintv) end end  
 funcs.sendnotif("cmds/bambi.exe",vars.cns.saves and "hi" or "fucking idiot","rbxassetid://8119590978",4) 
 end
 cmds['savesint']=cmds['savesint'] or function(strd,plrarg)
