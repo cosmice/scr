@@ -13,7 +13,7 @@ event = Instance.new("BindableEvent");
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protectgui and (function(x) syn.protectgui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
 
 gnn.main.Name = "main"
-gnn.main.Parent = gnn.gprot(x)
+gnn.main.Parent = gnn.gprot(gnn.main)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gnn._txtbox.Name = "_txtbox"
 gnn._txtbox.Parent = gnn.main
