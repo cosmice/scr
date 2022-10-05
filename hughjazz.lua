@@ -2,7 +2,6 @@
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
 end
-if not game:IsLoaded() then game.Loaded:Wait() end
 local gnn={
 main = Instance.new("ScreenGui");
 _txtbox = Instance.new("TextBox");
@@ -36,7 +35,7 @@ gnn.cmdframe.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 gnn.cmdframe.Position = UDim2.new(0.376870751, 0, 0.309890121, 0)
 gnn.cmdframe.Size = UDim2.new(0.245578229, 0, 0.376923114, 0)
 gnn.cmdframe.Visible = false
-gnn.cmdframe.CanvasSize = UDim2.new(0, 0, 0.529999971, 0)
+--gnn.cmdframe.CanvasSize = UDim2.new(0, 0, 0.529999971, 0)
 gnn.cmdframe.Draggable=true
 gnn.cmdframe.AutomaticCanvasSize=3
 gnn.cmdframe.CanvasSize=UDim2.new(0.5,0,0,0)
@@ -50,6 +49,11 @@ gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
 gnn.txt.Text = [[commands:
 rj
+usave - save settings
+saves - toggle autosave (off by default)
+savesint - change autosave interval (arg[1]) (default: off, 15)
+rainbow - toggles rainbow ui, specify arg[1] to toggle 'full' ui rainbow
+kbind - changes keybind to next keypressed
 plugin commands:
 ]]
 gnn.txt.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -72,8 +76,11 @@ gnn._close.Font = Enum.Font.SourceSans
 gnn._close.Text = "close"
 gnn._close.TextColor3 = Color3.fromRGB(255, 255, 255)
 gnn._close.TextSize = 14.000
-local mvars={}
-mvars.kbind=Enum.KeyCode.BackSlash
+local mvars={['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15}
+gnn.fcks={}
+gnn.cns={}
+if isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
+mvars.rainbowins={gnn.txt,gnn._txtbox,gnn.txt2,gnn._close,gnn.cmdframe}
 local cmds=sus_cmds or {}
 cmds["cmds"]=cmds["cmds"] or function()
 		gnn._close.Active = true
@@ -82,10 +89,41 @@ cmds["cmds"]=cmds["cmds"] or function()
 		gnn.cmdframe.Visible = true
 		gnn.txt.Visible=true gnn.txt.Active=true gnn.txt2.Visible=false gnn.txt2.Active=false
 end
+cmds['usave']=cmds['usave'] or function()
+funcs.save('FailedNovember.lua',mvars,true)
+end
+cmds['saves']=cmds['saves'] or function()
+if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.saves=game.OnClose:Connect(cmds['usave']) while gnn.cns.saves do cmds['usave']() task.wait(mvars.saveintv) end end  
+funcs.sendnotif("cmds/bambi.exe",vars.cns.saves and "hi" or "fucking idiot","rbxassetid://8119590978",4) 
+end
+cmds['savesint']=cmds['savesint'] or function(strd,plrarg)
+plrarg=plrarg and tonumber(plrarg) if plrarg and plrarg > .9 then mvars.saveintv=plrarg end
+end
+gnn.fcks.rnbow=function()
+if mvars.rainbow then for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function satr(x,y) local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end table.foreach(getproperties(v),satr) satr=nil end end 
+else
+for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function ratr(x,y) v[x]=y v:SetAttribute(x,nil) end table.foreach(v:GetAttributes(),ratr) end end
+end
+while task.wait() and mvars.rainbow do
+local col=Color3.fromHSV(os.clock() % 5/5, 1, 1)
+gnn._txtbox.TextColor3=col
+gnn._txtbox.PlaceholderColor3=col
+if mvars.rainbowset then for i,v in pairs(mvars.rainbowins) do local propZ=getproperties(v) if propZ.TextColor3 then v.TextColor3=col elseif propZ.ScrollBarImageColor3 then v.ScrollBarImageColor3=col end propZ=nil end end
+end
+end
+
+if mvars.rainbow then task.spawn(gnn.fcks.rnbow) end
+cmds["rainbow"]=cmds["rainbow"] or function(strd,plrarg)
+mvars.rainbow=not mvars.rainbow
+mvars.rainbowset=plrarg and mvars.rainbow
+task.spawn(gnn.fcks.rnbow)
+end
+
 mvars.ck=function(kk)
 if kk.KeyCode~=Enum.KeyCode.Return then
 mvars.kbind=kk.KeyCode or mvars.kbind
 mvars.con:Disconnect() mvars.con=nil
+funcs.sendnotif("cmds\\amogus",tostring(mvars.kbind),"rbxassetid://6678521436",5)
 end
 end
 cmds["rj"]=cmds["rj"] or rj
@@ -144,7 +182,7 @@ task.defer(stfu,"")
 end
 end
 funcs.uip.InputBegan:Connect(onkeydown)
-local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn}}
+local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars}}
 local function merge(t,v)
 pst[t]=v
 end
@@ -165,8 +203,7 @@ if not ldfile or not nnnnnn then return end
 local nm=type(ldfile)=='table' and ldfile.Reservedpluginname or v
 table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
-local typ=type(c)
-if typ~='table' or c.reserved then continue end
+if type(c)~='table' or c.reserved then continue end
 if c.func then
 cmds[x]={c.func,c.args}
 end
