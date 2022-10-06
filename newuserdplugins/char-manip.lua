@@ -172,11 +172,11 @@ local plug={noclip={func=function()
 	
 	end};
 	["unview"]={func=function() workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() ; if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil return end end};
-	["cdfk"]={["func"]=vars.funcs.toggleuip,desc="toggle click flingkill (p+middleclick)";["args"]={"cdfkill"}};
-	["toolk"]={["func"]=function(strt,plrarg) if vars.toolk then vars.toolk:Disconnect() vars.toolk=nil else
+	["cdfk"]={["func"]=vars.funcs.toggleuip,["desc"]="toggle click flingkill (p+middleclick)";["args"]={"cdfkill"}};
+	["toolk"]={["desc"]="toolkill on comma + mmb or keybind [toolkey]";["func"]=function(strt,plrarg) if vars.toolk then vars.toolk:Disconnect() vars.toolk=nil else
 	vars.toolk=funcs.uip.InputBegan:Connect(vars.funcs.cdtk) end if strt[1]~="nn" then funcs.sendnotif("cmds/char-manip/bambi.exe",vars.toolk and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end};
 	["cap"]={["func"]=function() funcs.lplr:ClearCharacterAppearance() end;["desc"]="clear character appearance"};
-	["tk"]={["func"]=function(strt,nn)
+	["tk"]={["desc"]='toolkill arg[1] (should be in another plugin, technically char manip)';["func"]=function(strt,nn)
 	nn=nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model"))) or type(nn)=='string' and funcs.xgetplr(nn,true)
 	nn=nn and (nn:IsA("Player") and getchar(nil,nil,nn) or not nn:IsA("Player") and nn)
 	local nntb={}
@@ -398,9 +398,9 @@ local plug={noclip={func=function()
 	end
 	end};--]]
 	floatn={func=function(strt,plrarg) local nn=tonumber(plrarg) if nn then vars.floatn=nn end end,desc="set how under float part goes"};
-	["rvel"]={["func"]=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") or v:IsA("MeshPart") then v.Velocity=vars.zerozerozero v.RotVelocity=vars.zerozerozero end end end};
+	["rvel"]={["desc"]="reset character velocity";["func"]=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") or v:IsA("MeshPart") then v.Velocity=vars.zerozerozero v.RotVelocity=vars.zerozerozero end end end};
 	["ncd"]={['func']=function() for i,v in pairs(workspace:GetDescendants()) do if v:IsA('ClickDetector') then v.MaxActivationDistance=9e9 end end end;['desc']='expand cd limits'};
-	["god"]={func=function()
+	["god"]={["desc"]="basic everyday god command";["func"]=function()
 	local Cam = workspace.CurrentCamera
 	local Pos, Char = Cam.CFrame, getchar()
 	local Human = Char and Char:FindFirstChildWhichIsA("Humanoid")
@@ -426,8 +426,8 @@ local plug={noclip={func=function()
 	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},["desc"]="repeatedly sets your JumpPower"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
 	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
-	["nstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false},["aliases"]={["nostun"]="nstun";["enstun"]="estun"}};
-	["estun"]={["func"]=vars.funcs.nilvar;["args"]="loopPlatformStand"};
+	["nstun"]={["desc"]="disable being stunned";["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false},["aliases"]={["nostun"]="nstun";["enstun"]="estun"}};
+	["estun"]={["desc"]="enable being stunned";["func"]=vars.funcs.nilvar;["args"]="loopPlatformStand"};
 	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};["desc"]="sets walkspeed"};
 	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};["desc"]="sets jumppower"};
 	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false};["aliases"]={["unlay"]="unstun"}};
@@ -588,7 +588,7 @@ task.spawn(function() -- spawn, wait, delay, and Debris are ALL SO BAD. NEVER RE
 end)
 getgenv().bhopinfo.setg()
 end};
-	["minzoom"]={["func"]=function(strt,nn,str,cmd,arg)
+	["minzoom"]={["desc"]="also try mz/nz";["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMinZoomDistance=nn
 	end};
 	["nzoom"]={["func"]=function() funcs.sendnotif("zoom:","min: "..funcs.lplr.CameraMinZoomDistance.." max: "..funcs.lplr.CameraMaxZoomDistance,"rbxassetid://6678521436",5) end;["desc"]="notifies your min/max zoom"};
@@ -618,7 +618,13 @@ end};
 	hnn.Health=0
 	end
 	end,desc="suicide-hp=0"};
-	Reservedpluginname="base.char-manipulation"
+	["togfall"]={["func"]=function()
+	local hum=funcs.wfcofclass(getchar(),"Humanoid",50)
+	if hum then
+	hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,not hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown))
+	end
+	end;["desc"]="toggle fallingdown state, detectable"};
+	["Reservedpluginname"]="base.char-manipulation"
 	}
 
 
