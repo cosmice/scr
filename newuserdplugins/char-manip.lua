@@ -116,7 +116,7 @@ end
 	end
 	local function ochar(ch)
 	if not vars[strnd] and vars[strnd.."1"] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil return end
-	local hmnoid=WaitForChildOfClass(ch,"Humanoid")
+	local hmnoid=funcs.wfcofclass(ch,"Humanoid")
 	if hmnoid then
 	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
 	end
