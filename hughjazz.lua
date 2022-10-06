@@ -211,7 +211,7 @@ printconsole(v.."- "..err,171,199,80)
 end
 local nnnnnn
 local ldfile
-local function pl() ldfile=type(v)=='table' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end ; if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
+local function pl() ldfile=type(v)=='function' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end ; if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
 xpcall(pl,HandlePluginError)
 if not ldfile or not nnnnnn then return end
 local nm=type(ldfile)=='table' and ldfile.Reservedpluginname or v
@@ -245,7 +245,7 @@ end
 end
 if cmds.ExtraPlugins then
 for i,v in pairs(cmds.ExtraPlugins) do
-task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v))() or v)
+task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v)) or v)
 task.wait(0)
 end
 end
