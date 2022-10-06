@@ -18,6 +18,10 @@ end
 		vars.noclipping=nil
 		end
 	end
+	vars.funcs.novel=function()
+	local rr=getchar('Humanoid',true).RootPart or getchar('Humanoid',true):GetPropertyChangedSignal('RootPart')
+	if rr then rr.Velocity=vars.zerozerozero rr.RotVelocity=vars.zerozerozero end
+	end
 	vars.funcs.cdfkill=function(kk)
 		if kk.UserInputType == Enum.UserInputType.MouseButton3 and funcs.uip:IsKeyDown(Enum.KeyCode.P) and vars.maus.Target then
 			powersupply.cmds["klink"][1]({},vars.maus.Target)
@@ -379,6 +383,7 @@ local plug={noclip={func=function()
 	end};--]]
 	floatn={func=function(strt,plrarg) local nn=tonumber(plrarg) if nn then vars.floatn=nn end end,desc="set how under float part goes"};
 	["rvel"]={["func"]=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") or v:IsA("MeshPart") then v.Velocity=vars.zerozerozero v.RotVelocity=vars.zerozerozero end end end};
+	["ncd"]={['func']=function() for i,v in pairs(workspace:GetDescendants()) do if v:IsA('ClickDetector') then v.MaxActivationDistance=9e9 end end end;['desc']='expand cd limits'};
 	["god"]={func=function()
 	local Cam = workspace.CurrentCamera
 	local Pos, Char = Cam.CFrame, getchar()
