@@ -329,7 +329,7 @@ local plug={noclip={func=function()
 				fakebp.Parent=fakechar
 				end
 				end
-				local fakehum=WaitForChildOfClass(getchar(),"Humanoid"):Clone()
+				local fakehum=funcs.wfcofclass(getchar(),"Humanoid"):Clone()
 				fakehum.Parent=fakechar
 				local ffind=table.find
 				--getgenv().funcs.speedbpenabled=not getgenv().funcs.speedbpenabled
@@ -370,7 +370,7 @@ local plug={noclip={func=function()
 				end;
 				return old_newindex(self,ind,newval,...);
 				end))--]]
-				local hum=WaitForChildOfClass(getchar(),"Humanoid")
+				local hum=funcs.wfcofclass(getchar(),"Humanoid",99)
 				local rgtyp=hum.RigType
                 for _, signal in pairs(getconnections(hum.Changed)) do signal:Disable() nc+=1 task.wait() end
 				   for _, signal in pairs(getconnections(hum.ChildAdded)) do signal:Disable() nc+=1 task.wait() end
