@@ -145,7 +145,7 @@ local plug={noclip={func=function()
 	local rp=getchar():FindFirstChild("HumanoidRootPart")
 	while vars.float and rp and rp.Parent do 
 	funcs.rawmeta.__newindex(vars.float,"CFrame",rp.CFrame*CFrame.new(0,-vars.floatn,0))
-	task.wait()
+	task.wait(0)
 	end
 	funcs.deb:AddItem(vars.float,0) vars.float=nil
 	end};
@@ -158,14 +158,14 @@ local plug={noclip={func=function()
 	if plr then
 	if not (plr.Character or plr.CharacterAdded:Wait()).PrimaryPart then plr.Character:GetPropertyChangedSignal("PrimaryPart"):Wait() end
 	local function viewchanged()
-	workspace.CurrentCamera.CameraSubject=plr.Character
+	if plr then workspace.CurrentCamera.CameraSubject=plr.Character or plr.CharacterAdded:Wait() end
 	end
 	viewchanged()
 	local function specadded(ch)
 	if ch and not ch.PrimaryPart then ch:GetPropertyChangedSignal("PrimaryPart"):Wait() end
 	workspace.CurrentCamera.CameraSubject=ch
 	end
-	vars.viewchanged=workspace.CurrentCamera:GetPropertyChangedSignal("CameraSubject"):Connect(viewChangedFunc)
+	vars.viewchanged=workspace.CurrentCamera:GetPropertyChangedSignal("CameraSubject"):Connect(viewchanged)
 	vars.specadd=plr.CharacterAdded:Connect(specadded)
 	
 	end
@@ -439,7 +439,7 @@ local plug={noclip={func=function()
 	["maxzoom"]={["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMaxZoomDistance=nn
 	end;["aliases"]={["mz"]="maxzoom";["nz"]="minzoom"}};
-	["bhop"]={['desc']='bunnyhop (arg[1]=speed arg[2]=speed/arg[2])';["func"]=function(strt,sarg,str,cmd,sargtb)
+	["bhop"]={['desc']='bunnyhop (arg[1]=speed arg[2]=speed/arg[2]) (default: 3 13)';["func"]=function(strt,sarg,str,cmd,sargtb)
 	local aa=getgenv().bhopinfo and true
 	sarg=sarg and tonumber(sarg) or 3
 	getgenv().bhopinfo = {
