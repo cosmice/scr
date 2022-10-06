@@ -1,11 +1,11 @@
 getgenv().bhopinfo = {
   CurrentVel = 0, -- DONT TOUCH
   VelCap = 3,
-  JumpBoostAmt=3/5,
+  JumpBoostAmt=3/13,
   groundamt=4,
   RolvePatch=false, -- enables autojumping
   JPatch=false, -- if game somehow does not fire JumpRequest causing it to break
-  evpatch=true, --stops disabling jumping
+  evpatch=false, --stops disabling jumping
 }
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
@@ -98,7 +98,7 @@ return oldst_typ
 elseif #args>=1 and nmc=="SetStateEnabled" and ins==hum and args[1]==sttyp then
 oldst_typ=not args[2] and false or true
 return
-elseif #args>=1 and nmc=="GetAttribute" and args[1]=="JumpingEnabled" then
+elseif #args==1 and nmc=="GetAttribute" and args[1]=="JumpingEnabled" then
 return true
 end
 
