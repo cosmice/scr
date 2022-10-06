@@ -333,7 +333,7 @@ getgenv().funcs.xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admi
             end
         end
 	   for i,v in pairs(curp) do
-            if v.DisplayName:lower():sub(1, #String) == String:lower() then
+            if not table.find(Found,v) and v.DisplayName:lower():sub(1, #String) == String:lower() then
                 table.insert(Found,v)
             end
         end
