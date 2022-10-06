@@ -2,7 +2,8 @@
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
 end
-local cmds=sus_cmds or {}
+local cmds=getgenv().sus_cmds and table.clone(getgenv().sus_cmds) or {}
+getgenv().sus_cmds=nil
 local gnn={
 main = Instance.new("ScreenGui");
 _txtbox = Instance.new("TextBox");
