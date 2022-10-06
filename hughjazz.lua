@@ -56,6 +56,7 @@ saves - toggle autosave (off by default)
 savesint - change autosave interval (arg[1]) (default: off, 15)
 rainbow - toggles rainbow ui, specify arg[1] to toggle 'full' ui rainbow
 kbind - changes keybind to next keypressed
+gclose - deletegui
 plugin commands:
 ]]
 gnn.txt.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -78,7 +79,7 @@ gnn._close.Font = Enum.Font.SourceSans
 gnn._close.Text = "close"
 gnn._close.TextColor3 = Color3.fromRGB(255, 255, 255)
 gnn._close.TextSize = 14.000
-local mvars={['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15}
+local mvars={['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15;['mainthr']=coroutine.running()}
 gnn.fcks={}
 gnn.cns={}
 if isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
@@ -90,6 +91,17 @@ cmds["cmds"]=cmds["cmds"] or function()
 		gnn.cmdframe.Visible = true
 		gnn.txt.Visible=true gnn.txt.Active=true gnn.txt2.Visible=false gnn.txt2.Active=false
 end
+cmds["gclose"]=cmds["gclose"] or function()
+local function aaaaaaaaAAaa()
+local mainthr=mvars.mainthr
+for i,v in pairs(mvars) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end mvars=nil
+for i,v in pairs(gnn) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end gnn=nil
+for i,v in pairs(cmds) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end cmds=nil
+task.cancel(mainthr)
+mainthr=nil
+end
+task.spawn(aaaaaaaaAAaa)
+end
 cmds['usave']=cmds['usave'] or function(x)
 funcs.save('FailedNovember.lua',mvars,true)
 end
@@ -98,18 +110,18 @@ if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.
 funcs.sendnotif("cmds/bambi.exe",vars.cns.saves and "hi" or "fucking idiot","rbxassetid://8119590978",4) 
 end
 cmds['savesint']=cmds['savesint'] or function(strd,plrarg)
-plrarg=plrarg and tonumber(plrarg) if plrarg and plrarg > .9 then mvars.saveintv=plrarg end
+plrarg=tonumber(plrarg or 15) if plrarg > .9 then mvars.saveintv=plrarg end
 end
 gnn.fcks.rnbow=function()
 if mvars.rainbow then for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function satr(x,y) local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end table.foreach(getproperties(v),satr) satr=nil end end 
 else
 for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function ratr(x,y) v[x]=y v:SetAttribute(x,nil) end table.foreach(v:GetAttributes(),ratr) end end
 end
-while task.wait() and mvars.rainbow do
+while gnn and gnn._txtbox and mvars and mvars.rainbow do
 local col=Color3.fromHSV(os.clock() % 5/5, 1, 1)
 gnn._txtbox.TextColor3=col
 gnn._txtbox.PlaceholderColor3=col
-if mvars.rainbowset then for i,v in pairs(mvars.rainbowins) do local propZ=getproperties(v) if propZ.TextColor3 then v.TextColor3=col elseif propZ.ScrollBarImageColor3 then v.ScrollBarImageColor3=col end propZ=nil end end
+if mvars.rainbowset then for i,v in pairs(mvars.rainbowins) do local propZ=getproperties(v) if propZ.TextColor3 then v.TextColor3=col elseif propZ.ScrollBarImageColor3 then v.ScrollBarImageColor3=col end propZ=nil end end task.wait()
 end
 end
 
@@ -182,7 +194,7 @@ gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
 end
 end
-funcs.uip.InputBegan:Connect(onkeydown)
+gnn.Reserved_maintype=funcs.uip.InputBegan:Connect(onkeydown)
 local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars}}
 local function merge(t,v)
 pst[t]=v
