@@ -1,12 +1,15 @@
-local pind={}
-pind["base"]={
-["avatar-edit"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/avatar_edit.lua',"2/avatar editing cmds"};
-["char-manip"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/char_manip.lua',"character manipulation/float,noclip,god,reset,dreset,etc."};
-["icepoolshook"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/icepoolshook.lua',"game specific commands, makes hughjazz be a hub."};
+local pind={["base"]={
+["avatar-edit"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/avatar_edit.lua',"2/avatar editing cmds"};
+["char-manip"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/char-manip.lua',"character manipulation/float,noclip,god,reset,dreset,etc."};
+["icepoolshook"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/icepoolshook.lua',"game specific commands, makes hughjazz be a hub."};
 ["toolthing"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/toolthing.lua',"Z - kidnap M - hell N - Void B - Refresh/refresh,gtool,void,etc"};
-["tp-cmds"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
-["plugstore"]={'https://raw.githubusercontent.com/exceptional0/scr/main/newuserdplugins/plugstore.lua',"plug store"};
-["ex"]={'https://raw.githubusercontent.com/exceptional0/scr/main/newuserdplugins/example.lua',"example"}
+["tp-cmds"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
+["plugstore"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua',"plug store"}
+};
+["test"]={
+["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
+}
+
 }
 local plugss={
 Init=function(err,ldplug,gui)
@@ -46,11 +49,11 @@ plug.Reservedpluginname="base.plug-store" --a
 plug.pgsave={['func']=function(strd,pa)
 
 if pind[pa] then if not isfolder("November") then makefolder("November") end 
-local function pgsave(x,y) 
-local plugd=funcs.regularcall(pcall,game.HttpGet,game,y)
-if plugd then writefile("November\\"..x..".lua",plugd) end
-end
-table.foreach(pind[pa],pgsave) pgsave=nil end
+for x,y in pairs(pind[pa]) do 
+local plugs,plugd=pcall(game.HttpGet,game,type(y)=='table' and y[1] or y)
+if plugs and plugd then writefile("November\\"..x..".lua",plugd) end task.wait(.4)
+end end
+funcs.sendnotif('pstore','saved as many as possible','',5)
 end;['desc']='save an entire plugin group, does not load them in'}
 
 return plug
