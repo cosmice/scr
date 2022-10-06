@@ -45,10 +45,10 @@ local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",normalizebl
 return p and str[1] or str
 end
 
-funcs.regularcall=function(xy,yx,...) --i hate the fact pcall/xpcall returns multiple arguments with a burning passion
-local s,r=xy(yx,...)
-return s and r --only return r if function yx succeeded, so you don't have to make another local and do another check if s is true, just if r isnt nil
-end
+funcs.regularcall=newcclosure(function(xy,...) --i hate the fact pcall/xpcall returns multiple arguments with a burning passion
+local s,r=xy(...)
+if s then return r end
+end)
 
 funcs.rndmstr=function(minim,lenim)
 local array = {}
@@ -326,11 +326,17 @@ end
 getgenv().funcs.xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admin/oofkohls v2
     local Found = {}
     local Target = String:lower()
-        for i,v in pairs(game.Players:GetPlayers()) do
+	local curp=playerservice:GetPlayers()
+        for i,v in pairs(curp) do
             if v.Name:lower():sub(1, #String) == String:lower() then
                 table.insert(Found,v)
             end
-        end    
+        end
+	   for i,v in pairs(curp) do
+            if v.DisplayName:lower():sub(1, #String) == String:lower() then
+                table.insert(Found,v)
+            end
+        end
     return not mode and Found or Found[1]    
 end
 getgenv().funcs.turtlespyload = function()
