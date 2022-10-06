@@ -1,10 +1,18 @@
-local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3}
+local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
 end
 	vars.zerozerozero=Vector3.new(0,0,0);
 	vars.maus=funcs.lplr:GetMouse()
+	
+	vars.funcs.chk=function(kk)
+	if kk.KeyCode~=Enum.KeyCode.Return then
+	vars.cdtkk=kk.KeyCode or vars.cdtkk
+	vars.cdtkkc:Disconnect() vars.cdtkkc=nil
+	funcs.sendnotif("cmds\\amogus",tostring(vars.cdtkk),"rbxassetid://6678521436",5)
+	end
+	end
 	vars.funcs.nclip=function()
 	local ch=getchar()
 		if ch ~= nil then
@@ -18,20 +26,28 @@ end
 		vars.noclipping=nil
 		end
 	end
+	
+	
 	vars.funcs.novel=function()
 	local rr=getchar('Humanoid',true).RootPart or getchar('Humanoid',true):GetPropertyChangedSignal('RootPart')
 	if rr then rr.Velocity=vars.zerozerozero rr.RotVelocity=vars.zerozerozero end
 	end
+	
+	
 	vars.funcs.cdfkill=function(kk)
 		if kk.UserInputType == Enum.UserInputType.MouseButton3 and funcs.uip:IsKeyDown(Enum.KeyCode.P) and vars.maus.Target then
 			powersupply.cmds["klink"][1]({},vars.maus.Target)
 		end
 	end
+	
+	
 	vars.funcs.cdtk=function(kk)
-		if kk.UserInputType == Enum.UserInputType.MouseButton3 and funcs.uip:IsKeyDown(Enum.KeyCode.Comma) and vars.maus.Target then
+		if (vars.cdtkk~=Enum.KeyCode.Comma or kk.UserInputType==Enum.UserInputType.MouseButton3) and funcs.uip:IsKeyDown(vars.cdtkk) and vars.maus.Target then
 			powersupply.cmds["tk"][1]({},vars.maus.Target)
 		end
 	end
+	
+	
 	vars.funcs.ft=function(v,nn)
 	firetouchinterest(getchar(nil,nil,nn):FindFirstChildWhichIsA("BasePart") or getchar(nil,nil,nn):FindFirstChildWhichIsA("MeshPart"),v.Parent,0) firetouchinterest(getchar(nil,nil,nn):FindFirstChildWhichIsA("BasePart") or getchar(nil,nil,nn):FindFirstChildWhichIsA("MeshPart"),v.Parent,1)
 	end
@@ -158,12 +174,7 @@ local plug={noclip={func=function()
 	["unview"]={func=function() workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() ; if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil return end end};
 	["cdfk"]={["func"]=vars.funcs.toggleuip,desc="toggle click flingkill (p+middleclick)";["args"]={"cdfkill"}};
 	["toolk"]={["func"]=function(strt,plrarg) if vars.toolk then vars.toolk:Disconnect() vars.toolk=nil else
-	local function cdtk(kk)
-		if kk.UserInputType == Enum.UserInputType.MouseButton3 and funcs.uip:IsKeyDown(Enum.KeyCode.Comma) and vars.maus.Target then
-			powersupply.cmds["tk"][1]({plrarg},vars.maus.Target)
-		end
-	end
-	vars.toolk=funcs.uip.InputBegan:Connect(cdtk) end if strt[1]~="nn" then funcs.sendnotif("cmds/char-manip/bambi.exe",vars.toolk and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end};
+	vars.toolk=funcs.uip.InputBegan:Connect(vars.funcs.cdtk) end if strt[1]~="nn" then funcs.sendnotif("cmds/char-manip/bambi.exe",vars.toolk and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end};
 	["cap"]={["func"]=function() funcs.lplr:ClearCharacterAppearance() end;["desc"]="clear character appearance"};
 	["tk"]={["func"]=function(strt,nn)
 	nn=nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model"))) or type(nn)=='string' and funcs.xgetplr(nn,true)
@@ -193,8 +204,12 @@ local plug={noclip={func=function()
 	if v and nn and (not maxdis or (nn.Position-v.Position)<=maxdis) then 
 	tl:Activate()
 	for intv,xv in pairs(nntb) do
+	for i =1,19 do
+	if xv then
 	firetouchinterest(v,xv,0)
 	firetouchinterest(v,xv,1)
+	end
+	end
 	funcs.runs.RenderStepped:Wait()
 	end
 	else
@@ -205,6 +220,7 @@ local plug={noclip={func=function()
 	if hk and hk.justquit then hk.justquit() end hl=nil tl=nil orp=nil nn=nil nntb=nil end
 	end};
 	["ftime"]={["func"]=function(strt,nn) vars.flingtime=nn and tonumber(nn) or vars.flingtime end;["desc"]="change flingtime"};
+	['toolkey']={['func']=vars.funcs.toggleuip;['desc']='change toolk keybind';['args']={'cdtkkc','chk'}};
 	["klink"]={["func"]=function(strt,nn,str,cmd,arg) 
 		local tvars={}	
 		tvars.target = nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model")) or type(nn)=='string' and funcs.xgetplr(nn,true))
