@@ -2,12 +2,15 @@ local pind={["base"]={
 ["avatar-edit"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/avatar_edit.lua',"2/avatar editing cmds"};
 ["char-manip"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/char-manip.lua',"character manipulation/float,noclip,god,reset,dreset,etc."};
 ["icepoolshook"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/icepoolshook.lua',"game specific commands, makes hughjazz be a hub."};
-["toolthing"]={'https://github.com/exceptional0/scr/raw/main/newuserdplugins/toolthing.lua',"Z - kidnap M - hell N - Void B - Refresh/refresh,gtool,void,etc"};
+["toolthing"]={'https://github.com/6yNuiC9/scr/raw/main/newuserdplugins/toolthing.lua',"Z - kidnap M - hell N - Void B - Refresh/refresh,gtool,void,etc"};
 ["tp-cmds"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
 ["plugstore"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua',"plug store"}
 };
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
+};
+["thbase"]={
+['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua',""}
 }
 
 }
