@@ -42,6 +42,17 @@ ldplug(loadstring(plug)())
 funcs.sendnotif("loaded/plrarg/"..strt[1],"loaded",5)
 end,desc="saves plug from store: psave base plugstore"}
 plug.Reservedpluginname="base.plug-store" --a
+
+plug.pgsave={['func']=function(strd,pa)
+
+if pind[pa] then if not isfolder("November") then makefolder("November") end 
+local function pgsave(x,y) 
+local plugd=funcs.regularcall(pcall,game.HttpGet,game,y)
+if plugd then writefile("November\\"..x..".lua",plugd) end
+end
+table.foreach(pind[pa],pgsave) pgsave=nil end
+end;['desc']='save an entire plugin group, does not load them in'}
+
 return plug
 end
 }
