@@ -46,7 +46,6 @@ gnn.cmdframe.CanvasSize=UDim2.new(0.5,0,0,0)
 
 gnn.txt.Name = "txt"
 gnn.txt.Parent = gnn.cmdframe
-gnn.txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 gnn.txt.BackgroundTransparency = 1.000
 gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
@@ -154,7 +153,7 @@ local aliases={}
 
 -- Scripts:
 
-gnn.cmdfunc=function(x) 
+gnn.cmdfunc=function(x,realx) 
 local strd=string.split(x," ")
 if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
  if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" then table.insert(gnn.cmdhistory,x) end
@@ -165,16 +164,16 @@ return end
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end if plrarg=='inf' or plrarg=='math.huge' then plrarg=math.huge end
 if type(cmds[cmdsequel])=='function' then
-cmds[cmdsequel](strd,plrarg,x,cmdsequel)
+cmds[cmdsequel](strd,plrarg,x,cmdsequel,realx)
 elseif type(cmds[cmdsequel])=='table' then
-cmds[cmdsequel][1](strd,plrarg,x,cmdsequel,cmds[cmdsequel][2])
+cmds[cmdsequel][1](strd,plrarg,x,cmdsequel,cmds[cmdsequel][2],realx)
 end
 
 end
 
 	local function onfocus(x)
 		if x then
-			gnn.cmdfunc(gnn._txtbox.Text:lower())
+			gnn.cmdfunc(gnn._txtbox.Text:lower(),gnn._txtbox.Text)
 		end
 	end
 	gnn.Reserved_onfocus=gnn._txtbox.FocusLost:Connect(onfocus)
