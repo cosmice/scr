@@ -11,6 +11,7 @@ cmdframe = Instance.new("ScrollingFrame");
 txt = Instance.new("TextLabel");
 _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
+plugsloaded = Instance.new("BindableEvent");
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
 
 gnn.main.Name = "main"
@@ -201,6 +202,9 @@ end
 txtfocused,cmdfocused=nil,nil
 end
 gnn.Reserved_maintype=funcs.uip.InputBegan:Connect(onkeydown)
+
+--plugins
+
 local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars}}
 local function merge(t,v)
 pst[t]=v
@@ -209,6 +213,11 @@ table.foreach(getrenv(),merge)
 table.foreach(getgenv(),merge)
 pst.powersupply.pst=pst
 merge=nil
+
+local counter=cmds.ExtraPlugins and #cmds.ExtraPlugins
+local fym=isfolder("November") and listfiles("November")
+counter=fym and #fym
+
 local function ldplug(v)
 local tnstr={}
 local function HandlePluginError(err)
@@ -237,13 +246,14 @@ aliases[i]=v
 end
 end
 end
+counter-=1
+if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire('plugins loaded') end
 gnn.txt.Text=gnn.txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
 end
 pst.powersupply.ldplug=ldplug
 
---plugins
-if isfolder("November") then
-for i,v in pairs(listfiles("November")) do
+if fym then
+for i,v in pairs(fym) do
 task.spawn(ldplug,v)
 task.wait(0)
 end
@@ -254,4 +264,5 @@ task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v)) or v)
 task.wait(0)
 end
 end
+
 funcs.sendnotif("cmds r sus","loaded","rbxassetid://6678521436",5)
