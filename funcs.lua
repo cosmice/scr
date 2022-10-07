@@ -99,7 +99,7 @@ con = funcs.uip.InputBegan:Connect(function(inpuut,proc)
 if inpuut.UserInputType == Enum.UserInputType.Keyboard and funcs.uip:IsKeyDown(Enum.KeyCode.Q) then
 if inpuut.KeyCode == Enum.KeyCode.X then
 getgenv().XxautocxX = not getgenv().XxautocxX
-if XxautocxX then funcs.sendnotif("autoclicker","enabled","rbxassetid://8209859518",3) else funcs.sendnotif("autoclicker","disabled","rbxassetid://8209859518",3) end
+if XxautocxX then funcs.sendnotif("autoclicker","enabled (q+x)","rbxassetid://8209859518",3) else funcs.sendnotif("autoclicker","disabled","rbxassetid://8209859518",3) end
 while XxautocxX and XxmclickxX do
 mouse1click()
 mouse1click()
