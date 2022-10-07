@@ -156,7 +156,7 @@ local aliases={}
 gnn.cmdfunc=function(x) 
 local strd=string.split(x," ")
 if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
-table.insert(gnn.cmdhistory,x)
+if x~="" then table.insert(gnn.cmdhistory,x) end
 local cmdsequel,plrarg=strd[1],strd[2]
 if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return
 elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end end 
@@ -190,11 +190,15 @@ gnn._txtbox.Text = ""
 end
 local function onkeydown(x)
 local txtfocused = funcs.uip:GetFocusedTextBox()
-if txtfocused then return end
+local cmdfocused=txtfocused==gnn._txtbox
+if txtfocused and not cmdfocused then return end
 if x.KeyCode == mvars.kbind then
 gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
+elseif cmdfocused and x.KeyCode==Enum.KeyCode.Up then
+local lastcmd=gnn.cmdhistory[#gnn.cmdhistory] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil
 end
+txtfocused,cmdfocused=nil,nil
 end
 gnn.Reserved_maintype=funcs.uip.InputBegan:Connect(onkeydown)
 local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars}}
