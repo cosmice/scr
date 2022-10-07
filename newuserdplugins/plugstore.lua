@@ -12,6 +12,9 @@ local pind={["base"]={
 };
 ["thbase"]={
 ['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua',""}
+};
+["experimental"]={
+['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua',""}
 }
 
 }
@@ -57,7 +60,7 @@ for x,y in pairs(pind[pa]) do
 local plugs,plugd=pcall(game.HttpGet,game,type(y)=='table' and y[1] or y)
 if plugs and plugd then writefile("November\\"..x..".lua",plugd) end task.wait(.4)
 end end
-funcs.sendnotif('pstore','saved as many as possible','',5)
+funcs.sendnotif('pstore',pind[pa] and 'saved as many as possible' or 'plug-group not found','',5)
 end;['desc']='save an entire plugin group, does not load them in'}
 
 return plug
