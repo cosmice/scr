@@ -55,6 +55,7 @@ local Char=getchar()
 	funcs.lplr.Character = Char
 	funcs.deb:AddItem(newChar,0)
 end,desc="refresh character"};
+['f3x']={['func']=function() loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)() end;['desc']='building tools, untrustworthy loadstring'};
 Reservedpluginname="base.tool-manipulation"
 }
 
