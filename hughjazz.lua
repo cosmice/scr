@@ -214,9 +214,9 @@ table.foreach(getgenv(),merge)
 pst.powersupply.pst=pst
 merge=nil
 
-local counter=cmds.ExtraPlugins and #cmds.ExtraPlugins
+local counter=cmds.ExtraPlugins and #cmds.ExtraPlugins or 0
 local fym=isfolder("November") and listfiles("November")
-counter=fym and #fym
+counter=fym and #fym+counter or counter
 
 local function ldplug(v)
 local tnstr={}
@@ -247,7 +247,7 @@ end
 end
 end
 counter-=1
-if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire('plugins loaded') end
+if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end
 gnn.txt.Text=gnn.txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
 end
 pst.powersupply.ldplug=ldplug
