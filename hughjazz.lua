@@ -163,10 +163,14 @@ elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=
 return end
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end if plrarg=='inf' or plrarg=='math.huge' then plrarg=math.huge end
-if type(cmds[cmdsequel])=='function' then
+local TheSequelGenre=type(cmds[cmdsequel])
+if TheSequelGenre=='function' then
 cmds[cmdsequel](strd,plrarg,x,cmdsequel,realx)
-elseif type(cmds[cmdsequel])=='table' then
+elseif TheSequelGenre=='table' and not cmds[cmdsequel][3] then
 cmds[cmdsequel][1](strd,plrarg,x,cmdsequel,cmds[cmdsequel][2],realx)
+elseif TheSequelGenre=='table' then
+cmds[cmdsequel][1](unpack(cmds[cmdsequel][2]))
+end
 end
 
 end
@@ -232,7 +236,7 @@ table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
 if type(c)~='table' or c.reserved then continue end
 if c.func then
-cmds[x]={c.func,c.args}
+cmds[x]={c.func,c.args,c.onlypass}
 end
 if c.desc then
 table.insert(tnstr,x.."- "..c.desc)
