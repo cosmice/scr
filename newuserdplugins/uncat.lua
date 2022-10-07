@@ -22,7 +22,7 @@ vars.funcs={}
 	local stt=os.clock()
 	local con
 	con=funcs.runs.Heartbeat:Connect(function()
-	if x and x.Parent and vars.flingnet and os.clock()-stt<4 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con=nil end
+	if x and x.Parent and vars.flingnet and os.clock()-stt<6 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con=nil end
 	end)
 	end
 	vars.funcs.setsimradius=function(x,y)
@@ -101,7 +101,7 @@ while vars.flingnet do
 vars.funcs.setsimradius(9e9,9e9)
 local chc,chz=getchar():GetBoundingBox()
 chz*=6
-for i,v in pairs(workspace:GetPartBoundsInBox(chc,chz)) do if not v:IsDescendantOf(getchar()) and not v:FindFirstChild(vars.bav.Name) and (v:IsA'BasePart' or v:IsA'MeshPart') and not v.Anchored then local tcl=vars.bav:Clone() vars.funcs.theloop(tcl) tcl.Parent=v end task.wait() end
+for i,v in pairs(workspace:GetPartBoundsInBox(chc,chz)) do if not v:IsDescendantOf(getchar()) and not v:FindFirstChild(vars.bav.Name) and (v:IsA'BasePart' or v:IsA'MeshPart') and not v.Anchored and isnetworkowner(v) then local tcl=vars.bav:Clone() vars.funcs.theloop(tcl) tcl.Parent=v end task.wait() end
 funcs.runs.RenderStepped:Wait()
 end vars.funcs.setsimradius(130.75393676758,1000)
 end;['desc']='the flingnet is real 2022'};
