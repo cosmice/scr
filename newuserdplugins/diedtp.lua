@@ -6,7 +6,7 @@ if piv then vars.diedc=piv end
 end
 vars.funcs.os=function(ch)
 local hmnoid=funcs.wfcofclass(ch,'Humanoid',20)
-if vars.alwayswatching and vars.diedc then getchar():PivotTo(vars.diedc) end
+if vars.alwayswatching and vars.diedc then ch:PivotTo(vars.diedc) end
 if hmnoid then hmnoid.Died:Connect(vars.funcs.dd) end
 end
 vars.funcs.os(getchar())
