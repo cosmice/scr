@@ -50,7 +50,9 @@ gnn.txt.BackgroundTransparency = 1.000
 gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
-gnn.txt.Text = cmds['Ctxt'] or [[commands:
+gnn.txt.Text = cmds['Ctxt'] or [[! - lastcmd (justcmd) !! - lastcmd with args (cmd oldargs newargs)
+
+commands:
 rj
 usave - save settings
 saves - toggle autosave (off by default)
@@ -83,6 +85,7 @@ gnn._close.TextSize = 14.000
 local mvars={['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15;['mainthr']=coroutine.running()}
 gnn.fcks={}
 gnn.cns={}
+gnn.cmdhistory={}
 if isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
 mvars.rainbowins={gnn.txt,gnn._txtbox,gnn.txt2,gnn._close,gnn.cmdframe}
 cmds["cmds"]=cmds["cmds"] or function()
@@ -149,12 +152,14 @@ end
 local aliases={}
 
 -- Scripts:
-local cmd
-cmd=function(x) 
+
+gnn.cmdfunc=function(x) 
 local strd=string.split(x," ")
+if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
+table.insert(gnn.cmdhistory,x)
 local cmdsequel,plrarg=strd[1],strd[2]
-if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; cmd(table.concat(strd," ")) end return
-elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; cmd(table.concat(strd," ")) end end 
+if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return
+elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end end 
 return end
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end
@@ -168,7 +173,7 @@ end
 
 	local function onfocus(x)
 		if x then
-			cmd(gnn._txtbox.Text:lower())
+			gnn.cmdfunc(gnn._txtbox.Text:lower())
 		end
 	end
 	gnn.Reserved_onfocus=gnn._txtbox.FocusLost:Connect(onfocus)
