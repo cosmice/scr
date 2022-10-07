@@ -41,6 +41,7 @@ end
 end;["desc"]='loopcmd, "multithreaded"'};
 ['cldelay']={['func']=function(a,aa) if not vars.loops[aa] then vars.loops[aa]={} end vars.loops[aa].delay=a[1] and tonumber(a[1]) or 0 end;['desc']='specify loopdelay (arg[2] or 0) for cmd[arg[1]]'};
 ["stoploops"]={['func']=function(a,aa) if not aa then vars.loops={} else vars.loops[aa]=nil end end;['desc']='stoploops, specify arg[1] to stop loops for spes command'};
+["rebindsl"]={['func']=function(a,a,a,a,a,aa) aa=string.split(aa," ") if aa[2] then funcs.rebindsl(aa[2]) end end};
 ["Reservedpluginname"]="uncat"
 }
 return plug
