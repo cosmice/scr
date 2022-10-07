@@ -48,6 +48,8 @@ end;["desc"]='loopcmd, "multithreaded"'};
 ["rebindsl"]={['func']=function(a,a,a,a,a,aa) aa=string.split(aa," ") if aa[2] then funcs.rebindsl(aa[2]) end end};
 ["thirdp"]={['func']=vars.funcs.povyouarefrankiepalmeri;['args']='Classic'};
 ["firstp"]={['func']=vars.funcs.povyouarefrankiepalmeri;['args']='LockFirstPerson'};
+["norender"]={['func']=funcs.runs.Set3dRenderingEnabled;['args']={funcs.runs;false};['onlypass']=true};
+["render"]={['func']=funcs.runs.Set3dRenderingEnabled;['args']={funcs.runs;true};['onlypass']=true};
 ["Reservedpluginname"]="uncat"
 }
 return plug
