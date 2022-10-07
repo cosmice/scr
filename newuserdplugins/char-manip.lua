@@ -1,4 +1,4 @@
-local vars={floatn=3.1,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
+local vars={floatn=3.3,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
@@ -45,11 +45,6 @@ end
 		if (vars.cdtkk~=Enum.KeyCode.Comma or kk.UserInputType==Enum.UserInputType.MouseButton3) and funcs.uip:IsKeyDown(vars.cdtkk) and vars.maus.Target then
 			powersupply.cmds["tk"][1]({},vars.maus.Target)
 		end
-	end
-	
-	
-	vars.funcs.ft=function(v,nn)
-	firetouchinterest(getchar(nil,nil,nn):FindFirstChildWhichIsA("BasePart") or getchar(nil,nil,nn):FindFirstChildWhichIsA("MeshPart"),v.Parent,0) firetouchinterest(getchar(nil,nil,nn):FindFirstChildWhichIsA("BasePart") or getchar(nil,nil,nn):FindFirstChildWhichIsA("MeshPart"),v.Parent,1)
 	end
 	vars.funcs.toggleuip=function(strt,nn,str,cmd,arg)
 	if vars[arg[1]] then vars[arg[1]]:Disconnect() vars[arg[1]]=nil else vars[arg[1]]=funcs.uip.InputBegan:Connect(vars.funcs[arg[2] or arg[1]]) end if plrarg~="nn" then funcs.sendnotif("cmds/char-manip/bambi.exe",vars[arg[1]] and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end
@@ -282,7 +277,7 @@ local plug={noclip={func=function()
 	tvars.con=funcs.runs.Heartbeat:Connect(function()
 		if tvars and os.clock() - tvars.ftime >= vars.flingtime then
 			tvars.con:Disconnect()
-		elseif tvars and tvars.root and tvars.bav and tvars.hum then
+		elseif tvars and tvars.troot and tvars.root and tvars.bav and tvars.hum then
 			tvars.hum.PlatformStand=true
 			tvars.root.CFrame=((tvars.troot.CFrame*CFrame.new(0,1.7,0))*tvars.root.CFrame.Rotation --[[CFrame.Angles(0,math.rad(tvars.rot),0)--]] + tvars.troot.Velocity * (.9 / 10)) --[[tvars.thum.MoveDirection * tvars.thum.WalkSpeed * .4--]]
 			tvars.bav.AngularVelocity = tvars.bav.AngularVelocity==vars.zerozerozero and tvars.vel1 or vars.zerozerozero
@@ -314,7 +309,7 @@ local plug={noclip={func=function()
 				v.Grip = tvars.originalDeathGrips[i]
 			end
 		end--]]
-		tvars.hum:UnequipTools(); tvars=nil; end;["desc"]="flingkill";["aliases"]={["pling"]="klink";["flingkill"]="klink"}};
+		tvars.hum:UnequipTools(); tvars=nil; task.wait(.23) end;["desc"]="flingkill";["aliases"]={["pling"]="klink";["flingkill"]="klink"}};
 	antiac={desc="attempt to bypass speed checks",func=function(strt,parg)
 				if vars.antiac then return end
 				vars.antiac=true
@@ -420,8 +415,6 @@ local plug={noclip={func=function()
 	end
 	nHuman.Health = nHuman.MaxHealth
 	end};
-	["ftouchinterests"]={["func"]=function(strt,nn) nn=nn and funcs.xgetplr(nn,true) or funcs.lplr ; for i,v in pairs(workspace:GetDescendants()) do if v:IsA("TouchTransmitter") then task.spawn(vars.funcs.ft,v,nn) end task.wait() end end;["desc"]="dumbass";["aliases"]={["firetouchinterests"]='ftouchinterests';["fti"]="ftouchinterests"}};
-	["fcd"]={["func"]=function() for i,v in pairs(workspace:GetDescendants()) do if v:IsA("ClickDetector") then fireclickdetector(v) end task.wait() end end;["desc"]="firecd"};
 	["loopws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed",true},["desc"]="repeatedly sets your WalkSpeed"};
 	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},["desc"]="repeatedly sets your JumpPower"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
@@ -622,6 +615,7 @@ end};
 	local hum=funcs.wfcofclass(getchar(),"Humanoid",50)
 	if hum then
 	hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,not hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown))
+	funcs.sendnotif('togfall state',tostring(hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown)),'',5)
 	end
 	end;["desc"]="toggle fallingdown state, detectable"};
 	["Reservedpluginname"]="base.char-manipulation"
