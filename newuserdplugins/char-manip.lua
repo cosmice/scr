@@ -101,24 +101,24 @@ end
 	end;
 	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
-	if #arg>=3 then nn=arg[3] funcs.sendnotif("cprop/"..cmd,tostring(arg[3]),"rbxassetid://8119590978",5) else nn=nn and tonumber(nn) end
+	if #arg>=3 then nn=arg[3] funcs.sendnotif("cprop\\"..cmd,tostring(arg[3]),"rbxassetid://8119590978",5) else nn=nn and tonumber(nn) end
 	if hmnoid and nn~=nil then
 	if arg[2] then
 	local strnd="loop"..arg[1]
-	if vars[strnd] then vars[strnd]:Disconnect() vars[strnd]=nil end
+	if vars[strnd] then vars[strnd]:Disconnect() vars[strnd]=nil if vars[strnd.."1"] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil end end
 	local function res()
 	hmnoid[arg[1]]=nn
 	end
 	local function ochar(ch)
-	if not vars[strnd] and vars[strnd.."1"] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil return end
-	local hmnoid=funcs.wfcofclass(ch,"Humanoid")
+	hmnoid=funcs.wfcofclass(ch,"Humanoid",20)
 	if hmnoid then
+	res()
 	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
 	end
 	end
+	res()
 	vars[strnd]=hmnoid:GetPropertyChangedSignal(arg[1]):Connect(res)
 	vars[strnd.."1"]=funcs.lplr.CharacterAdded:Connect(ochar)
-	res()
 	else
 	hmnoid[arg[1]]=nn
 	end
@@ -417,12 +417,15 @@ local plug={noclip={func=function()
 	end};
 	["loopws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed",true},["desc"]="repeatedly sets your WalkSpeed"};
 	["loopjp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower",true},["desc"]="repeatedly sets your JumpPower"};
+	["loopjh"]={["func"]=vars.funcs.cprop,["args"]={"JumpHeight",true},["desc"]="repeatedly sets your JumpHeight"};
 	["unloopws"]={["func"]=vars.funcs.nilvar,["args"]="loopWalkSpeed"};
 	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
+	["unloopjh"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpHeight"};
 	["nstun"]={["desc"]="disable being stunned";["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false},["aliases"]={["nostun"]="nstun";["enstun"]="estun"}};
 	["estun"]={["desc"]="enable being stunned";["func"]=vars.funcs.nilvar;["args"]="loopPlatformStand"};
 	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};["desc"]="sets walkspeed"};
 	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};["desc"]="sets jumppower"};
+	["jh"]={["func"]=vars.funcs.cprop,["args"]={"JumpHeight"};["desc"]="sets jumpheight"};
 	["unstun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,false};["aliases"]={["unlay"]="unstun"}};
 	["stun"]={["func"]=vars.funcs.cprop;["args"]={"PlatformStand",false,true}};
 	["sp"]={["func"]=function(strt,nn,str,cmd,arg) vars["sp"..(nn or "1")]=getchar():GetPivot() end;["desc"]="caches current pos (arg[1] or 1)"};
@@ -588,7 +591,7 @@ end};
 	["cdcol"]={["desc"]="toggle: makes parts you click on with middlemouse not collide, exluding the part you're standing on";["func"]=function() if vars.cdcol then vars.cdcol:Disconnect() vars.cdcol=nil else vars.cdcol = funcs.uip.InputBegan:Connect(vars.funcs.cdcol) end funcs.sendnotif("cdcol",vars.cdcol and "true" or "false","rbxassetid://8119590978",5) end};
 	["cdcolg"]={["desc"]="toggle: ground collision on m3";["func"]=vars.funcs.togglevar;["args"]="cdcolg"};
 	["nh"]={["desc"]="notify humanoid stats";["func"]=function() local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
-	if hmnoid then funcs.sendnotif("nh","ws: "..tostring(hmnoid.WalkSpeed).." jp:"..tostring(hmnoid.JumpPower).." HP:"..tostring(hmnoid.Health).."/"..tostring(hmnoid.MaxHealth),"rbxassetid://8119590978",5)
+	if hmnoid then funcs.sendnotif("nh","ws: "..tostring(hmnoid.WalkSpeed)..(hmnoid.UseJumpPower and " jp:"..tostring(hmnoid.JumpPower) or " jh:"..tostring(hmnoid.JumpHeight)).." HP:"..tostring(hmnoid.Health).."/"..tostring(hmnoid.MaxHealth),"rbxassetid://8119590978",5)
 	end 
 	end};
 	["light"]={["desc"]="arg[1]=range,arg[2]=brightness";["func"]=function(strt,parg)  if vars.light then funcs.deb:AddItem(vars.light,0) vars.light=nil return end vars.light = Instance.new("PointLight")
