@@ -86,7 +86,7 @@ local function getsetting(values,setting,nm)
 if setting==2 then
 return values[3].Value and Color3.fromRGB(0,0,0) or values[1].Value and Color3.fromRGB(140,0,0) or values[2].Value and Color3.fromRGB(184,184,184) or Color3.fromRGB(150,81,107)
 else
-return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a uwu vampire" or values[2].Value and nm.." is a stupid detective" or nm.." is a 'survivor' (yikes)"
+return values[3].Value and nm.." is dead (told you so)" or values[1].Value and nm.." is a vampire" or values[2].Value and nm.." is a stupid detective" or nm.." is a 'survivor' (yikes)"
 end
 end
 local function linkedsword(v)
