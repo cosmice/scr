@@ -82,11 +82,11 @@ gnn._close.Font = Enum.Font.SourceSans
 gnn._close.Text = "close"
 gnn._close.TextColor3 = Color3.fromRGB(255, 255, 255)
 gnn._close.TextSize = 14.000
-local mvars={['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15;['mainthr']=coroutine.running()}
+local mvars=getgenv().sus_cmds_mvars or {['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15;['historylength']=300;['mainthr']=coroutine.running()}
 gnn.fcks={}
 gnn.cns={}
 gnn.cmdhistory={}
-if isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
+if not getgenv().sus_cmds_mvars and isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
 mvars.rainbowins={gnn.txt,gnn._txtbox,gnn.txt2,gnn._close,gnn.cmdframe}
 cmds["cmds"]=cmds["cmds"] or function()
 		gnn._close.Active = true
@@ -156,13 +156,13 @@ local aliases={}
 gnn.cmdfunc=function(x) 
 local strd=string.split(x," ")
 if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
-if x~="" then table.insert(gnn.cmdhistory,x) end
+ if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" then table.insert(gnn.cmdhistory,x) end
 local cmdsequel,plrarg=strd[1],strd[2]
 if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return
 elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end end 
 return end
 table.remove(strd,1) table.remove(strd,1)
-if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end
+if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end if plrarg=='inf' or plrarg=='math.huge' then plrarg=math.huge end
 if type(cmds[cmdsequel])=='function' then
 cmds[cmdsequel](strd,plrarg,x,cmdsequel)
 elseif type(cmds[cmdsequel])=='table' then
