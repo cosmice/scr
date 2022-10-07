@@ -13,7 +13,20 @@ vars.funcs={}
 	vars.lighting=game:GetService('Lighting')
 	vars.proxsrv=game:GetService('ProximityPromptService')
 	vars.nfogstr=funcs.rndmstr()
-	
+	vars.bav = Instance.new("BodyAngularVelocity")
+	vars.bav.Name=funcs.rndmstr(90,130)
+	table.insert(funcs.protectedlist,vars.bav)
+	vars.bav.AngularVelocity=Vector3.new(0,9e9*20,0)
+	vars.bav.MaxTorque= Vector3.new(0,math.huge,0)
+	vars.funcs.theloop=function(x)
+	local con
+	con=funcs.runs.Heartbeat:Connect(function()
+	if x and x.Parent then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else con:Disconnect() con=nil end
+	end)
+	end
+	vars.funcs.setsimradius=function(x,y)
+	if y then sethiddenproperty(funcs.lplr,'MaximumSimulationRadius',y) end sethiddenproperty(funcs.lplr,'SimulationRadius',x) 
+	end
 local plug={
 ["msgb"]={["func"]=function() getgenv().msgb=not getgenv().msgb funcs.sendnotif("uncat\\msgb",getgenv().msgb and ":flushed:" or "dumbfuck","",8) end};
 ["ftouchinterests"]={["func"]=function(strt,nn) nn=nn and funcs.xgetplr(nn,true) or funcs.lplr ; for i,v in pairs(workspace:GetDescendants()) do if v:IsA("TouchTransmitter") then task.spawn(vars.funcs.ft,v,nn) end if i%1000==0 then task.wait() end end end;["desc"]="dumbass";["aliases"]={["firetouchinterests"]='ftouchinterests';["fti"]="ftouchinterests"}};
@@ -78,6 +91,19 @@ end;["desc"]='loopcmd (arg[1] amount of times arg[2+] being cmd+args), "multithr
 ["firstp"]={['func']=vars.funcs.povyouarefrankiepalmeri;['args']='LockFirstPerson'};
 ["norender"]={['func']=funcs.runs.Set3dRenderingEnabled;['args']={funcs.runs;false};['onlypass']=true};
 ["render"]={['func']=funcs.runs.Set3dRenderingEnabled;['args']={funcs.runs;true};['onlypass']=true};
+['autoc1']={['func']=funcs.autoc1};
+['flingnet']={['func']=function() 
+vars.flingnet=not vars.flingnet
+settings().Physics.AllowSleep = false
+funcs.sendnotif('uncat\\flingnet',vars.flingnet and 'skynet is real 2022' or 'tinfoil hat','rbxassetid://1037078104',7)
+while vars.flingnet do
+vars.funcs.setsimradius(9e9,9e9)
+local chc,chz=getchar():GetBoundingBox()
+chz*=6
+for i,v in pairs(workspace:GetPartBoundsInBox(chc,chz)) do if not v:IsDescendantOf(getchar()) and not v:FindFirstChild(vars.bav.Name) and (v:IsA'BasePart' or v:IsA'MeshPart') and not v.Anchored then local tcl=vars.bav:Clone() vars.funcs.theloop(tcl) tcl.Parent=v end task.wait() end
+funcs.runs.RenderStepped:Wait()
+end vars.funcs.setsimradius(130.75393676758,1000)
+end;['desc']='the flingnet is real 2022'};
 ["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
 return plug
