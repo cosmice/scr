@@ -50,7 +50,7 @@ gnn.txt.BackgroundTransparency = 1.000
 gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
-gnn.txt.Text = cmds['Ctxt'] or [[! - lastcmd (justcmd) !! - lastcmd with args (cmd oldargs newargs)
+gnn.txt.Text = cmds['Ctxt'] or [[! - lastcmd (cmd) !! - lastcmd with args (cmd oldargs newargs)
 all,others
 wip: strangers,nteam,team
 
