@@ -10,7 +10,9 @@ vars.funcs={}
 	
 			vars.loops={}
 	
+	vars.lighting=game:GetService('Lighting')
 	vars.proxsrv=game:GetService('ProximityPromptService')
+	vars.nfogstr=funcs.rndmstr()
 	
 local plug={
 ["msgb"]={["func"]=function() getgenv().msgb=not getgenv().msgb funcs.sendnotif("uncat\\msgb",getgenv().msgb and ":flushed:" or "dumbfuck","",8) end};
@@ -21,7 +23,23 @@ if v:IsA("ClickDetector") then
 fireclickdetector(v) end if i%1000==0 then task.wait() end 
 end 
 end;["desc"]="firecd"};
-
+['nofog']={['func']=function()
+	vars.nfogen=not vars.nfogen
+if not vars.nfogen then
+	vars.oldfogend=vars.lighting.FogEnd
+	vars.lighting.FogEnd = 9e9
+	for i,v in pairs(vars.lighting:GetDescendants()) do
+		if v:IsA("Atmosphere") then
+			v.Parent=funcs.getholder(vars.nfogstr)
+		end
+	end
+else
+	--vars.lighting.FogEnd=vars.oldfogend
+	for i,v in pairs(funcs.getholder(vars.nfogstr)) do
+	v.Parent=vars.lighting
+	end
+end
+end};
 ["instapp"]={['func']=function(a,aa)
 aa=aa and tonumber(aa)
 if vars.iprox then vars.iprox:Disconnect() vars.iprox=nil else
