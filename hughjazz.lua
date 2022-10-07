@@ -173,8 +173,6 @@ cmds[cmdsequel][1](unpack(cmds[cmdsequel][2]))
 end
 end
 
-end
-
 	local function onfocus(x)
 		if x then
 			gnn.cmdfunc(gnn._txtbox.Text:lower(),gnn._txtbox.Text)
