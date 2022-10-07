@@ -297,6 +297,8 @@ local plug={noclip={func=function()
 		tvars.root.Velocity = vars.zerozerozero
 		tvars.root.RotVelocity = vars.zerozerozero
 		getchar():PivotTo(tvars.origCF);
+		tvars.root.Velocity = vars.zerozerozero
+		tvars.root.RotVelocity = vars.zerozerozero
 		workspace.FallenPartsDestroyHeight = tvars.origFpdh
 		for i,v in pairs(tvars.PhysProps) do
 		if v[1] ~= nil then
@@ -395,6 +397,9 @@ local plug={noclip={func=function()
 	floatn={func=function(strt,plrarg) local nn=tonumber(plrarg) if nn then vars.floatn=nn end end,desc="set how under float part goes"};
 	["rvel"]={["desc"]="reset character velocity";["func"]=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") or v:IsA("MeshPart") then v.Velocity=vars.zerozerozero v.RotVelocity=vars.zerozerozero end end end};
 	["ncd"]={['func']=function() for i,v in pairs(workspace:GetDescendants()) do if v:IsA('ClickDetector') then v.MaxActivationDistance=9e9 end end end;['desc']='expand cd limits'};
+	['nohats']={['func']=function()
+	for i,v in pairs(getchar():GetDescendants()) do if v:IsA('Accessory') then funcs.deb:AddItem(v,0) end end
+	end;['aliases']={['bald']='nohats'};['desc']='bald'};
 	["god"]={["desc"]="basic everyday god command";["func"]=function()
 	local Cam = workspace.CurrentCamera
 	local Pos, Char = Cam.CFrame, getchar()
