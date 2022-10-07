@@ -19,9 +19,10 @@ vars.funcs={}
 	vars.bav.AngularVelocity=Vector3.new(0,9e9*20,0)
 	vars.bav.MaxTorque= Vector3.new(0,math.huge,0)
 	vars.funcs.theloop=function(x)
+	local stt=os.clock()
 	local con
 	con=funcs.runs.Heartbeat:Connect(function()
-	if x and x.Parent then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else con:Disconnect() con=nil end
+	if x and x.Parent and vars.flingnet and os.clock()-stt<4 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con=nil end
 	end)
 	end
 	vars.funcs.setsimradius=function(x,y)
