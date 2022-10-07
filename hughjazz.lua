@@ -149,31 +149,29 @@ end
 local aliases={}
 
 -- Scripts:
-local function cmd(x) 
+local cmd
+cmd=function(x) 
 local strd=string.split(x," ")
-local cmd,plrarg=strd[1],strd[2]
+local cmdsequel,plrarg=strd[1],strd[2]
+if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; cmd(table.concat(strd," ")) end return
+elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; cmd(table.concat(strd," ")) end end 
+return end
 table.remove(strd,1) table.remove(strd,1)
-if aliases[cmd] then cmd=aliases[cmd] end
-if type(cmds[cmd])=='function' then
-cmds[cmd](strd,plrarg,x,cmd)
-elseif type(cmds[cmd])=='table' then
-cmds[cmd][1](strd,plrarg,x,cmd,cmds[cmd][2])
+if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end
+if type(cmds[cmdsequel])=='function' then
+cmds[cmdsequel](strd,plrarg,x,cmdsequel)
+elseif type(cmds[cmdsequel])=='table' then
+cmds[cmdsequel][1](strd,plrarg,x,cmdsequel,cmds[cmdsequel][2])
 end
 
 end
-local function OVTEMO_fake_script() -- gnn._txtbox.txt 
-	local script = Instance.new('LocalScript', _txtbox)
 
 	local function onfocus(x)
 		if x then
 			cmd(gnn._txtbox.Text:lower())
 		end
 	end
-	gnn._txtbox.FocusLost:Connect(onfocus)
-end
-coroutine.wrap(OVTEMO_fake_script)()
-local function ZURHG_fake_script() -- gnn._close.LocalScript 
-	local script = Instance.new('LocalScript', _close)
+	gnn.Reserved_onfocus=gnn._txtbox.FocusLost:Connect(onfocus)
 	local function onclick()
 		gnn._close.Active = not gnn._close.Active
 		gnn.cmdframe.Active = not gnn.cmdframe.Active
@@ -181,9 +179,7 @@ local function ZURHG_fake_script() -- gnn._close.LocalScript
 		gnn.cmdframe.Visible = not gnn.cmdframe.Visible
 		gnn.txt.Visible=false gnn.txt.Active=false gnn.txt2.Visible=false gnn.txt2.Active=false
 	end
-	gnn._close.MouseButton1Click:Connect(onclick)
-end
-coroutine.wrap(ZURHG_fake_script)()
+	gnn.Reserved_onclick=gnn._close.MouseButton1Click:Connect(onclick)
 local function stfu()
 gnn._txtbox.Text = ""
 end
