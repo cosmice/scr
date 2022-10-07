@@ -5,7 +5,8 @@ local pind={["base"]={
 ["toolthing"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/toolthing.lua',"Z - kidnap M - hell N - Void B - Refresh/refresh,gtool,void,etc"};
 ["tp-cmds"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
 ["plugstore"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua',"plug store"};
-["uncat"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/uncat.lua',"general uncatagorized cmds"}
+["uncat"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/uncat.lua',"general uncatagorized cmds"};
+["diedtp"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/diedtp.lua',""}
 };
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
