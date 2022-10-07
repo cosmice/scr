@@ -89,9 +89,8 @@ end
 local lded1 = false
 local con
 getgenv().funcs.autoc1 = function()
-lded1 = not lded1
-getgenv().XxmclickxX = true
-if lded1 then
+getgenv().XxmclickxX = not XxmclickxX
+if getgenv().XxmclickxX then
 funcs.sendnotif("autoclicker","loaded","rbxassetid://8209859518",3)
 
 local mym = funcs.lplr:GetMouse()
@@ -110,10 +109,8 @@ end
 end
 end)
 else
-getgenv().XxmclickxX = not XxmclickxX
-lded1 = not lded1
 funcs.sendnotif("autoclicker","removed","rbxassetid://8209859518",7)
-con:Disconnect()
+con:Disconnect() con=nil
 end
 end
 getgenv().funcs.instanceholder = funcs.instanceholder or Instance.new("Folder")
