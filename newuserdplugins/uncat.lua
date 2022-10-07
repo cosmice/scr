@@ -9,7 +9,8 @@ vars.funcs={}
 	end
 	
 			vars.loops={}
-
+	
+	vars.proxsrv=game:GetService('ProximityPromptService')
 	
 local plug={
 ["msgb"]={["func"]=function() getgenv().msgb=not getgenv().msgb funcs.sendnotif("uncat\\msgb",getgenv().msgb and ":flushed:" or "dumbfuck","",8) end};
@@ -20,6 +21,15 @@ if v:IsA("ClickDetector") then
 fireclickdetector(v) end if i%1000==0 then task.wait() end 
 end 
 end;["desc"]="firecd"};
+
+["instapp"]={['func']=function(a,aa)
+aa=aa and tonumber(aa)
+if vars.iprox then vars.iprox:Disconnect() vars.iprox=nil else
+vars.iprox=vars.proxsrv.PromptButtonHoldBegan:Connect(function(pro)
+		for i = 1,(aa or 1) do fireproximityprompt(pro) end
+end) end funcs.sendnotif('uncat\\instapp',vars.iprox and 'gaming' or 'babymode','rbxassetid://10515999022',8)
+end;['desc']='instantproximityprompts arg[1] amount upon beginning proxprompt'};
+
 ["notifcmd"]={["func"]=function(n,n,thud)
 funcs.sendnotif("uncat\\notifcmd",thud,"",5)
 end};
