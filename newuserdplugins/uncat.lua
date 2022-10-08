@@ -22,7 +22,7 @@ vars.funcs={}
 	local stt=os.clock()
 	local con
 	con=funcs.runs.Heartbeat:Connect(function()
-	if x and x.Parent and vars.flingnet and os.clock()-stt<6 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con=nil end
+	if x and x.Parent and vars.flingnet and os.clock()-stt<6 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con,stt,x=nil,nil,nil end
 	end)
 	end
 	vars.funcs.setsimradius=function(x,y)
@@ -37,19 +37,19 @@ if v:IsA("ClickDetector") then
 fireclickdetector(v) end if i%1000==0 then task.wait() end 
 end 
 end;["desc"]="firecd"};
-['nofog']={['func']=function()
+['nofog']={['func']=function(a,aa)
 	vars.nfogen=not vars.nfogen
-if not vars.nfogen then
+if not vars.nfogen or aa and aa~=1 then
 	vars.oldfogend=vars.lighting.FogEnd
 	vars.lighting.FogEnd = 9e9
-	for i,v in pairs(vars.lighting:GetDescendants()) do
+	for i,v in pairs(vars.lighting:GetChildren()) do
 		if v:IsA("Atmosphere") then
 			v.Parent=funcs.getholder(vars.nfogstr)
 		end
 	end
-else
+elseif vars.nfogen or aa=='1' then
 	--vars.lighting.FogEnd=vars.oldfogend
-	for i,v in pairs(funcs.getholder(vars.nfogstr)) do
+	for i,v in pairs(funcs.getholder(vars.nfogstr):GetChildren()) do
 	v.Parent=vars.lighting
 	end
 end
