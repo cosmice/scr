@@ -39,7 +39,7 @@ end
 end;["desc"]="firecd"};
 ['nofog']={['func']=function(a,aa)
 	vars.nfogen=not vars.nfogen
-if not vars.nfogen or aa and aa~=1 then
+if vars.nfogen or aa and aa~=1 then
 	vars.oldfogend=vars.lighting.FogEnd
 	vars.lighting.FogEnd = 9e9
 	for i,v in pairs(vars.lighting:GetChildren()) do
@@ -47,7 +47,7 @@ if not vars.nfogen or aa and aa~=1 then
 			v.Parent=funcs.getholder(vars.nfogstr)
 		end
 	end
-elseif vars.nfogen or aa=='1' then
+elseif not vars.nfogen or aa=='1' then
 	--vars.lighting.FogEnd=vars.oldfogend
 	for i,v in pairs(funcs.getholder(vars.nfogstr):GetChildren()) do
 	v.Parent=vars.lighting
