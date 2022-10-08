@@ -30,14 +30,14 @@ local shar=clonefunction(string.char)
 local getnamecallmethod=clonefunction(getnamecallmethod)
 local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
-getgenv().iwbtg=true
+getgenv().animewoman=true
 local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
 local rawm=getrawmetatable(game)
 local indr=clonefunction(rawm.__index)
 local rnind=clonefunction(rawm.__newindex)
 --local rf=function(bx,x) for i,v in pairs(bx) do if rawequal(v,x) then return i end end end
 modif_funcs.modif={}
-modif_funcs.modif.req=newcclosure(function(...) local args={...} if type(rawget(arg,1))=='string' and hashfunc(rawget(arg,1))==rawget(srvs,'ky') then remve(args,1) args=unpack(args) print("request succeeded: ",args) rawget(modif_funcs,'req')(args) else print("request attempted: ",...) return true end end)
+modif_funcs.modif.req=newcclosure(function(...) local args={...} if type(rawget(args,1))=='string' and hashfunc(rawget(args,1))==rawget(srvs,'ky') then remve(args,1) args=unpack(args) print("request succeeded: ",args) return rawget(modif_funcs,'req')(args) else print("request attempted: ",...) return true end end)
 --modif_funcs.modif.islclosure=function(x,...) if x and rf(modif_funcs.modif,x) then return false else modif_funcs.islclosure(x,...) end end
 --modif_funcs.modif.clonefunction=newcclosure(function(x,...) if x and rf(modif_funcs.modif,x) then local nn=modif_funcs.clonefunction tbi(modif_funcs.modif,nn) return nn else return modif_funcs.clonefunction(x,...) end end)
 --modif_funcs.modif.hookfunction=function(gaslight,...) local inn=gaslight and rf(modif_funcs,gaslight)  if inn then gaslight=modif_funcs.modif[inn] print(inn.."has been hookfunctioned") end return modif_funcs.oldhf(gaslight,...) end
@@ -69,12 +69,12 @@ tbi(rawget(modif_funcs,'protinst'),x)
 tbi(rawget(modif_funcs,'superprotinst'),indr(x,y)) end
 end
 modif_funcs.modif.newprot(game,'HttpPostAsync')
-modif_funcs.modif.newprot(game,'HttpGetAsync')
+--modif_funcs.modif.newprot(game,'HttpGetAsync')
 --modif_funcs.modif.newprot(game,'HttpGet')
 modif_funcs.modif.newprot(game,'HttpPost')
 modif_funcs.modif.blockins(game,'ScreenshotReady')
 modif_funcs.modif.newprot(rawget(srvs,'http'),'PostAsync')
-modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') -- attempt to block PI revealing functions/events
+--modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') attempt to block PI revealing functions/events
 modif_funcs.modif.newprot(rawget(srvs,'http'),'RequestAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'RequestAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'RequestLimitedAsync')
@@ -161,4 +161,4 @@ setreadonly(syn,true)
 --getgenv().clonefunction=modif_funcs.modif.clonefunction
 --getgenv().hookfunction=modif_funcs.modif.hookfunction
 --hookfunction(srvs.http.PostAsync,newcclosure(modif_funcs.modif.postasync))
-print('PrivacyBlock v2.1 loaded (nobuiz requests blocked, properties spoofed.)')
+print('PrivacyBlock v2.2 loaded (nobuiz requests blocked, properties spoofed.)')
