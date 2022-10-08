@@ -58,7 +58,7 @@ end};
 aa=aa and tonumber(aa)
 if vars.iprox then vars.iprox:Disconnect() vars.iprox=nil else
 vars.iprox=vars.proxsrv.PromptButtonHoldBegan:Connect(function(pro)
-		for i = 1,(aa or 1) do fireproximityprompt(pro) end
+		for i = 1,(aa or 1) do fireproximityprompt(pro) task.wait() end
 end) end funcs.sendnotif('uncat\\instapp',vars.iprox and 'gaming' or 'babymode','rbxassetid://10515999022',8)
 end;['desc']='instantproximityprompts arg[1] amount upon beginning proxprompt'};
 
