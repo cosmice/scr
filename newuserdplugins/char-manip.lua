@@ -166,7 +166,7 @@ local plug={noclip={func=function()
 	end
 	
 	end};
-	["unview"]={func=function() workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() ; if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil return end end};
+	["unview"]={func=function()  if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil return end ; workspace.CurrentCamera.CameraSubject=getchar():FindFirstChildOfClass("Humanoid") or getchar() end};
 	["cdfk"]={["func"]=vars.funcs.toggleuip,["desc"]="toggle click flingkill (p+middleclick)";["args"]={"cdfkill"}};
 	["toolk"]={["desc"]="toolkill on comma + mmb or keybind [toolkey]";["func"]=function(strt,plrarg) if vars.toolk then vars.toolk:Disconnect() vars.toolk=nil else
 	vars.toolk=funcs.uip.InputBegan:Connect(vars.funcs.cdtk) end if strt[1]~="nn" then funcs.sendnotif("cmds/char-manip/bambi.exe",vars.toolk and "hi" or "fucking idiot","rbxassetid://8119590978",4) end end};
@@ -235,9 +235,10 @@ local plug={noclip={func=function()
 		tvars.otrig = tvars.hum.PlatformStand --tvars.hum:GetState()
 		tvars.origFpdh = workspace.FallenPartsDestroyHeight;
 		tvars.sittingen=tvars.hum:GetStateEnabled(Enum.HumanoidStateType.Seated);		
-		tvars.vel1=Vector3.new(0,999999*9,0)
+		tvars.vel1=Vector3.new(0,9e9*13,0)
 		tvars.PhysProps={}
 		--tvars.hum:ChangeState(16)
+		settings().Physics.AllowSleep = false
 		tvars.hum:SetStateEnabled(Enum.HumanoidStateType.Seated,false)
 		tvars.hum:UnequipTools()
 		--[[tvars.at0=Instance.new("Attachment")
