@@ -81,8 +81,7 @@ end
 
 local con
 getgenv().funcs.autoc1 = function()
-getgenv().XxmclickxX = not XxmclickxX
-if getgenv().XxmclickxX then
+if not con then
 funcs.sendnotif("autoclicker","loaded","rbxassetid://8209859518",3)
 
 local mym = funcs.lplr:GetMouse()
@@ -91,7 +90,7 @@ con = funcs.uip.InputBegan:Connect(function(inpuut,proc)
 if inpuut.UserInputType == Enum.UserInputType.Keyboard and funcs.uip:IsKeyDown(Enum.KeyCode.Q) and inpuut.KeyCode == Enum.KeyCode.X then
 getgenv().XxautocxX = not getgenv().XxautocxX
 if XxautocxX then funcs.sendnotif("autoclicker","enabled (q+x)","rbxassetid://8209859518",3) else funcs.sendnotif("autoclicker","disabled","rbxassetid://8209859518",3) end
-while XxautocxX and XxmclickxX do
+while XxautocxX and con do
 mouse1click()
 mouse1click()
 task.wait()
