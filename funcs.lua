@@ -104,6 +104,7 @@ end
 end
 getgenv().funcs.instanceholder = funcs.instanceholder or Instance.new("Folder")
 funcs.instanceholder.Name=math.random(1,99999999)
+table.insert(funcs.protectedlist,funcs.instanceholder)
 funcs.instanceholder.Parent=game:GetService("CoreGui")
 --[[getgenv().funcs.addhook = function(x,txt)
 				local BillboardGui = Instance.new("BillboardGui")
