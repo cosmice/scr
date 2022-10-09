@@ -110,6 +110,7 @@ end
 	hmnoid[arg[1]]=nn
 	end
 	local function ochar(ch)
+	if not vars[strnd] then vars[strnd.."1"]:Disconnect() vars[strnd.."1"]=nil return end
 	hmnoid=funcs.wfcofclass(ch,"Humanoid",20)
 	if hmnoid then
 	res()
