@@ -4,17 +4,14 @@ getgenv().funcs = funcs or {}
 local playerservice = game:GetService("Players")
 local deb = game:GetService("Debris")
 local lplr = playerservice.LocalPlayer
-local bm = false
-local nofaceon = false
 local runservice = game:GetService("RunService")
 local rustepped = runservice.Stepped
 local ruhb = runservice.Heartbeat
-local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 local tpserv = game:GetService("TeleportService")
 local ffind=table.find
 local checkcaller=clonefunction(checkcaller)
 getgenv().wait = task.wait
-getgenv().spawn=task.spawn
+getgenv().spawn=task.spawn --use task.spawn instead noob, locals faster we no want use globals
 getgenv().funcs.runs = runservice
 getgenv().funcs.deb = deb
 getgenv().funcs.plrs = playerservice
@@ -44,11 +41,6 @@ getgenv().funcs.normalizemagic = function(magic,p)
 local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",normalizeblue)
 return p and str[1] or str
 end
-
-funcs.regularcall=newcclosure(function(xy,...) --i hate the fact pcall/xpcall returns multiple arguments with a burning passion
-local s,r=xy(...)
-if s then return r end
-end)
 
 funcs.rndmstr=function(minim,lenim)
 local array = {}
@@ -86,7 +78,7 @@ else
 	obj.Parent = mouseLockController
 end
 end
-local lded1 = false
+
 local con
 getgenv().funcs.autoc1 = function()
 getgenv().XxmclickxX = not XxmclickxX
@@ -96,15 +88,13 @@ funcs.sendnotif("autoclicker","loaded","rbxassetid://8209859518",3)
 local mym = funcs.lplr:GetMouse()
 getgenv().XxautocxX = false
 con = funcs.uip.InputBegan:Connect(function(inpuut,proc)
-if inpuut.UserInputType == Enum.UserInputType.Keyboard and funcs.uip:IsKeyDown(Enum.KeyCode.Q) then
-if inpuut.KeyCode == Enum.KeyCode.X then
+if inpuut.UserInputType == Enum.UserInputType.Keyboard and funcs.uip:IsKeyDown(Enum.KeyCode.Q) and inpuut.KeyCode == Enum.KeyCode.X then
 getgenv().XxautocxX = not getgenv().XxautocxX
 if XxautocxX then funcs.sendnotif("autoclicker","enabled (q+x)","rbxassetid://8209859518",3) else funcs.sendnotif("autoclicker","disabled","rbxassetid://8209859518",3) end
 while XxautocxX and XxmclickxX do
 mouse1click()
 mouse1click()
 task.wait()
-end
 end
 end
 end)
@@ -160,7 +150,6 @@ return vals
 end
 return def
 end
-funcs.clearnil=function(i,v) if i==nil or v==nil then table.remove(tr,i) end end
 funcs.hookedinst={}
 getgenv().funcs.addhook=function(v,tb)
 		v=v:IsA("Model") and (v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Head") or v.PrimaryPart or v:FindFirstChildOfClass("BasePart")) or v
@@ -182,7 +171,7 @@ getgenv().funcs.addhook=function(v,tb)
 		["cons"]=tb.cons or {}
 		}
 		local fh=tb["1h"] and funcs.hookedinst[v]
-		table.foreach(funcs.hookedinst,funcs.clearnil)
+		for i,v in pairs(funcs.hookedinst) do if not i or not v then table.remove(funcs.hookedinst,i) end
 		if fh and fh.toreturn and fh.toreturn.justquit then fh.toreturn.justquit() end
 		funcs.hookedinst[v]=tb
 		if getproperties(v).Size then
@@ -196,13 +185,6 @@ getgenv().funcs.addhook=function(v,tb)
         a.Color3 = tb.color
 		a.Name=v.Name
 		tb.toreturn.box=a
-		if tb.autorem then
-		tb.autorema=function()
-		if a.Adornee==nil and tb and tb.toreturn then
-		tb.toreturn.justquit()
-		end
-		end
-		end
 		end
 		if tb.txtenabled then
         local b = Instance.new("BillboardGui")
@@ -214,13 +196,6 @@ getgenv().funcs.addhook=function(v,tb)
         b.Size = UDim2.fromScale(4,2)
 		b.Name=v.Name
 		tb.toreturn.billboardgui=b
-		if tb.autorem then
-		tb.autoremb=function()
-		if b.Adornee==nil and tb and tb.toreturn then
-		tb.toreturn.justquit()
-		end
-		end
-		end
         local c = Instance.new("TextLabel")
         c.Text = tb.text or v.Parent.Name
         c.BackgroundTransparency = 1
@@ -229,6 +204,7 @@ getgenv().funcs.addhook=function(v,tb)
         c.Parent = b
         c.TextColor3 = tb.txtcolor
 		tb.toreturn.textbox=c
+		end
 		if tb["rez"] and tb.toreturn.box then
 		local function M_e_M_e_M_e()
 		if c~=nil then
@@ -273,7 +249,7 @@ getgenv().funcs.addhook=function(v,tb)
 		for i,x in pairs(tb.dep) do
 		if typeof(x)=="Instance" then
 		table.insert(tb.cons,x.Destroying:Connect(tb.toreturn.justquit))
-		elseif typeof(x)=="RBXScriptSignal" then
+		elseif typeof(x)=="RBXScriptConnection" then
 		table.insert(tb.cons,x:Connect(tb.toreturn.justquit))
 		end
 		end
@@ -336,7 +312,7 @@ getgenv().funcs.xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admi
         end
     return not mode and Found or Found[1]    
 end
-getgenv().funcs.turtlespyload = function()
+getgenv().funcs.turtlespyload = function() -- i cannot remember these therefore will write a function for them
 loadfile("rspy.lua")()
 end
 getgenv().funcs.kickblur = function()
@@ -351,18 +327,6 @@ end
 --[[getgenv().funcs.xxget = function(name)
 return xgetplr(name,true)
 end--]]
-getgenv().funcs.setsim = function()
-	settings().Physics.AllowSleep = false
-	if sethidden then
-				settings().Physics.AllowSleep = false
-					sethidden(game:GetService("Players").LocalPlayer, "SimulationRadius", 1000)
-					sethidden(game:GetService("Players").LocalPlayer, "MaxSimulationRadius", 1000)
-					game:GetService("Players").LocalPlayer.MaximumSimulationRadius = 1000
-					game:GetService("Players").LocalPlayer.ReplicationFocus = workspace
-	else
-	error("incompatible")
-	end
-end
 local function tablematch(x,y)
 for ii,vv in pairs(x) do if y[ii] and y[ii]~=vv then return false end end 
 return true
@@ -408,8 +372,8 @@ end)()
 end
 end
 end--]]
-if charfuncs == true then
---[[local looptouching = {}
+--[[if charfuncs == true then
+local looptouching = {}
 getgenv().funcs.looptouch = function(interest,val)
 local plrh = getchar() and getchar():WaitForChild("HumanoidRootPart",40)
 local intt
@@ -459,9 +423,9 @@ unfuck(looptouching,inttn)
 print("disabled")
 end
 
-end--]]
-
 end
+
+end--]]
 --END
 --no clue who released printbeenest code
 getgenv().funcs.printbeenest = function(xx,mm) --thread idk
@@ -580,6 +544,10 @@ end
 --]]
 --funcs.turtlespyload()
 getgenv().funcs_loaded = true
+local res=checkcaller('MeXx, Anjxyyy...')
+if typeof(res)=='Instance' then
+res:Fire('I <3 Ec2')
+end
 --[[for i,v in pairs(listfiles("funcsdependents")) do
 loadfile(v)()
 end--]]
