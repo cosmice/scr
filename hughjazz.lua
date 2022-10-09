@@ -1,6 +1,6 @@
 -- Gui to Lua
 if not funcs then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/exceptional0/scr/main/funcs.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/funcs.lua"))()
 end
 local cmds=getgenv().sus_cmds and table.clone(getgenv().sus_cmds) or {}
 getgenv().sus_cmds=nil
@@ -51,7 +51,7 @@ gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
 gnn.txt.Text = cmds['Ctxt'] or [[! - lastcmd (cmd) !! - lastcmd with args (cmd oldargs newargs)
-all,others
+all,others, allt (prefix+t=multithread)
 wip: strangers,nteam,team
 
 commands:
@@ -158,10 +158,10 @@ local aliases={}
 gnn.cmdfunc=function(x,realx) 
 local strd=string.split(x," ")
 if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
- if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" then table.insert(gnn.cmdhistory,x) end
+ if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=-1 then table.insert(gnn.cmdhistory,x) end
 local cmdsequel,plrarg=strd[1],strd[2]
-if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return
-elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end end 
+if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return elseif plrarg=="allt" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end 
+elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," "),-1) end end elseif plrarg=="otherst" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end end 
 return end
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end if plrarg=='inf' or plrarg=='math.huge' then plrarg=math.huge end
@@ -219,8 +219,7 @@ merge=nil
 
 local counter=cmds.ExtraPlugins and #cmds.ExtraPlugins or 0
 local fym=isfolder("November") and listfiles("November")
-counter=fym and #fym+counter or counter
-
+counter+=fym and #fym or 0
 local function ldplug(v)
 local tnstr={}
 local function HandlePluginError(err)
@@ -249,21 +248,23 @@ aliases[i]=v
 end
 end
 end
-counter-=1
-if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end
 gnn.txt.Text=gnn.txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
+counter-=1
+if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() print'loaded' end
 end
 pst.powersupply.ldplug=ldplug
 
 if fym then
 for i,v in pairs(fym) do
 task.spawn(ldplug,v)
+print(v)
 task.wait(0)
 end
 end
 if cmds.ExtraPlugins then
 for i,v in pairs(cmds.ExtraPlugins) do
 task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v)) or v)
+print(v)
 task.wait(0)
 end
 end
