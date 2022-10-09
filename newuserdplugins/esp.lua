@@ -4,7 +4,7 @@ vars.cons={}
 vars.funcs.espclass=function(class)
 for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA(class) and (v.Parent:IsA('BasePart') or v.Parent:IsA('MeshPart')) then
-funcs.addhook(v.Parent,{['job']=class..'esp'})
+funcs.addhook(v.Parent,{['job']=class..'esp';['color']=(class=='TouchTransmitter' and Color3.fromRGB(100,0,0) or class=='ClickDetector' and Color3.fromRGB(0,0,100) or Color3.fromRGB(255,255,255))})
 end
 if i%3200==0 then task.wait() end --dont crash me uwu
 end
