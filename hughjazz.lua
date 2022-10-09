@@ -257,14 +257,12 @@ pst.powersupply.ldplug=ldplug
 if fym then
 for i,v in pairs(fym) do
 task.spawn(ldplug,v)
-print(v)
 task.wait(0)
 end
 end
 if cmds.ExtraPlugins then
 for i,v in pairs(cmds.ExtraPlugins) do
 task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v)) or v)
-print(v)
 task.wait(0)
 end
 end
