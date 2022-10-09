@@ -171,7 +171,7 @@ cmds[cmdsequel](strd,plrarg,x,cmdsequel,realx)
 elseif TheSequelGenre=='table' and not cmds[cmdsequel][3] then
 cmds[cmdsequel][1](strd,plrarg,x,cmdsequel,cmds[cmdsequel][2],realx)
 elseif TheSequelGenre=='table' then
-cmds[cmdsequel][1](unpack(cmds[cmdsequel][2]))
+cmds[cmdsequel][1](type(cmds[cmdsequel][2])=='table' and unpack(cmds[cmdsequel][2]) or cmds[cmdsequel][2])
 end
 end
 
