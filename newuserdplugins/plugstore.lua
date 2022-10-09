@@ -6,16 +6,17 @@ local pind={["base"]={
 ["tp-cmds"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
 ["plugstore"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua',"plug store"};
 ["uncat"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/uncat.lua',"general uncatagorized cmds"};
-["diedtp"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/diedtp.lua',""}
+["diedtp"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/diedtp.lua'}
 };
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
 };
 ["thbase"]={
-['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua',""}
+['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua'}
 };
-["experimental"]={
-['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua',""}
+["staging"]={
+['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'};
+['stupidesp']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/esp.lua'}
 }
 
 }
@@ -26,7 +27,7 @@ plug.pstore={func=function(strt,parg)
 local tx={}
 for i,v in pairs(pind) do
 for n,x in pairs(v) do
-table.insert(tx,i.."/"..n.."/"..x[2])
+table.insert(tx,i.."/"..n.."/"..(x[2] or ''))
 end
 end
 gui.txt2.Text=table.concat(tx,"\n\n")
