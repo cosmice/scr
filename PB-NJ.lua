@@ -31,7 +31,7 @@ local getnamecallmethod=clonefunction(getnamecallmethod)
 local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
 getgenv().iwbtg=true
-local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
+local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]='9999999999999999999999999999999999999999nanJU!(QOQn'} --script should be ran at runtime before any other so we can safely cache services normally.
 local rawm=getrawmetatable(game)
 local indr=clonefunction(rawm.__index)
 local rnind=clonefunction(rawm.__newindex)
