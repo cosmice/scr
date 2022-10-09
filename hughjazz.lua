@@ -250,7 +250,7 @@ end
 end
 gnn.txt.Text=gnn.txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
 counter-=1
-if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() print'loaded' end
+if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end
 end
 pst.powersupply.ldplug=ldplug
 
