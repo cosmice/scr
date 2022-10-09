@@ -22,14 +22,14 @@ if vars.pesp then table.insert(vars.cons,plr.CharacterAdded:Connect(vars.funcs.c
 end
 
 local plug={
-['tesp']={['func']=vars.funcs.espclass;['args']='TouchTransmitter',['onlypass']=true};
-['cesp']={['func']=vars.funcs.espclass;['args']='ClickDetector',['onlypass']=true};
+['tesp']={['func']=vars.funcs.espclass;['args']='TouchTransmitter',['onlypass']=true;['desc']='untesp'};
+['cesp']={['func']=vars.funcs.espclass;['args']='ClickDetector',['onlypass']=true;['desc']='uncesp'};
 ['untesp']={['func']=vars.funcs.resp;['args']='TouchTransmitteresp',['onlypass']=true};
 ['uncesp']={['func']=vars.funcs.resp;['args']='ClickDetectoresp',['onlypass']=true};
 ['pesp']={['func']=function(a,aa)
-if vars.pesp then vars.pesp:Disconnect() vars.pesp=nil for i,v in pairs(vars.cons) do v:Disconnect() end vars.cons={} else 
+if vars.pesp then vars.pesp:Disconnect() vars.pesp=nil for i,v in pairs(vars.cons) do v:Disconnect() end vars.cons={} funcs.deb:AddItem(funcs.getholder('cmd_pesp'),0) else 
 for i,v in pairs(funcs.plrs:GetPlayers()) do if v.Character then vars.funcs.chadded(v.Character) end end vars.pesp=funcs.plrs.PlayerAdded:Connect(vars.funcs.padded)
-end end};
+end end;['desc']='toggle'};
 ['Reservedpluginname']='stupidesp'
 }
 
