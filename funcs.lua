@@ -171,7 +171,7 @@ getgenv().funcs.addhook=function(v,tb)
 		["cons"]=tb.cons or {}
 		}
 		local fh=tb["1h"] and funcs.hookedinst[v]
-		for i,v in pairs(funcs.hookedinst) do if not i or not v then table.remove(funcs.hookedinst,i) end
+		for x,n in pairs(funcs.hookedinst) do if not x or not n then table.remove(funcs.hookedinst,x) end end
 		if fh and fh.toreturn and fh.toreturn.justquit then fh.toreturn.justquit() end
 		funcs.hookedinst[v]=tb
 		if getproperties(v).Size then
@@ -220,8 +220,6 @@ getgenv().funcs.addhook=function(v,tb)
 		end
 		tb.toreturn.box.MouseEnter:Connect(M_e_M_e_M_e)
 		tb.toreturn.box.MouseLeave:Connect(M_L_M_L_M_L)
-		end
-		
 		end
 		
 
@@ -544,7 +542,6 @@ end
 --]]
 --funcs.turtlespyload()
 getgenv().funcs_loaded = true
---thingch
 --[[for i,v in pairs(listfiles("funcsdependents")) do
 loadfile(v)()
 end--]]
