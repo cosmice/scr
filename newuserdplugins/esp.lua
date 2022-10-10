@@ -22,6 +22,8 @@ end
 local plug={
 ['tesp']={['func']=vars.funcs.espclass;['args']='TouchTransmitter',['onlypass']=true;['desc']='untesp'};
 ['cesp']={['func']=vars.funcs.espclass;['args']='ClickDetector',['onlypass']=true;['desc']='uncesp'};
+['ppesp']={['func']=vars.funcs.espclass;['args']='ProximityPrompt',['onlypass']=true;['desc']='unppesp'};
+['unppesp']={['func']=vars.funcs.resp;['args']='ProximityPromptesp',['onlypass']=true;['desc']='unppesp'};
 ['untesp']={['func']=vars.funcs.resp;['args']='TouchTransmitteresp',['onlypass']=true};
 ['uncesp']={['func']=vars.funcs.resp;['args']='ClickDetectoresp',['onlypass']=true};
 ['pesp']={['func']=function(a,aa)
