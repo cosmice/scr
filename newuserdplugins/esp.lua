@@ -13,9 +13,7 @@ end
 vars.funcs.resp=function(hdrr) funcs.deb:AddItem(funcs.getholder(hdrr),0) end
 
 vars.funcs.chadded=function(ch)
-local hmnoidr=funcs.wfcofclass(ch,'Humanoid',20)
-hmnoidr=hmnoidr.RootPart or hmnoidr:GetPropertyChangedSignal'RootPart':Wait()
-funcs.addhook(ch,{['job']='cmd_pesp'})
+funcs.addhook(ch:WaitForChild('Head',6),{['job']='cmd_pesp';['txt']=ch.Name})
 end
 vars.funcs.padded=function(plr)
 if vars.pesp then table.insert(vars.cons,plr.CharacterAdded:Connect(vars.funcs.chadded)) end
@@ -28,7 +26,7 @@ local plug={
 ['uncesp']={['func']=vars.funcs.resp;['args']='ClickDetectoresp',['onlypass']=true};
 ['pesp']={['func']=function(a,aa)
 if vars.pesp then vars.pesp:Disconnect() vars.pesp=nil for i,v in pairs(vars.cons) do v:Disconnect() end vars.cons={} funcs.deb:AddItem(funcs.getholder('cmd_pesp'),0) else 
-for i,v in pairs(funcs.plrs:GetPlayers()) do if v.Character then vars.funcs.chadded(v.Character) end end vars.pesp=funcs.plrs.PlayerAdded:Connect(vars.funcs.padded)
+for i,v in pairs(funcs.plrs:GetPlayers()) do if v.Character then task.spawn(vars.funcs.chadded,v.Character)  table.insert(vars.cons,v.CharacterAdded:Connect(vars.funcs.chadded)) end end vars.pesp=funcs.plrs.PlayerAdded:Connect(vars.funcs.padded)
 end end;['desc']='toggle'};
 ['Reservedpluginname']='stupidesp'
 }
