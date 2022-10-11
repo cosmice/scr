@@ -1,4 +1,4 @@
-local vars={['floatn']=3.3,['sz']=Vector3.new(2,0.2,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma;['Pivotm']=false}
+local vars={['floatn']=3.3,['sz']=Vector3.new(2,0.2,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
