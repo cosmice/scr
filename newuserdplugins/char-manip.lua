@@ -314,7 +314,7 @@ local plug={noclip={func=function()
 			end
 		end--]]
 		tvars.hum:UnequipTools(); tvars=nil; task.wait(.23) end;["desc"]="flingkill";["aliases"]={["pling"]="klink";["flingkill"]="klink"}};
-	antiac={desc="attempt to bypass speed checks",func=function(strt,parg)
+	['antiac']={desc="attempt to bypass speed checks (may be broken)",func=function(strt,parg)
 				if vars.antiac then return end
 				vars.antiac=true
 				local nc=0
@@ -325,7 +325,7 @@ local plug={noclip={func=function()
 				for i,v in pairs(getchar():GetChildren()) do
 				if v:IsA("BasePart") or v:IsA("MeshPart") then
 				fakebp[v.Name]=v:Clone()
-				fakebp.Parent=fakechar
+				fakebp[v.Name].Parent=fakechar
 				end
 				end
 				local fakehum=funcs.wfcofclass(getchar(),"Humanoid"):Clone()
@@ -461,6 +461,7 @@ local plug={noclip={func=function()
 
 	 vars.uv_speedhax = funcs.runs["Heartbeat"]:Connect(main)
 	 end;['desc']='speedbp, found on discord (Iss0)'};
+	 ['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax:Disconnect() vars.uv_speedhax=nil end end};
 	['unflyv']={['func']=function()
 			if vars.vectorfly then 
 			funcs.deb:AddItem(vars.vectorfly.part,0)
@@ -471,7 +472,6 @@ local plug={noclip={func=function()
 			end
 		end
 	end};
-	['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax:Disconnect() vars.uv_speedhax=nil end end};
 	['flyv']={['func']=function(a,aa)
 		local cam: Camera = workspace.CurrentCamera
 
