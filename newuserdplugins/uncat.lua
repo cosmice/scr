@@ -61,7 +61,6 @@ vars.iprox=vars.proxsrv.PromptButtonHoldBegan:Connect(function(pro)
 		for i = 1,(aa or 1) do fireproximityprompt(pro) task.wait() end
 end) end funcs.sendnotif('uncat\\instapp',vars.iprox and 'gaming' or 'babymode','rbxassetid://10515999022',8)
 end;['desc']='instantproximityprompts arg[1] amount upon beginning proxprompt'};
-
 ["notifcmd"]={["func"]=function(n,n,thud)
 funcs.sendnotif("uncat\\notifcmd",thud,"",5)
 end};
