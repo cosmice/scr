@@ -5,7 +5,7 @@ vars.funcs={}
 	end
 	
 	vars.funcs.povyouarefrankiepalmeri=function(strd,parg,x,cmd,args,realx)
-	local cons={unpack(getconnections(funcs.lplr.Changed)),unpack(getconnections(funcs.lplr:GetPropertyChangedSignal'CameraMode'))} for i,v in pairs(cons) do v:Disable() end funcs.lplr.CameraMode = args for i,v in pairs(cons) do v:Enable() end
+	local cons={unpack(getconnections(funcs.lplr.Changed)),unpack(getconnections(funcs.lplr:GetPropertyChangedSignal'CameraMode'))} for i,v in pairs(cons) do v:Disable() end funcs.lplr.CameraMode = args for i,v in pairs(cons) do v:Enable() end cons=nil
 	end
 	
 			vars.loops={}
