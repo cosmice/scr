@@ -471,6 +471,7 @@ local plug={noclip={func=function()
 			end
 		end
 	end};
+	['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax:Disconnect() vars.uv_speedhax=nil end end};
 	['flyv']={['func']=function(a,aa)
 		local cam: Camera = workspace.CurrentCamera
 
