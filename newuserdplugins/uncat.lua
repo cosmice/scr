@@ -16,7 +16,7 @@ vars.funcs={}
 	vars.bav = Instance.new("BodyAngularVelocity")
 	vars.bav.Name=funcs.rndmstr(90,130)
 	table.insert(funcs.protectedlist,vars.bav)
-	vars.bav.AngularVelocity=Vector3.new(0,9e9*20,0)
+	vars.bav.AngularVelocity=Vector3.new(0,-9e9*20,0)
 	vars.bav.MaxTorque= Vector3.new(0,math.huge,0)
 	vars.funcs.theloop=function(x)
 	local stt=os.clock()
@@ -65,6 +65,8 @@ end;['desc']='instantproximityprompts arg[1] amount upon beginning proxprompt'};
 ["notifcmd"]={["func"]=function(n,n,thud)
 funcs.sendnotif("uncat\\notifcmd",thud,"",5)
 end};
+['noclipcc']={['func']=function() vars.oldcam=funcs.lplr.DevCameraOcclusionMode funcs.lplr.DevCameraOcclusionMode = "Invisicam" end;['desc']='clipcc, noclipcam, detectable?'};
+['clipcc']={['func']=function() if vars.oldcam then funcs.lplr.DevCameraOcclusionMode=vars.oldcam end end;['desc']='clipscamera'};
 ["lcmd"]={["func"]=function(n,plrarg,thud)
 if not n[1] then return end
 plrarg=plrarg and tonumber(plrarg)
