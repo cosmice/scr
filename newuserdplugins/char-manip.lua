@@ -1,4 +1,4 @@
-local vars={floatn=3.3,sz=Vector3.new(2,0.2,1.5),fn=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
+local vars={['floatn']=3.3,['sz']=Vector3.new(2,0.2,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma;['Pivotm']=false}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
@@ -439,6 +439,130 @@ local plug={noclip={func=function()
 	["lp"]={["func"]=function(strt,nn,str,cmd,arg) nn="sp"..(nn or 1) if vars[nn] then getchar():PivotTo(vars[nn]) end end;["desc"]="loads cached pos (arg[1] or 1)"};
 	["sit"]={["func"]=vars.funcs.cprop;["args"]={"Sit",false,true}};
 	["unsit"]={["func"]=vars.funcs.cprop;["args"]={"Sit",false,false}};
+	['stupidws']={['func']=function(a,aa)
+	aa=aa and tonumber(aa)
+	if not aa then return end
+	local char = getchar()
+	local hum: Humanoid = funcs.wfcofclass(char,"Humanoid")
+
+	local walkspeed: number = aa
+
+	if vars.uv_speedhax then vars.uv_speedhax:Disconnect() end
+
+	local function main()
+		if not hum then vars.uv_speedhax:Disconnect() end
+
+		if hum.MoveDirection.Magnitude ~= 0 then
+			for i=1,2 do
+				char.PrimaryPart:ApplyImpulse(hum.MoveDirection * walkspeed)
+			end
+		end
+	end
+
+	 vars.uv_speedhax = funcs.runs["Heartbeat"]:Connect(main)
+	 end;['desc']='speedbp, found on discord (Iss0)'};
+	['unflyv']={['func']=function()
+			if vars.vectorfly then 
+			funcs.deb:AddItem(vars.vectorfly.part,0)
+			vars.vectorfly.part=nil
+			
+			for i=1,#vars.vectorfly do
+				vars.vectorfly[i]:Disconnect()
+			end
+		end
+	end};
+	['flyv']={['func']=function(a,aa)
+		local cam: Camera = workspace.CurrentCamera
+
+		local char = getchar()
+
+		local flyspeed: number = aa and tonumber(aa) or .8
+		
+		local part: BasePart
+
+		local keys_using = {
+			["W"] = false,
+			["A"] = false,
+			["S"] = false,
+			["D"] = false,
+			["Q"] = false,
+			["E"] = false
+		}
+
+		powersupply.cmds['unflyv'][1]()
+
+		local function input_began(key,a)
+			if a then return end
+
+			key = string.split(tostring(key.keyCode),".")
+			key = key[#key]
+
+			if keys_using[key] == false then
+				keys_using[key] = true
+			end
+		end
+
+		local function input_ended(key,a)
+			if a then return end
+
+			key = string.split(tostring(key.keyCode),".")
+			key = key[#key]
+
+			if keys_using[key] == true then
+				keys_using[key] = false
+			end
+		end
+
+		local function main(delta_time)
+			local speed: number = flyspeed * (delta_time / (1/60))
+
+			local x_vec: Vector3   = cam.CFrame.XVector*speed
+			local look_vec: Vector3= cam.CFrame.LookVector*speed
+			local y_vec: Vector3   = cam.CFrame.YVector/2
+
+			if not char then
+				vars.vectorfly.part:Destroy()
+
+				for i=1,#vars.vectorfly do
+					vars.vectorfly[i]:Disconnect()
+				end
+			end
+
+			if keys_using["W"] and not keys_using["S"] then
+				part.Position += look_vec
+			end
+			if keys_using["A"] and not keys_using["D"] then
+				part.Position -= x_vec
+			end
+			if keys_using["S"] and not keys_using["W"] then
+				part.Position -= look_vec
+			end
+			if keys_using["D"] and not keys_using["A"] then
+				part.Position += x_vec
+			end
+			if keys_using["Q"] and not keys_using["E"] then
+				part.Position -= y_vec
+			end
+			if keys_using["E"] and not keys_using["Q"] then
+				part.Position += y_vec
+			end
+
+			char:MoveTo(part.Position)
+		end
+
+		part = Instance.new("Part")
+		part.Anchored = true
+		part.Position = char.PrimaryPart.Position
+
+		vars.vectorfly = {
+			part = part
+		}
+
+		vars.vectorfly[#vars.vectorfly+1] = funcs.runs["Heartbeat"]:Connect(main)
+		vars.vectorfly[#vars.vectorfly+1] = funcs.uip.InputBegan:Connect(input_began)
+		vars.vectorfly[#vars.vectorfly+1] = funcs.uip.InputEnded:Connect(input_ended)
+		
+		end;['desc']='vectorfly (found on discord)'};
 	["maxzoom"]={["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMaxZoomDistance=nn
 	end;["aliases"]={["mz"]="maxzoom";["nz"]="minzoom"}};
