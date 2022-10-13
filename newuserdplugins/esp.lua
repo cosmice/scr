@@ -6,7 +6,7 @@ for i,v in pairs(workspace:GetDescendants()) do
 if v:IsA(class) and (v.Parent:IsA('BasePart') or v.Parent:IsA('MeshPart')) then
 funcs.addhook(v.Parent,{['job']=class..'esp';['color']=(class=='TouchTransmitter' and Color3.fromRGB(100,0,0) or class=='ClickDetector' and Color3.fromRGB(0,0,100) or Color3.fromRGB(255,255,255))})
 end
-if i%3200==0 then task.wait() end --dont crash me uwu
+if i%2500==0 then task.wait() end --dont crash me uwu
 end
 end
 
@@ -30,6 +30,17 @@ local plug={
 if vars.pesp then vars.pesp:Disconnect() vars.pesp=nil for i,v in pairs(vars.cons) do v:Disconnect() end vars.cons={} funcs.deb:AddItem(funcs.getholder('cmd_pesp'),0) else 
 for i,v in pairs(funcs.plrs:GetPlayers()) do if v.Character then task.spawn(vars.funcs.chadded,v.Character)  table.insert(vars.cons,v.CharacterAdded:Connect(vars.funcs.chadded)) end end vars.pesp=funcs.plrs.PlayerAdded:Connect(vars.funcs.padded)
 end end;['desc']='toggle'};
+['transesp']={['func']=function(a,aa)
+local hlder=funcs.instanceholder:FindFirstChild('transesp')
+if hlder then funcs.deb:AddItem(hlder,0) funcs.sendnotif('uncat\\transesp','disabled','rbxassetid://11012215782',5) return else hlder=funcs.getholder('transesp') funcs.sendnotif('uncat\\transesp','enabled','rbxassetid://11012215782',5) end
+aa=aa and tonumber(aa) or .7
+for i,v in pairs(workspace:GetDescendants()) do
+if (v:IsA('BasePart') or v:IsA('MeshPart')) and v.Transparency >= aa and not v.Parent:FindFirstChildOfClass('Humanoid') then
+funcs.addhook(v,{['aot']=false;['color']=Color3.fromRGB(0,35,0);['job']=hlder})
+end
+if i%220==0 then task.wait() end
+end
+end};
 ['Reservedpluginname']='stupidesp'
 }
 
