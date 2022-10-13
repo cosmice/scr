@@ -227,10 +227,10 @@ printconsole(v.."- "..err,171,199,80)
 end
 local nnnnnn
 local ldfile
-local function pl() ldfile=type(v)=='function' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end ; if ldfile and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
-xpcall(pl,HandlePluginError)
-if not ldfile or not nnnnnn then return end
-local nm=type(ldfile)=='table' and ldfile.Reservedpluginname or v
+local function pl() ldfile=type(v)=='function' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end if type(ldfile)=='table' and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
+xpcall(pl,HandlePluginError) pl=nil
+if not ldfile or type(ldfile)~='table' or not nnnnnn then counter-=1 if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end return end
+local nm=ldfile.Reservedpluginname or v
 table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
 if type(c)~='table' or c.reserved then continue end
