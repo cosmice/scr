@@ -32,15 +32,15 @@ vars.funcs.replr=function(plr)
 end
 vars.funcs.ref=function()
 for i,v in pairs(funcs.plrs:GetPlayers()) do
-task.spawn(vars.funcs.replr,v)
+if v~=funcs.lplr then task.spawn(vars.funcs.replr,v) end
 end
 end
-workspace.CurrentCamera.ChildAdded:Connect(function(x) if x.Name=='IntroGame' then vars.funcs.ref() end end)
 vars.funcs.onplr=function(plr)
-if plr~=funcs.lplr then
 plr.CharacterAdded:Connect(function() vars.funcs.replr(plr) end)
 vars.funcs.replr(plr)
 end
+for i,v in pairs(funcs.plrs:GetPlayers()) do
+if v~=funcs.lplr then task.spawn(vars.funcs.onplr,v) end
 end
-vars.funcs.ref()
+workspace.CurrentCamera.ChildAdded:Connect(function(x) if x.Name=='IntroGame' then vars.funcs.ref() end end)
 funcs.plrs.PlayerAdded:Connect(vars.funcs.onplr)
