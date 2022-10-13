@@ -159,7 +159,7 @@ getgenv().funcs.addhook=function(v,tb)
 		["color"]=verval({tb.color;tb.txtcolor},Color3.fromRGB(255,255,255)),
 		["text"]=tb.text or v:IsA("Model") and v.Name or v.Parent.Name,
 		["txtcolor"]=verval({tb.txtcolor,tb.textcolor,tb.color},Color3.fromRGB(255,255,255)),
-		["job"]=funcs.getholder(tb.job or "generic_esp"),
+		["job"]=typeof(tb.job)=='Instance' and tb.job or funcs.getholder(tb.job or "generic_esp"),
 		["txtenabled"]=verval({tb.textenabled,tb.txtenabled},true),
 		["autorem"]=verval({tb.autoremove,tb.autorem},true),
 		["offset"]=verval(tb.offset,Vector3.new(0,2,0)),
@@ -168,6 +168,7 @@ getgenv().funcs.addhook=function(v,tb)
 		["rez"]=verval({tb.rez,tb.res},true),
 		["toreturn"]={};
 		["1h"]=verval(tb["1h"],true);
+		['aot']=verval(tb['aot'],true);
 		["cons"]=tb.cons or {}
 		}
 		local fh=tb["1h"] and funcs.hookedinst[v]
@@ -177,7 +178,7 @@ getgenv().funcs.addhook=function(v,tb)
 		if getproperties(v).Size then
         local a = Instance.new("BoxHandleAdornment")
         a.Size = v.Size
-        a.AlwaysOnTop = true
+        a.AlwaysOnTop = tb['aot']
         a.Parent = tb.job
         a.ZIndex = 1
         a.Transparency = tb.transp
