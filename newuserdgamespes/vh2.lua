@@ -1,26 +1,41 @@
-local vars={['gdata']=workspace.GameData.Players}
+local vars={['gdata']=workspace.GameData.Players;['role3']={['color']=Color3.fromRGB(100,0,0),['txt']=' is a vampire...';['job']='vhesp'};['role2']={['txt']=' is a detective...';['job']='vhesp'}}
 vars.funcs={}
-vars.funcs.chck=function(val) task.wait(1)
-local theplr=funcs.plrs:WaitForChild(val.Name,3)
-if not theplr or not theplr:IsA('Player') or not val:WaitForChild('Mode',3) then return end
-local thech=getchar(nil,nil,theplr)
-if not thech then return end
-local hk
-local cons={}
-if val.Mode.Value==3 then
-hk=funcs.addhook(thech:WaitForChild('Head',2),{['color']=Color3.fromRGB(100,0,0);['txt']=theplr.Name..' is a vampire..';['job']='vhesp';['dep']={theplr.CharacterRemoving}})
-elseif val.Mode.Value==2 then
-hk=funcs.addhook(thech:WaitForChild('Head',2),{['txt']=theplr.Name..' is a detective..';['job']='vhesp';['dep']={theplr.CharacterRemoving}})
-end
-if hk then
-local function desfunc()
-for i,v in pairs(cons) do if v then v:Disconnect() end end cons=nil if hk and hk.justquit then hk.justquit() end if val and val.Parent then vars.funcs.chck(val) end desfunc=nil
-end
-cons[1]=val.Mode.Changed:Connect(desfunc)
-cons[2]=val.ChildAdded:Connect(desfunc)
+vars.funcs.replr=function(plr)
+	local val=vars.gdata:WaitForChild(plr.Name,60)
+	if not val or not val:WaitForChild('Mode',5) then return end
+	local thech=plr.Character
+	if thech and vars['role'..val.Mode.Value] and thech:WaitForChild('Head',2) and not table.find(funcs.hookedinst,thech:WaitForChild('Head',2)) then
+	local tehtb=table.clone(vars['role'..val.Mode.Value])
+	tehtb['dep']={plr.CharacterRemoving} tehtb['txt']=plr.DisplayName..tehtb.txt..' ('..plr.Name..')' local hk=funcs.addhook(thech:WaitForChild('Head',2),tehtb)
+	tehtb=nil
+	
+	local thec
+	thec=val.Mode.Changed:Connect(function()
+	if hk and hk.box and hk.textbox then
+	local tb=vars['role'..val.Mode.Value]
+	if not tb then hk.justquit() thec:Disconnect() thec=nil return end
+	if tb['color'] then hk.box.Color3=tb['color'] hk.textbox.TextColor3=tb['color'] end if tb['txt'] then hk.textbox.Text=tb['txt'] end
+	else
+	thec:Disconnect() thec=nil
+	end
+	end)
+	
+	end
+	val.Mode.Changed:Connect(function()
+	if plr and vars['role'..val.Mode.Value] then
+	vars.funcs.replr(plr)
+	end
+	end)
+	
 end
 
+vars.funcs.onplr=function(plr)
+if plr~=funcs.lplr then
+plr.CharacterAdded:Connect(function() vars.funcs.replr(plr) end)
+vars.funcs.replr(plr)
 end
-
-for i,v in pairs(vars.gdata:GetChildren()) do vars.funcs.chck(v) end
-vars.gdata.ChildAdded:Connect(vars.funcs.chck)
+end
+for i,v in pairs(funcs.plrs:GetPlayers()) do
+task.spawn(vars.funcs.onplr,v)
+end
+funcs.plrs.PlayerAdded:Connect(vars.funcs.onplr)
