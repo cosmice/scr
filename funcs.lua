@@ -157,7 +157,7 @@ getgenv().funcs.addhook=function(v,tb)
 		tb=tb or {}
 		tb={["maxdis"]=verval({tb.maxdis,tb.maxdist,tb.maxdistance},math.huge),
 		["color"]=verval({tb.color;tb.txtcolor},Color3.fromRGB(255,255,255)),
-		["text"]=tb.text or v:IsA("Model") and v.Name or v.Parent.Name,
+		["text"]=verval({tb.text,tb.txt},v:IsA("Model") and v.Name or v.Parent.Name),
 		["txtcolor"]=verval({tb.txtcolor,tb.textcolor,tb.color},Color3.fromRGB(255,255,255)),
 		["job"]=typeof(tb.job)=='Instance' and tb.job or funcs.getholder(tb.job or "generic_esp"),
 		["txtenabled"]=verval({tb.textenabled,tb.txtenabled},true),
@@ -248,7 +248,7 @@ getgenv().funcs.addhook=function(v,tb)
 		for i,x in pairs(tb.dep) do
 		if typeof(x)=="Instance" then
 		table.insert(tb.cons,x.Destroying:Connect(tb.toreturn.justquit))
-		elseif typeof(x)=="RBXScriptConnection" then
+		elseif typeof(x)=="RBXScriptSignal" then
 		table.insert(tb.cons,x:Connect(tb.toreturn.justquit))
 		end
 		end
