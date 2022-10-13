@@ -1,6 +1,7 @@
 local vars={
 gamereq=true,
 }
+vars.funcs={}
 local tween
 local function kinesomona(input,gameprocessed)
 if (not vars.gamereq or not gameprocessed) then
@@ -40,6 +41,14 @@ end
 end
 end
 
+vars.funcs.eqtool=function(wheneverythinggoeswrong)
+local hmnoid=funcs.wfcofclass(getchar(),'Humanoid')
+if hmnoid and wheneverythinggoeswrong and wheneverythinggoeswrong.Parent and wheneverythinggoeswrong:IsA('BackpackItem') then
+task.defer(hmnoid.EquipTool,hmnoid,wheneverythinggoeswrong)
+end
+hmnoid=nil
+end
+
 local plug={
 ["desc"]={desc="Z - kidnap M - hell N - Void B - Refresh"};
 ["tky"]={func=function(strt,plrarg) if vars.keysen then vars.keysen:Disconnect() vars.keysen=nil else vars.keysen=funcs.uip.InputBegan:Connect(kinesomona) end if plrarg~="nn" then funcs.sendnotif("cmds/toolthing/tky",vars.keysen and "Z - kidnap M - hell N - Void B - Refresh" or "false","rbxassetid://6678521436",10) end end,desc="toggle keybinds (default: off)"};
@@ -56,6 +65,19 @@ local Char=getchar()
 	funcs.deb:AddItem(newChar,0)
 end,desc="refresh character"};
 ['f3x']={['func']=function() loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)() end;['desc']='building tools, untrustworthy loadstring'};
+['grabtools']={['func']=function(a,aa)
+if not funcs.wfcofclass(getchar(),'Humanoid') then return end
+for i,v in pairs(workspace[aa and 'GetDescendants' or 'GetChildren'](workspace)) do
+if v:IsA('BackpackItem') then
+vars.funcs.eqtool(v)
+end
+if i%3200==0 then task.wait() end
+end
+if vars.grabcon then vars.grabcon=vars.grabcon:Disconnect() end
+vars.grabcon=workspace[aa and 'DescendantAdded' or 'ChildAdded']:Connect(vars.funcs.eqtool)
+funcs.sendnotif('toolthing\\grabtools\\'..(aa and 'DescendantAdded' or 'ChildAdded'),vars.grabcon~=nil and 'true' or 'false','rbxassetid://11012215782',5) 
+end;['desc']='specify arg[1] for descendants, default GetChildren'};
+['ungrabtools']={['func']=function() if vars.grabcon then vars.grabcon=vars.grabcon:Disconnect() funcs.sendnotif('toolthing\\grabtools','false','rbxassetid://11012215782',5) end end};
 Reservedpluginname="base.tool-manipulation"
 }
 
