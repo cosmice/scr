@@ -4,5 +4,5 @@ local tb={
 [11305669230]='https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdgamespes/UTLC.lua'
 }
 tb=tb[game.PlaceId]
-if type(tb)=='function' then return tb() elseif type(tb)=='string' then return loadstring(game:HttpGet(tb))() end
+if type(tb)=='function' then return tb() elseif type(tb)=='string' then powersupply.ldplug(tb) return end
 return tb
