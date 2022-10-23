@@ -22,7 +22,4 @@ funcs.deb:AddItem(workspace:FindFirstChild("Attacks"),0)
 funcs.sendnotif("sutpiddumb\\comedygoldhook\\UTLC:S",rtb.kbc and "autokillboss" or "snailmode","",5)
 end;['desc']='requires char-manip plugin'}
 }
-if not powersupply.cmds['tk'] then
-funcs.sendnotif('retardhook','hubshitfound - no char-manip plugin 4 dis tho :(',"",5)
-end
 return plug
