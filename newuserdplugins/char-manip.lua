@@ -27,6 +27,9 @@ end
 		end
 	end
 	
+	vars.funcs.lti=function(num,col,p,t)
+	for i=1,num do if p and t then firetouchinterest(p,t,0) firetouchinterest(p,t,1) firetouchinterest(t,p,0) firetouchinterest(t,p,1) task.wait(col) else break end end
+	end
 	
 	vars.funcs.novel=function()
 	local rr=getchar('Humanoid',true).RootPart or getchar('Humanoid',true):GetPropertyChangedSignal('RootPart')
@@ -175,9 +178,14 @@ local plug={noclip={func=function()
 	["tk"]={["desc"]='toolkill arg[1] (should be in another plugin, technically char manip)';["func"]=function(strt,nn)
 	nn=nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model"))) or type(nn)=='string' and funcs.xgetplr(nn,true)
 	nn=nn and (nn:IsA("Player") and getchar(nil,nil,nn) or not nn:IsA("Player") and nn)
+	if not nn:FindFirstChildOfClass("Humanoid") then
+	local nnn=nn:FindFirstAncestorOfClass("Model")
+	nn=nnn and nnn:FindFirstChildOfClass("Humanoid") and nnn or nn
+	nnn=nil
+	end
 	local nntb={}
 	if nn then
-	for i,v in pairs(nn:GetChildren()) do
+	for i,v in pairs(nn:GetDescendants()) do
 	if v:IsA("BasePart") or v:IsA("MeshPart") then table.insert(nntb,v) end task.wait()
 	end
 	else return
@@ -188,24 +196,19 @@ local plug={noclip={func=function()
 	local hl={}
 	local orp=tl and tl.Parent
 	if not tl or not nn or not orp then return end
-	for i,v in pairs(tl:GetChildren()) do
+	for i,v in pairs(tl:GetDescendants()) do
 	if (v:IsA("BasePart")  or v:IsA("MeshPart")) then
 	table.insert(hl,v)
 	end
 	end
 	if tl and nn and #hl>0 then
-	funcs.sendnotif("char-manip/tk","hooked "..nn.Name,"rbxassetid://6678521436",5)
+	funcs.sendnotif("char-manip/tk","hooked "..nn.Name.." ("..tl.Name..")","rbxassetid://6678521436",5)
 	while task.wait() and nn and tl and orp and orp.Parent and tl.Parent==orp and #hl>0 do
 	for i,v in pairs(hl) do
 	if v and nn and (not maxdis or (nn.Position-v.Position)<=maxdis) then 
 	tl:Activate()
 	for intv,xv in pairs(nntb) do
-	for i =1,19 do
-	if xv then
-	firetouchinterest(v,xv,0)
-	firetouchinterest(v,xv,1)
-	end
-	end
+	task.spawn(vars.funcs.lti,100,0,v,xv)
 	funcs.runs.RenderStepped:Wait()
 	end
 	else
@@ -396,7 +399,7 @@ local plug={noclip={func=function()
 	tor=hmnoid and hmnoid.RigType==1 and getchar():FindFirstChild("LowerTorso") or getchar():FindFirstChild("Torso")
 	end
 	end};--]]
-	floatn={func=function(strt,plrarg) local nn=tonumber(plrarg) if nn then vars.floatn=nn end end,desc="set how under float part goes"};
+	['floatn']={['func']=function(strt,plrarg) local nn=tonumber(plrarg) if nn then vars.floatn=nn end end,['desc']="set how under float part goes"};
 	["rvel"]={["desc"]="reset character velocity";["func"]=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA("BasePart") or v:IsA("MeshPart") then v.Velocity=vars.zerozerozero v.RotVelocity=vars.zerozerozero end end end};
 	["ncd"]={['func']=function() for i,v in pairs(workspace:GetDescendants()) do if v:IsA('ClickDetector') then v.MaxActivationDistance=9e9 end end end;['desc']='expand cd limits'};
 	['nohats']={['func']=function()
@@ -429,6 +432,8 @@ local plug={noclip={func=function()
 	["unloopjp"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpPower"};
 	["unloopjh"]={["func"]=vars.funcs.nilvar,["args"]="loopJumpHeight"};
 	["nstun"]={["desc"]="disable being stunned";["func"]=vars.funcs.cprop;["args"]={"PlatformStand",true,false},["aliases"]={["nostun"]="nstun";["enstun"]="estun"}};
+	["nsit"]={["desc"]="disable sitting";["func"]=vars.funcs.cprop;["args"]={"Sit",true,false},["aliases"]={["nosit"]="nsit";['ensit']='esit'}};
+	["esit"]={["desc"]="enable sitting";["func"]=vars.funcs.nilvar;["args"]="loopSit"};
 	["estun"]={["desc"]="enable being stunned";["func"]=vars.funcs.nilvar;["args"]="loopPlatformStand"};
 	["ws"]={["func"]=vars.funcs.cprop,["args"]={"WalkSpeed"};["desc"]="sets walkspeed"};
 	["jp"]={["func"]=vars.funcs.cprop,["args"]={"JumpPower"};["desc"]="sets jumppower"};
@@ -726,7 +731,7 @@ end};
 	if hmnoid then funcs.sendnotif("nh","ws: "..tostring(hmnoid.WalkSpeed)..(hmnoid.UseJumpPower and " jp:"..tostring(hmnoid.JumpPower) or " jh:"..tostring(hmnoid.JumpHeight)).." HP:"..tostring(hmnoid.Health).."/"..tostring(hmnoid.MaxHealth),"rbxassetid://8119590978",5)
 	end 
 	end};
-	["light"]={["desc"]="arg[1]=range,arg[2]=brightness";["func"]=function(strt,parg)  if vars.light then funcs.deb:AddItem(vars.light,0) vars.light=nil return end vars.light = Instance.new("PointLight")
+	["light"]={["desc"]="arg[1]=range,arg[2]=brightness";["func"]=function(strt,parg) funcs.deb:AddItem(vars.light,0)  if vars.light and vars.light.Parent then vars.light=nil return end vars.light = Instance.new("PointLight")
 	vars.light.Parent = getchar().PrimaryPart or getchar():GetPropertyChangedSignal("PrimaryPart"):Wait()
 	vars.light.Name=vars.fn+1
 	vars.light.Range = parg or 9
