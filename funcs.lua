@@ -205,7 +205,6 @@ getgenv().funcs.addhook=function(v,tb)
         c.Parent = b
         c.TextColor3 = tb.txtcolor
 		tb.toreturn.textbox=c
-		end
 		if tb["rez"] and tb.toreturn.box then
 		local function M_e_M_e_M_e()
 		if c~=nil then
@@ -222,7 +221,7 @@ getgenv().funcs.addhook=function(v,tb)
 		tb.toreturn.box.MouseEnter:Connect(M_e_M_e_M_e)
 		tb.toreturn.box.MouseLeave:Connect(M_L_M_L_M_L)
 		end
-		
+		end
 
 		tb.toreturn.justquit=function()
 		if not tb then return end
