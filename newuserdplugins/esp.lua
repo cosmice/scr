@@ -23,8 +23,8 @@ vars.funcs.braindeadesp=function(plr)
 if not vars.braindeadplrs[plr.UserId] then vars.braindeadplrs[plr.UserId]={} end
 local plrch=plr.Character or plr.CharacterAdded:Wait()
 local plrh=plrch and plrch:WaitForChild('Head',5)
-local plrhum=plrch and funcs.wfcofclass(plrch,'Humanoid')
 if not plrh then return end
+local plrhum=plrch and funcs.wfcofclass(plrch,'Humanoid')
 local BillboardGui = Instance.new("BillboardGui")
 funcs.deb:AddItem(vars.braindeadplrs[plr.UserId][2],0)
 vars.braindeadplrs[plr.UserId][2]=BillboardGui
