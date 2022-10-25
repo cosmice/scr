@@ -44,3 +44,32 @@ if v~=funcs.lplr then task.spawn(vars.funcs.onplr,v) end
 end
 workspace.CurrentCamera.ChildAdded:Connect(function(x) if x.Name=='IntroGame' then vars.funcs.ref() end end)
 funcs.plrs.PlayerAdded:Connect(vars.funcs.onplr)
+vars.escvp=workspace.Events.Vampire.EscapeVampire
+local plug={
+['esc']={['func']=function()
+if funcs.lplr:FindFirstChildOfClass('PlayerGui').GameScreen.Game.Escape.Visible then
+task.wait(.3)
+vars.escvp:FireServer(nil,true)
+end
+end;['desc']='escape vampire'};
+['Reservedpluginname']='vh2'
+}
+vars.funcs.aescseq=function(v)
+if v.Name=='GameScreen' then
+task.wait()
+plug['aesc']['func']() plug['aesc']['func']()
+end
+end
+plug['aesc']={['func']=function()
+if not vars.aesc_con2 then
+plug.esc.func()
+vars.aesc_con=funcs.lplr:FindFirstChildOfClass('PlayerGui').GameScreen.Game.Escape:GetPropertyChangedSignal('Visible'):Connect(plug.esc.func)
+vars.aesc_con2=funcs.lplr:FindFirstChildOfClass('PlayerGui').ChildAdded:Connect(vars.funcs.aescseq)
+funcs.sendnotif('allistrue','see_no_evil','rbxassetid://10826846802',5)
+else
+if vars.aesc_con then vars.aesc_con=vars.aesc_con:Disconnect() end
+vars.aesc_con2=vars.aesc_con2:Disconnect()
+funcs.sendnotif('allisfalse','see_evil','rbxassetid://10826846802',5)
+end
+end;['desc']='autoescape vampire'}
+return plug
