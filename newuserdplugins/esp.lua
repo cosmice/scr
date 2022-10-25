@@ -296,7 +296,7 @@ end;['desc']='toggle, arg[1]=transparency'};
 aa=aa and funcs.xgetplr(aa,true)
 vars.braintransparency=a[1] and tonumber(a[1]) or .5
 if aa then if vars.braindeadplrs[aa.UserId] then vars.braindeadplrs[aa.UserId][1]:Disconnect() funcs.deb:AddItem(vars.braindeadplrs[aa.UserId][2],0) vars.braindeadplrs[aa.UserId]=nil return end
-vars.funcs.braindeadesp(aa) end end;['desc']='locate plrarg[1], arg[2] = transparency'};
+vars.funcs.braindeadesp(aa) end end;['desc']='toggle: locate plrarg[1], arg[2] = transparency'};
 ['Reservedpluginname']='stupidesp'
 }
 
