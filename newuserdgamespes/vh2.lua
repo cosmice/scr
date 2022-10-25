@@ -64,11 +64,11 @@ if not vars.aesc_con2 then
 plug.esc.func()
 vars.aesc_con=funcs.lplr:FindFirstChildOfClass('PlayerGui').GameScreen.Game.Escape:GetPropertyChangedSignal('Visible'):Connect(plug.esc.func)
 vars.aesc_con2=funcs.lplr:FindFirstChildOfClass('PlayerGui').ChildAdded:Connect(vars.funcs.aescseq)
-funcs.sendnotif('allistrue','see_no_evil','rbxassetid://10826846802',5)
+funcs.sendnotif('allistrue','see_no_evil','rbxassetid://11151804223',5)
 else
 if vars.aesc_con then vars.aesc_con=vars.aesc_con:Disconnect() end
 vars.aesc_con2=vars.aesc_con2:Disconnect()
-funcs.sendnotif('allisfalse','see_evil','rbxassetid://10826846802',5)
+funcs.sendnotif('allisfalse','see_evil','rbxassetid://11151804223',5)
 end
 end;['desc']='autoescape vampire'}
 return plug
