@@ -52,6 +52,7 @@ TextLabel.TextTransparency  = vars.braintransparency
 TextLabel.TextSize = 15
 TextLabel.TextYAlignment = Enum.TextYAlignment.Top
 TextLabel.Text=plr.DisplayName
+TextLabel.TextColor3 = Color3.new(1,1,1)
 if plrhum then
 local con2
 local function resst()
