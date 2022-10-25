@@ -40,7 +40,7 @@ funcs.addhook(v,{['aot']=false;['color']=Color3.fromRGB(0,35,0);['job']=hlder})
 end
 if i%220==0 then task.wait() end
 end
-end;['desc']='high transparency esp: > (arg[1] or .7)'};
+end;['desc']='toggle: high transparency esp: > (arg[1] or .7)'};
 ['Reservedpluginname']='stupidesp'
 }
 
