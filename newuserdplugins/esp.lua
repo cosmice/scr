@@ -36,13 +36,6 @@ BillboardGui.AlwaysOnTop = true
 BillboardGui.MaxDistance = 10000
 BillboardGui.Size = UDim2.new(4, 0, 1, 0)
 BillboardGui.SizeOffset = Vector2.new(0, 4.5)
-local con
-con = plr.CharacterRemoving:Connect(function()
-if BillboardGui then
-BillboardGui=BillboardGui:Destroy()
-end
-con:Disconnect()
-end)
 TextLabel.Parent = BillboardGui
 TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.BackgroundTransparency = 1.000
@@ -53,6 +46,11 @@ TextLabel.TextSize = 15
 TextLabel.TextYAlignment = Enum.TextYAlignment.Top
 TextLabel.Text=plr.DisplayName
 TextLabel.TextColor3 = Color3.new(1,1,1)
+local con
+con = plr.CharacterRemoving:Connect(function()
+funcs.deb:AddItem(BillboardGui,0)
+con:Disconnect()
+end)
 if plrhum then
 local con2
 local function resst()
