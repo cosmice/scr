@@ -26,6 +26,7 @@ local plrh=plrch and plrch:WaitForChild('Head',5)
 local plrhum=plrch and funcs.wfcofclass(plrch,'Humanoid')
 if not plrh then return end
 local BillboardGui = Instance.new("BillboardGui")
+funcs.deb:AddItem(vars.braindeadplrs[plr.UserId][2],0)
 vars.braindeadplrs[plr.UserId][2]=BillboardGui
 local TextLabel = Instance.new("TextLabel")
 BillboardGui.Parent = funcs.getholder('braindeadesp')
@@ -60,7 +61,7 @@ end
 resst()
 con2=plrhum.HealthChanged:Connect(resst)
 end
-if not vars.braindeadplrs[plr.UserId][1] then vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() funcs.deb:AddItem(BillboardGui,0) vars.funcs.braindeadesp(plr) end) end
+if not vars.braindeadplrs[plr.UserId][1] then vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() vars.funcs.braindeadesp(plr) end) end
 end
 
 local plug={
