@@ -291,11 +291,12 @@ if vars.braincon then vars.braincon=vars.braincon:Disconnect() for i,v in pairs(
 vars.braintransparency=aa and tonumber(aa) or .5
 for i,v in pairs(funcs.plrs:GetPlayers()) do if not vars.braindeadplrs[v.UserId] then vars.funcs.braindeadesp(v) vars.braindeadplrs[v.UserId].ma=true end end
 vars.braincon=funcs.plrs.PlayerAdded:Connect(vars.funcs.braindeadesp)
-end;['desc']='toggle'};
+end;['desc']='toggle, arg[1]=transparency'};
 ['loc']={['func']=function(a,aa)
 aa=aa and funcs.xgetplr(aa,true)
+vars.braintransparency=a[1] and tonumber(a[1]) or .5
 if vars.braindeadplrs[aa.UserId] then vars.braindeadplrs[aa.UserId][1]:Disconnect() funcs.deb:AddItem(vars.braindeadplrs[aa.UserId][2],0) vars.braindeadplrs[aa.UserId]=nil return end
-if aa then vars.funcs.braindeadesp(aa) end end;['desc']='locate plrarg[1]'};
+if aa then vars.funcs.braindeadesp(aa) end end;['desc']='locate plrarg[1], arg[2] = transparency'};
 ['Reservedpluginname']='stupidesp'
 }
 
