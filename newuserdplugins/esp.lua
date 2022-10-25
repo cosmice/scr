@@ -1,4 +1,4 @@
-local vars={}
+local vars={['braintransparency']=.4}
 vars.funcs={}
 vars.cons={}
 vars.funcs.espclass=function(class)
@@ -17,6 +17,51 @@ funcs.addhook(ch:WaitForChild('Head',6),{['job']='cmd_pesp';['txt']=ch.Name})
 end
 vars.funcs.padded=function(plr)
 if vars.pesp then table.insert(vars.cons,plr.CharacterAdded:Connect(vars.funcs.chadded)) end
+end
+vars.braindeadplrs={}
+vars.funcs.braindeadesp=function(plr)
+vars.braindeadplrs[plr.UserId]={}
+local plrch=plr.Character or plr.CharacterAdded:Wait()
+local plrh=plrch and plrch:WaitForChild('Head',5)
+local plrhum=plrch and funcs.wfcofclass(plrch,'Humanoid')
+if not plrh then return end
+local BillboardGui = Instance.new("BillboardGui")
+vars.braindeadplrs[plr.UserId][2]=BillboardGui
+local TextLabel = Instance.new("TextLabel")
+BillboardGui.Parent = funcs.getholder('braindeadesp')
+BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+BillboardGui.Active = true
+BillboardGui.Adornee = plrh
+BillboardGui.AlwaysOnTop = true
+BillboardGui.MaxDistance = 10000
+BillboardGui.Size = UDim2.new(4, 0, 1, 0)
+BillboardGui.SizeOffset = Vector2.new(0, 4.5)
+local con
+con = plr.CharacterRemoving:Connect(function()
+if BillboardGui then
+BillboardGui=BillboardGui:Destroy()
+end
+con:Disconnect()
+end)
+TextLabel.Parent = BillboardGui
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.Size = UDim2.new(1, 0, 1, 0)
+TextLabel.Font = Enum.Font.SourceSansSemibold
+TextLabel.TextTransparency  = vars.braintransparency
+TextLabel.TextSize = 15
+TextLabel.TextYAlignment = Enum.TextYAlignment.Top
+TextLabel.Text=plr.DisplayName
+if plrhum then
+local con2
+local function resst()
+if TextLabel then
+TextLabel.Text=plr.DisplayName..": "..math.ceil(plrhum.Health).."/"..math.ceil(plrhum.MaxHealth) else con2:Disconnect() end
+end
+resst()
+con2=plrhum.HealthChanged:Connect(resst)
+end
+vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() vars.funcs.braindeadesp(plr) end)
 end
 
 local plug={
@@ -41,7 +86,8 @@ end
 if i%220==0 then task.wait() end
 end
 end;['desc']='toggle: high transparency esp: > (arg[1] or .7)'};
-['toolspy']={['func']=function()
+['toolspy']={['func']=function(ksqsjqis,THEARG)
+THEARG=THEARG and tonumber(THEARG) or .5
 if vars.tspy then task.wait() for i,v in pairs(vars.tspy.cons) do v=v:Disconnect() end vars.tspy=nil  funcs.deb:AddItem(funcs.instanceholder:FindFirstChild('toolspy'),0) return end
 vars.tspy={}
 vars.tspy.cons={}
@@ -84,7 +130,7 @@ TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.BackgroundTransparency = 1.000
 TextLabel.Size = UDim2.new(1, 0, 1, 0)
 TextLabel.Font = Enum.Font.SourceSansSemibold
-TextLabel.TextTransparency  = .5
+TextLabel.TextTransparency  = THEARG
 local tm = ""
 
 if plr.Neutral ~= true and plr.Team then
@@ -239,7 +285,17 @@ for i,plr in pairs(funcs.plrs:GetPlayers()) do
 vars.tspy.funcs.plrj(plr)
 end
 table.insert(vars.tspy.cons,funcs.plrs.PlayerAdded:Connect(vars.tspy.funcs.plrj))
-end;['aliases']={['tspy']='toolspy'};['desc']='toggle'};
+end;['aliases']={['tspy']='toolspy'};['desc']='toggle, arg[1]=transparency: default .5'};
+['presp']={['func']=function(a,aa)
+if vars.braincon then vars.braincon=vars.braincon:Disconnect() for i,v in pairs(vars.braindeadplrs) do if v.ma then v[1]:Disconnect() funcs.deb:AddItem(v[2],0) vars.braindeadplrs[i]=nil end end return end
+vars.braintransparency=aa and tonumber(aa) or .5
+for i,v in pairs(funcs.plrs:GetPlayers()) do if not vars.braindeadplrs[v.UserId] then vars.funcs.braindeadesp(v) vars.braindeadplrs[v.UserId].ma=true end end
+vars.braincon=funcs.plrs.PlayerAdded:Connect(vars.funcs.braindeadesp)
+end;['desc']='toggle'};
+['loc']={['func']=function(a,aa)
+aa=aa and funcs.xgetplr(aa,true)
+if vars.braindeadplrs[aa.UserId] then vars.braindeadplrs[aa.UserId][1]:Disconnect() funcs.deb:AddItem(vars.braindeadplrs[aa.UserId][2],0) vars.braindeadplrs[aa.UserId]=nil return end
+if aa then vars.funcs.braindeadesp(aa) end end;['desc']='locate plrarg[1]'};
 ['Reservedpluginname']='stupidesp'
 }
 
