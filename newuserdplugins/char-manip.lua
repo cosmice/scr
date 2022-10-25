@@ -572,7 +572,7 @@ local plug={noclip={func=function()
 	["maxzoom"]={["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMaxZoomDistance=nn
 	end;["aliases"]={["mz"]="maxzoom";["nz"]="minzoom"}};
-	["bhop"]={['desc']='bunnyhop (arg[1]=speed arg[2]=speed/arg[2]) (default: 3 13)';["func"]=function(strt,sarg,str,cmd,sargtb)
+	["bhop"]={['desc']='bunnyhop (arg[1]=speed arg[2]=speed/arg[2] arg[3]=flags (r = ajump patch j=jreq patch e=stopdisblJ) ex: bhop 3 13 rje (default: 3 13)';["func"]=function(strt,sarg,str,cmd,sargtb)
 	local aa=getgenv().bhopinfo and true
 	sarg=sarg and tonumber(sarg) or 3
 	getgenv().bhopinfo = {
@@ -580,9 +580,10 @@ local plug={noclip={func=function()
 		VelCap = sarg,
 		JumpBoostAmt=sarg/(strt[1] and tonumber(strt[1]) or 13),
 		groundamt=4,
-		RolvePatch=false, -- enables autojumping
-		JPatch=false, -- if game somehow does not fire JumpRequest causing it to break
-		evpatch=false, --stops disabling jumping
+		RolvePatch=(strt[2] and strt[2]:match('r')) and true, -- enables autojumping
+		JPatch=(strt[2] and strt[2]:match('j')) and true, -- if game somehow does not fire JumpRequest causing it to break
+		evpatch=(strt[2] and strt[2]:match('e')) and true, --stops disabling jumping
+		cons={}
 	}
 	if aa then return end
 	if getgenv().bhopinfo.evpatch then
@@ -616,13 +617,13 @@ end
 
 
 
-funcs.uip.JumpRequest:Connect(function()
+table.insert(getgenv().bhopinfo['cons'],funcs.uip.JumpRequest:Connect(function()
 
 if getgenv().bhopinfo.CurrentVel < getgenv().bhopinfo.VelCap then
 	getgenv().bhopinfo.CurrentVel = getgenv().bhopinfo.CurrentVel + getgenv().bhopinfo.JumpBoostAmt
 	end
   --print("jreq")
-end)
+end));
 
 
 -- patchs games like restrict jumping honestly really any other game --
@@ -634,32 +635,33 @@ if hum and hum:IsA("Humanoid") then
 if getgenv().bhopinfo.evpatch then
 getgenv().bhopinfo.jp=hum.JumpPower>0 and hum.JumpPower
 getgenv().bhopinfo.jh=hum.JumpHeight>0 and hum.JumpHeight
-hum:GetPropertyChangedSignal("JumpPower"):Connect(function(num)
+table.insert(getgenv().bhopinfo['cons'],hum:GetPropertyChangedSignal("JumpPower"):Connect(function(num)
 if num and num >0 then getgenv().bhopinfo.jp=num else hum.JumpPower=getgenv().bhopinfo.jp end
-end)
-hum:GetPropertyChangedSignal("JumpHeight"):Connect(function(num)
+end))
+table.insert(getgenv().bhopinfo['cons'],hum:GetPropertyChangedSignal("JumpHeight"):Connect(function(num)
 if num and num >0 then getgenv().bhopinfo.jh=num else hum.JumpHeight=getgenv().bhopinfo.jh end
-end)
+end))
 
 end
 
-hum.StateChanged:Connect(function(oldstate,newstate)
+table.insert(getgenv().bhopinfo['cons'],hum.StateChanged:Connect(function(oldstate,newstate)
   if newstate == Enum.HumanoidStateType.Landed then -- if we've landed after we've jumped then allow us to jump again, essentially breaking the jump cooldown
       hum:SetStateEnabled(sttyp,true)
 
       --print("resetting jump cd")
   end
-end)
+end))
 end
 end
 stt(getchar())
-funcs.lplr.CharacterAdded:Connect(stt)
+table.insert(getgenv().bhopinfo['cons'],funcs.lplr.CharacterAdded:Connect(stt))
 
-if getgenv().bhopinfo.evpatch then
+if getgenv().bhopinfo.evpatch and not getgenv().bhopinfo.evhk then
+getgenv().bhopinfo.evhk=true
 local oldst_typ=hum:GetStateEnabled(sttyp)
 local md
 md=hookmetamethod(game,"__namecall",newcclosure(function(ins,...)
-if not checkcaller() and hum then
+if not checkcaller() and getgenv().bhopinfo and getgenv().bhopinfo.evpatch and hum then
 local nmc=getnamecallmethod()
 local args={...}
 --local scr=getcallingscript()
@@ -681,7 +683,7 @@ end
 
 ----------------------------------------
 if getgenv().bhopinfo.JPatch then
-funcs.uip.InputBegan:Connect(function(inp)
+table.insert(getgenv().bhopinfo['cons'],funcs.uip.InputBegan:Connect(function(inp)
 if inp.UserInputType == Enum.UserInputType.Keyboard then
 if inp.KeyCode == Enum.KeyCode.Space then
 while funcs.uip:IsKeyDown(Enum.KeyCode.Space) do
@@ -693,34 +695,37 @@ end
 
 end
 end
-end)
+end))
 
 end
 local function theroundabout()
 
-      if checkOnGround(getchar()) == false and getgenv().bhopinfo.CurrentVel ~= 0 then
+      if not checkOnGround(getchar()) and getgenv().bhopinfo.CurrentVel ~= 0 then
           getchar():PivotTo(getchar():GetPivot() + (getchar():GetPivot().LookVector * getgenv().bhopinfo.CurrentVel/6))
           --print('hopping')
-else
+--else
 --print(funcs.uip:IsKeyDown(Enum.KeyCode.Space),funcs.uip:IsKeyDown(Enum.KeyCode.W),getgenv().bhopinfo.CurrentVel,checkOnGround(getchar()) )
       end
 
-      if funcs.uip:IsKeyDown(Enum.KeyCode.Space) == false then
+      if not funcs.uip:IsKeyDown(Enum.KeyCode.Space) then
           getgenv().bhopinfo.CurrentVel = 0
      -- elseif funcs.uip:IsKeyDown(Enum.KeyCode.Space) == true and funcs.uip:IsKeyDown(Enum.KeyCode.W) then
      --    getgenv().bhopinfo.CurrentVel = math.clamp(getgenv().bhopinfo.CurrentVel - 0.01,0,getgenv().bhopinfo.VelCap)
       elseif getgenv().bhopinfo.RolvePatch then
-       getchar():WaitForChild("Humanoid",10).Jump = true -- patches rolve games
+       funcs.wfcofclass(getchar(),"Humanoid").Jump = true -- patches rolve games
       end
 end
 task.spawn(function() -- spawn, wait, delay, and Debris are ALL SO BAD. NEVER RELY ON THEM. I am relying on them though because this is a exploit script, not much effort put into it
-  while true do
+  while getgenv().bhopinfo do
   pcall(theroundabout)
       task.wait()
   end
 end)
 getgenv().bhopinfo.setg()
 end};
+['unbhop']={['func']=function()
+if getgenv().bhopinfo then task.wait() for i,v in pairs(getgenv().bhopinfo.cons) do if v then v=v:Disconnect() end end getgenv().bhopinfo=nil end
+end;['desc']='(hopefully) stops bhop'};
 	["minzoom"]={["desc"]="also try mz/nz";["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMinZoomDistance=nn
 	end};
