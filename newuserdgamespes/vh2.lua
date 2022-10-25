@@ -55,8 +55,7 @@ end;['desc']='escape vampire'};
 ['Reservedpluginname']='vh2'
 }
 vars.funcs.aescseq=function(v)
-if v.Name=='GameScreen' then
-task.wait()
+if v.Name=='GameScreen' and v:WaitForChild('Game',5) and v:WaitForChild('Game',5):WaitForChild('Escape',5) then
 plug['aesc']['func']() plug['aesc']['func']()
 end
 end
