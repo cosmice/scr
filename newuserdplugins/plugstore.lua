@@ -6,7 +6,8 @@ local pind={["base"]={
 ["tp-cmds"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
 ["plugstore"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua',"plug store"};
 ["uncat"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/uncat.lua',"general uncatagorized cmds"};
-["diedtp"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/diedtp.lua'}
+["diedtp"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/diedtp.lua'};
+['stupidesp']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/esp.lua'}
 };
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
@@ -15,8 +16,7 @@ local pind={["base"]={
 ['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua'}
 };
 ["staging"]={
-['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'};
-['stupidesp']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/esp.lua'}
+['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'}
 }
 
 }
