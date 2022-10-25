@@ -20,7 +20,7 @@ if vars.pesp then table.insert(vars.cons,plr.CharacterAdded:Connect(vars.funcs.c
 end
 vars.braindeadplrs={}
 vars.funcs.braindeadesp=function(plr)
-vars.braindeadplrs[plr.UserId]={}
+vars.braindeadplrs[plr.UserId]=vars.braindeadplrs[plr.UserId] or {}
 local plrch=plr.Character or plr.CharacterAdded:Wait()
 local plrh=plrch and plrch:WaitForChild('Head',5)
 local plrhum=plrch and funcs.wfcofclass(plrch,'Humanoid')
@@ -62,7 +62,7 @@ end
 resst()
 con2=plrhum.HealthChanged:Connect(resst)
 end
-vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() funcs.deb:AddItem(BillboardGui,0) vars.funcs.braindeadesp(plr) end)
+if not vars.braindeadplrs[plr.UserId][1] then vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() funcs.deb:AddItem(BillboardGui,0) vars.funcs.braindeadesp(plr) end) end
 end
 
 local plug={
