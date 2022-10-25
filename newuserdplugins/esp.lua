@@ -62,7 +62,7 @@ end
 resst()
 con2=plrhum.HealthChanged:Connect(resst)
 end
-vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() vars.funcs.braindeadesp(plr) end)
+vars.braindeadplrs[plr.UserId][1]=plr.CharacterAdded:Connect(function() funcs.deb:AddItem(BillboardGui,0) vars.funcs.braindeadesp(plr) end)
 end
 
 local plug={
@@ -296,7 +296,7 @@ end;['desc']='toggle, arg[1]=transparency'};
 ['loc']={['func']=function(a,aa)
 aa=aa and funcs.xgetplr(aa,true)
 vars.braintransparency=a[1] and tonumber(a[1]) or .5
-if vars.braindeadplrs[aa.UserId] then vars.braindeadplrs[aa.UserId][1]:Disconnect() funcs.deb:AddItem(vars.braindeadplrs[aa.UserId][2],0) vars.braindeadplrs[aa.UserId]=nil return end
+if aa and vars.braindeadplrs[aa.UserId] then vars.braindeadplrs[aa.UserId][1]:Disconnect() funcs.deb:AddItem(vars.braindeadplrs[aa.UserId][2],0) vars.braindeadplrs[aa.UserId]=nil return end
 if aa then vars.funcs.braindeadesp(aa) end end;['desc']='locate plrarg[1], arg[2] = transparency'};
 ['Reservedpluginname']='stupidesp'
 }
