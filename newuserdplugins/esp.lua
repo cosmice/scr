@@ -20,7 +20,7 @@ if vars.pesp then table.insert(vars.cons,plr.CharacterAdded:Connect(vars.funcs.c
 end
 vars.braindeadplrs={}
 vars.funcs.braindeadesp=function(plr,ma)
-if not vars.braindeadplrs[plr.UserId] then vars.braindeadplrs[plr.UserId]={} vars.braindeadplrs[plr.UserId].ma=ma and true end
+if not vars.braindeadplrs[plr.UserId] then vars.braindeadplrs[plr.UserId]={['ma']=ma==true} end
 local plrch=plr.Character or plr.CharacterAdded:Wait()
 local plrh=plrch and plrch:WaitForChild('Head',5)
 if not plrh then return end
@@ -287,16 +287,16 @@ end
 table.insert(vars.tspy.cons,funcs.plrs.PlayerAdded:Connect(vars.tspy.funcs.plrj))
 end;['aliases']={['tspy']='toolspy'};['desc']='toggle, arg[1]=transparency: default .5'};
 ['presp']={['func']=function(a,aa)
-if vars.braincon then vars.braincon=vars.braincon:Disconnect() for i,v in pairs(vars.braindeadplrs) do if v.ma then v[1]:Disconnect() funcs.deb:AddItem(v[2],0) vars.braindeadplrs[i]=nil end end return end
+if vars.braincon then vars.braincon=vars.braincon:Disconnect() for i,v in pairs(vars.braindeadplrs) do if v and not v['ma'] then v[1]:Disconnect() funcs.deb:AddItem(v[2],0) vars.braindeadplrs[i]=nil end end return end
 vars.braintransparency=aa and tonumber(aa) or .5
-for i,v in pairs(funcs.plrs:GetPlayers()) do if not vars.braindeadplrs[v.UserId] then vars.funcs.braindeadesp(v,true) end end
+for i,v in pairs(funcs.plrs:GetPlayers()) do if not vars.braindeadplrs[v.UserId] then vars.funcs.braindeadesp(v) end end
 vars.braincon=funcs.plrs.PlayerAdded:Connect(vars.funcs.braindeadesp)
 end;['desc']='toggle, arg[1]=transparency'};
 ['loc']={['func']=function(a,aa)
 aa=aa and funcs.xgetplr(aa,true)
 vars.braintransparency=a[1] and tonumber(a[1]) or .5
 if aa then if vars.braindeadplrs[aa.UserId] then vars.braindeadplrs[aa.UserId][1]:Disconnect() funcs.deb:AddItem(vars.braindeadplrs[aa.UserId][2],0) vars.braindeadplrs[aa.UserId]=nil return end
-vars.funcs.braindeadesp(aa) end end;['desc']='toggle: locate plrarg[1], arg[2] = transparency'};
+vars.funcs.braindeadesp(aa,true) end end;['desc']='toggle: locate plrarg[1], arg[2] = transparency'};
 ['Reservedpluginname']='stupidesp'
 }
 
