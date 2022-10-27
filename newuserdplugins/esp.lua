@@ -103,7 +103,7 @@ end
 funcs.plrs = game:GetService("Players")--]]
 vars.tspy.funcs.addn=function(plr)
 local nm = plr.Character and plr.Character:GetChildren()
-local v = nm and (plr.Character:WaitForChild("Head",10) or plr.Character.PrimaryPart or funcs.wfcofclass(plr.Character,'BasePart',5,true) and plr.Character:FindFirstChildWhichIsA('BasePart').AssemblyRootPart )
+local v = plr.Character and plr.Character:WaitForChild("Head",10) or plr.Character and (plr.Character.PrimaryPart or funcs.wfcofclass(plr.Character,'BasePart',5,true) and plr.Character:FindFirstChildWhichIsA('BasePart').AssemblyRootPart)
 if v ~= nil then
 local BillboardGui = Instance.new("BillboardGui")
 local TextLabel = Instance.new("TextLabel")
