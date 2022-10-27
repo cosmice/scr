@@ -13,7 +13,7 @@ local gmargs={
 [9115994499]={['reportPlatform']={['actiontype']="spoof","Mobile",1}	},
 [10491640406]={['Damage']={['actiontype']="blockall"} },
 [6651188208]={['ResetValues']={['actiontype']="blockall"}},
-[7182803956]={['FallDamage']={['actiontype']="blockall"}},
+[7182803956]={['RemoteEvent']={['actiontype']="block","FallDamage",1}},
 [9143982021]={['RemoteEvent']={['actiontype']="block",CheckParent="ItemGui","cloud",1}	}
 }
 
