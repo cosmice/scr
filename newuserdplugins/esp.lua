@@ -13,7 +13,7 @@ end
 vars.funcs.resp=function(hdrr) funcs.deb:AddItem(funcs.getholder(hdrr),0) end
 
 vars.funcs.chadded=function(ch)
-funcs.addhook(ch:WaitForChild('Head',6),{['job']='cmd_pesp';['txt']=ch.Name})
+funcs.addhook(ch,{['job']='cmd_pesp';['txt']=ch.Name})
 end
 vars.funcs.padded=function(plr)
 if vars.pesp then table.insert(vars.cons,plr.CharacterAdded:Connect(vars.funcs.chadded)) end
@@ -103,7 +103,7 @@ end
 funcs.plrs = game:GetService("Players")--]]
 vars.tspy.funcs.addn=function(plr)
 local nm = plr.Character and plr.Character:GetChildren()
-local v = nm and plr.Character:WaitForChild("Head",10)
+local v = nm and (plr.Character:WaitForChild("Head",10) or plr.Character.PrimaryPart or plr.Character:FindFirstChildWhichIsA('BasePart') and plr.Character:FindFirstChildWhichIsA('BasePart').AssemblyRootPart or funcs.wfcofclass(plr.Character,'BasePart',5,true).AssemblyRootPart)
 if v ~= nil then
 local BillboardGui = Instance.new("BillboardGui")
 local TextLabel = Instance.new("TextLabel")
@@ -142,7 +142,7 @@ TextLabel.TextColor3 = Color3.new(1,1,1)
 end
 TextLabel.TextSize = 15
 TextLabel.TextYAlignment = Enum.TextYAlignment.Top
-local p = plr.Backpack and plr.Backpack:GetChildren()
+local p = plr:FindFirstChildOfClass('Backpack') and plr:FindFirstChildOfClass('Backpack'):GetChildren()
 local nu = 1
 local hpt = ""
 local hm = plr.Character:FindFirstChildOfClass("Humanoid") or plr.Character:WaitForChild("Humanoid",10)
@@ -273,23 +273,20 @@ end
 end
 
 vars.tspy.funcs.plrj=function(ml)
-vars.tspy.funcs.addn(ml)
 table.insert(vars.tspy.cons,ml.CharacterAdded:Connect(function(L)
-local hd = L:WaitForChild("Head",200)
-if hd then
 vars.tspy.funcs.addn(ml)
-end
 end))
+vars.tspy.funcs.addn(ml)
 end
 for i,plr in pairs(funcs.plrs:GetPlayers()) do
-vars.tspy.funcs.plrj(plr)
+task.spawn(vars.tspy.funcs.plrj,plr)
 end
 table.insert(vars.tspy.cons,funcs.plrs.PlayerAdded:Connect(vars.tspy.funcs.plrj))
 end;['aliases']={['tspy']='toolspy'};['desc']='toggle, arg[1]=transparency: default .5'};
 ['presp']={['func']=function(a,aa)
 if vars.braincon then vars.braincon=vars.braincon:Disconnect() for i,v in pairs(vars.braindeadplrs) do if v and not v['ma'] then v[1]:Disconnect() funcs.deb:AddItem(v[2],0) vars.braindeadplrs[i]=nil end end return end
 vars.braintransparency=aa and tonumber(aa) or .5
-for i,v in pairs(funcs.plrs:GetPlayers()) do if not vars.braindeadplrs[v.UserId] then vars.funcs.braindeadesp(v) end end
+for i,v in pairs(funcs.plrs:GetPlayers()) do if not vars.braindeadplrs[v.UserId] then task.spawn(vars.funcs.braindeadesp,v) end end
 vars.braincon=funcs.plrs.PlayerAdded:Connect(vars.funcs.braindeadesp)
 end;['desc']='toggle, arg[1]=transparency'};
 ['loc']={['func']=function(a,aa)
