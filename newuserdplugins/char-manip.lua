@@ -26,7 +26,11 @@ end
 		vars.noclipping=nil
 		end
 	end
-	
+vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputType.MouseButton1;['UserInputState']=Enum.UserInputState.Begin;['Delta']=Vector3.new(math.random(1,25),math.random(1,25),math.random(1,25));['Position']=Vector3.new(math.random(1,25),math.random(1,25),math.random(1,25))}
+ function vars.fkinp:IsA(x) 
+ if x=='InputObject' then return true else return false end
+ end
+ 
 	vars.funcs.lti=function(num,col,p,t)
 	for i=1,num do if p and t then firetouchinterest(p,t,0) firetouchinterest(p,t,1) firetouchinterest(t,p,0) firetouchinterest(t,p,1) task.wait(col) else break end end
 	end
@@ -179,14 +183,14 @@ local plug={noclip={func=function()
 	nn=nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model"))) or type(nn)=='string' and funcs.xgetplr(nn,true)
 	nn=nn and (nn:IsA("Player") and getchar(nil,nil,nn) or not nn:IsA("Player") and nn)
 	if not nn:FindFirstChildOfClass("Humanoid") then
-	local nnn=nn:FindFirstAncestorOfClass("Model")
-	nn=nnn and nnn:FindFirstChildOfClass("Humanoid") and nnn or nn
-	nnn=nil
+	repeat
+	nn=nn:FindFirstAncestorOfClass("Model")
+	until not nn or nn:FindFirstChildOfClass('Humanoid') 
 	end
 	local nntb={}
 	if nn then
 	for i,v in pairs(nn:GetDescendants()) do
-	if v:IsA("BasePart") or v:IsA("MeshPart") then table.insert(nntb,v) end task.wait()
+	if v:IsA("BasePart") or v:IsA("MeshPart") then table.insert(nntb,v) end
 	end
 	else return
 	end
@@ -207,6 +211,7 @@ local plug={noclip={func=function()
 	for i,v in pairs(hl) do
 	if v and nn and (not maxdis or (nn.Position-v.Position)<=maxdis) then 
 	tl:Activate()
+	firesignal(funcs.uip.InputBegan,vars.fkinp,false)
 	for intv,xv in pairs(nntb) do
 	task.spawn(vars.funcs.lti,100,0,v,xv)
 	funcs.runs.RenderStepped:Wait()
