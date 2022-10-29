@@ -1,4 +1,4 @@
-local vars={['rev']=game:GetService('ReplicatedStorage'):WaitForChild("Ragdoll",40):WaitForChild("revivePlayer",40)}
+local vars={['rev']=game:GetService('ReplicatedStorage'):WaitForChild("Ragdoll",40):WaitForChild("revivePlayer",40);['ab']=game:GetService("ReplicatedStorage").Remotes.Ability.Server}
 local plug={
 ['stam']={['func']=function()
 getchar():SetAttribute('StaminaRegenerationRate',10^5)
@@ -21,6 +21,10 @@ vars.rev:FireServer(aa)
 funcs.sendnotif('NightOfNights\\thebamb','rev: '..aa.DisplayName,'rbxassetid://8119590978',5)
 end
 end;['desc']='revive plr'};
+['shk']={['func']=function(a,aa)
+aa=aa and funcs.xgetplr(aa,true)
+if aa then vars.ab:FireServer("Shock",{aa}) end
+end};
 ['Reservedpluginname']='Night Of Nights'
 }
 return plug
