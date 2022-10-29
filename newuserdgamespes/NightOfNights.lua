@@ -18,7 +18,7 @@ vars.rev:FireServer(aa,'Hold')
 vars.rev:FireServer(aa)
 vars.rev:FireServer(aa,'StopHold')
 vars.rev:FireServer(aa)
-funcs.sendnotif('NightOfNights\\revive','rev: '..aa.DisplayName,'rbxassetid://8119590978',5)
+funcs.sendnotif('NightOfNights\\thebamb','rev: '..aa.DisplayName,'rbxassetid://8119590978',5)
 end
 end;['desc']='revive plr'};
 ['Reservedpluginname']='Night Of Nights'
