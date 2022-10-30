@@ -62,7 +62,7 @@ local Char=getchar()
 	funcs.lplr.Character = newChar
 	task.wait()
 	funcs.lplr.Character = Char
-	funcs.deb:AddItem(newChar,0)
+	funcs.deb:AddItem(newChar,0) Char=nil
 end,desc="refresh character"};
 ['f3x']={['func']=function() loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)() end;['desc']='building tools, untrustworthy loadstring'};
 ['grabtools']={['func']=function(a,aa)
@@ -78,7 +78,9 @@ vars.grabcon=workspace[aa and 'DescendantAdded' or 'ChildAdded']:Connect(vars.fu
 funcs.sendnotif('toolthing\\grabtools\\'..(aa and 'DescendantAdded' or 'ChildAdded'),vars.grabcon~=nil and 'true' or 'false','rbxassetid://11012215782',5) 
 end;['desc']='specify arg[1] for descendants, default GetChildren'};
 ['ungrabtools']={['func']=function() if vars.grabcon then vars.grabcon=vars.grabcon:Disconnect() funcs.sendnotif('toolthing\\grabtools','false','rbxassetid://11012215782',5) end end};
-Reservedpluginname="base.tool-manipulation"
+['rjgtool']={['func']=function(strt,strd,str) powersupply.cmds['gtool'][1](strt,strd,str) end;['desc']='givetools and then rejoin'};
+['equiptools']={['func']=function() local bp=funcs.wfcofclass(funcs.lplr,'Backpack') if bp then for i,v in pairs(bp:GetChildren()) do if v:IsA('Tool') then v.Parent=getchar() end end bp=nil end end;['aliases']={['eqtools']='equiptools'}};
+['Reservedpluginname']="base.tool-manipulation"
 }
 
 
@@ -128,7 +130,7 @@ plug["gtool"]={func=function(strt,strd,str)
 	end
 	plug.ref()
 	if strt[2]~="nn" then funcs.sendnotif("cmds/toolthing/gtool","gave tools to "..thp.DisplayName.." ("..thp.Name..")","rbxassetid://6678521436",4) end
-end,desc="give equipped tools to player in arg[2], specify a arg[3] to equip all"}
+end,desc="give equipped tools to player in arg[2], specify a arg[3] to equip all";['aliases']={['givetools']='gtool'}}
 plug["void"]={func=function(strt,strd,str)
 	local thp=strd and funcs.xgetplr(strd,true)
 	if not thp then return end
