@@ -88,7 +88,7 @@ end
 end;['desc']='toggle: high transparency esp: > (arg[1] or .7)'};
 ['toolspy']={['func']=function(ksqsjqis,THEARG)
 THEARG=THEARG and tonumber(THEARG) or .5
-if vars.tspy then task.wait() for i,v in pairs(vars.tspy.cons) do v=v:Disconnect() end vars.tspy=nil  funcs.deb:AddItem(funcs.instanceholder:FindFirstChild('toolspy'),0) return end
+if vars.tspy then task.wait() for i,v in pairs(vars.tspy.cons) do if v then v=v:Disconnect() end end vars.tspy=nil  funcs.deb:AddItem(funcs.instanceholder:FindFirstChild('toolspy'),0) return end
 vars.tspy={}
 vars.tspy.cons={}
 vars.tspy.funcs={}
@@ -204,7 +204,7 @@ end
 end))
 
 table.insert(vars.tspy.cons,plr.Character.ChildRemoved:Connect(function(n)
-if tooltb[n] then
+if tooltb and tooltb[n] then
 local tn = funcs.normalizemagic(tooltb[n])
 local repl = (string.find(toolstring,"\n"..tn.." %(EQUIPPED%),") and string.gsub(toolstring,"\n"..tn.." %(EQUIPPED%),","",1)) or (string.find(toolstring,tn.." %(EQUIPPED%),",1) and string.gsub(toolstring,tn.." %(EQUIPPED%),","",1)) or toolstring
 toolstring = repl
@@ -257,8 +257,8 @@ end
 end))
 
 table.insert(vars.tspy.cons,plr.Backpack.ChildRemoved:Connect(function(n)
+if tooltb and tooltb[n] then
 local tn = funcs.normalizemagic(string.gsub(n.Name,"\n"," "))
-if tooltb[n] then
 local repl = (string.find(toolstring,"\n"..tn..",") and string.gsub(toolstring,"\n"..tn..",","",1)) or (string.find(toolstring,tn..",") and string.gsub(toolstring,tn..",","",1)) or toolstring
 toolstring = repl
 TextLabel.Text = hpt..toolstring
