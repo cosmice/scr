@@ -13,8 +13,11 @@ local gmargs={
 [9115994499]={['reportPlatform']={['actiontype']="spoof","Mobile",1}	},
 [10491640406]={['Damage']={['actiontype']="blockall"} },
 [6651188208]={['ResetValues']={['actiontype']="blockall"}},
+[5149673492]={['EventData']={['actiontype']="block","FallDamage",1}},
+[9928218161]={['EnterRegion']={['actiontype']="block",'Shock',1};['revivePlayer']={['actiontype']='spoof',nil,2}},
 [7182803956]={['RemoteEvent']={['actiontype']="block","FallDamage",1}},
-[9143982021]={['RemoteEvent']={['actiontype']="block",CheckParent="ItemGui","cloud",1}	}
+[8908228901]={['AFK']={['actiontype']='block'}},
+[9143982021]={['RemoteEvent']={['actiontype']="block",['CheckParent']="ItemGui","cloud",1}	}
 }
 
 local getnamecallmethod = getnamecallmethod
