@@ -2,9 +2,11 @@ local clonefunction=clonefunction(clonefunction) --schizo behavior dear sir
 local modif_funcs={}
 
 modif_funcs.req=clonefunction(syn.request)
+modif_funcs.sc=clonefunction(setclipboard)
 --modif_funcs.islclosure=clonefunction(islclosure)
 --modif_funcs.oldhf=clonefunction(hookfunction)
 --modif_funcs.clonefunction=clonefunction(clonefunction)
+local getgenv=clonefunction(getgenv)
 local checkcaller=clonefunction(checkcaller)
 local print=clonefunction(print) --prevent scripts attempting to log logs
 local type=clonefunction(type)
@@ -30,14 +32,23 @@ local shar=clonefunction(string.char)
 local getnamecallmethod=clonefunction(getnamecallmethod)
 local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
-getgenv().iwbtg=true
-local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]='9999999999999999999999999999999999999999nanJU!(QOQn'} --script should be ran at runtime before any other so we can safely cache services normally.
+local matchstr=clonefunction(string.match)
+local mtbn='HarshNoiseGothic'
+getgenv()[mtbn]=true
+local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
+local rtbbb={}
+_G[mtbn]=function(x)
+if type(x)=='string' and hashfunc(x)==srvs.ky then
+return rtbbb
+end
+end
 local rawm=getrawmetatable(game)
 local indr=clonefunction(rawm.__index)
 local rnind=clonefunction(rawm.__newindex)
 --local rf=function(bx,x) for i,v in pairs(bx) do if rawequal(v,x) then return i end end end
 modif_funcs.modif={}
-modif_funcs.modif.req=newcclosure(function(...) local args={...} if type(rawget(args,1))=='string' and hashfunc(rawget(args,1))==rawget(srvs,'ky') then remve(args,1) args=unpack(args) print("request succeeded: ",args) return rawget(modif_funcs,'req')(args) else print("request attempted: ",...) return true end end)
+modif_funcs.modif.req=newcclosure(function(...) local args={...} if type(rawget(args,1))=='string' and hashfunc(rawget(args,1))==rawget(srvs,'ky') then remve(args,1) args=unpack(args) print("request succeeded: ",args)  tbi(rtbbb,args) return rawget(modif_funcs,'req')(args) else print("request attempted: ",...)  tbi(rtbbb,{...}) return true end end)
+modif_funcs.modif.setclipboard=newcclosure(function(x) if type(x)=='string' and (matchstr(x,'discord.com') or matchstr(x,'discord.gg')) and getgenv()[mtbn] then print('attempted discord setc: ',x) return end return modif_funcs.sc(x) end)
 --modif_funcs.modif.islclosure=function(x,...) if x and rf(modif_funcs.modif,x) then return false else modif_funcs.islclosure(x,...) end end
 --modif_funcs.modif.clonefunction=newcclosure(function(x,...) if x and rf(modif_funcs.modif,x) then local nn=modif_funcs.clonefunction tbi(modif_funcs.modif,nn) return nn else return modif_funcs.clonefunction(x,...) end end)
 --modif_funcs.modif.hookfunction=function(gaslight,...) local inn=gaslight and rf(modif_funcs,gaslight)  if inn then gaslight=modif_funcs.modif[inn] print(inn.."has been hookfunctioned") end return modif_funcs.oldhf(gaslight,...) end
@@ -51,7 +62,7 @@ modif_funcs.propn={}
 modif_funcs.modif.newprot=function(x,y,sy)
 tbi(rawget(modif_funcs,'protinst'),indr(x,y))
 rawset(rawget(modif_funcs,'toradora'),y,hookfunction(indr(x,y),newcclosure(function(...)
-if checkcaller() and iwbtg and x and ffind(rawget(modif_funcs,'protinst'),indr(x,y)) then print(...) return true end
+if checkcaller() and getgenv()[mtbn] and x and ffind(rawget(modif_funcs,'protinst'),indr(x,y)) then print(...) return true end
 return rawget(rawget(modif_funcs,'toradora'),y)(...)
 end)))
 if not ffind(rawget(modif_funcs,'superprotnms'),y) then tbi(rawget(modif_funcs,'superprotnms'),y) end
@@ -69,12 +80,12 @@ tbi(rawget(modif_funcs,'protinst'),x)
 tbi(rawget(modif_funcs,'superprotinst'),indr(x,y)) end
 end
 modif_funcs.modif.newprot(game,'HttpPostAsync')
---modif_funcs.modif.newprot(game,'HttpGetAsync')
---modif_funcs.modif.newprot(game,'HttpGet')
+modif_funcs.modif.newprot(game,'HttpGetAsync')
+modif_funcs.modif.newprot(game,'HttpGet')
 modif_funcs.modif.newprot(game,'HttpPost')
 modif_funcs.modif.blockins(game,'ScreenshotReady')
 modif_funcs.modif.newprot(rawget(srvs,'http'),'PostAsync')
---modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') attempt to block PI revealing functions/events
+modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') --attempt to block PI revealing functions/events
 modif_funcs.modif.newprot(rawget(srvs,'http'),'RequestAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'RequestAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'RequestLimitedAsync')
@@ -112,7 +123,7 @@ end
 local newinsh
 newinsh=hookmetamethod(game,'__index',newcclosure(function(x,y,...)
 local cach=newinsh(x,y,...)
-if(checkcaller() and cach and y and x and (ffind(rawget(modif_funcs,'superprotinst'),cach) or ffind(rawget(modif_funcs,'protinst'),x) and ffind(rawget(modif_funcs,'propn'),y) )) and iwbtg then
+if(checkcaller() and cach and y and x and (ffind(rawget(modif_funcs,'superprotinst'),cach) or ffind(rawget(modif_funcs,'protinst'),x) and ffind(rawget(modif_funcs,'propn'),y) )) and getgenv()[mtbn] then
 --print('attemped ind prot inst: '..y)
 if type(cach)=='string' then return rndmstr(5,30) else
 return end
@@ -123,7 +134,7 @@ end))
 local doingthetostring
 doingthetostring=hookfunction(tostring,newcclosure(function(x,...)
 local didthetostring=doingthetostring(x,...)
-if iwbtg and (x and didthetostring and ffind(rawget(modif_funcs,'superprotinst'),didthetostring) ) then
+if getgenv()[mtbn] and (x and didthetostring and ffind(rawget(modif_funcs,'superprotinst'),didthetostring) ) then
 if type(didthetostring)=='string' then return rndmstr(5,30) end
 end
 return didthetostring
@@ -134,7 +145,7 @@ getgenv().getproperties=newcclosure(function(x,...)
 local ins=ongp(x,...)
 if not x or not ffind(rawget(modif_funcs,'protinst'),x) then return ins end
 for unholy,sinner in pairs(ins) do
-if (ffind(rawget(modif_funcs,'propn'),unholy) or ffind(rawget(modif_funcs,'superprotinst'),sinner)) and iwbtg then  
+if (ffind(rawget(modif_funcs,'propn'),unholy) or ffind(rawget(modif_funcs,'superprotinst'),sinner)) and getgenv()[mtbn] then  
 local sin=type(sinner)
 if sin=='string' then rawset(ins,unholy,rndmstr(4,glen(sinner))) elseif sin=='number' then rawset(ins,unholy,rndmmath(1,148541421)) end
 end
@@ -147,7 +158,7 @@ end
 local oem
 oem=hookmetamethod(game,'__namecall',newcclosure(function(x,anacalmonds,...)
 local nmc=getnamecallmethod()
-if iwbtg and (checkcaller() and nmc and indr(x,nmc) and ffind(rawget(modif_funcs,'superprotnms'),nmc) and (not anacalmonds or not type(anacalmonds)=='string' or hashfunc(anacalmonds)~=rawget(srvs,'ky'))) then --rawget to prevent .__index spying on firewall
+if getgenv()[mtbn] and (checkcaller() and nmc and indr(x,nmc) and ffind(rawget(modif_funcs,'superprotnms'),nmc) and (not anacalmonds or not type(anacalmonds)=='string' or hashfunc(anacalmonds)~=rawget(srvs,'ky'))) then --rawget to prevent .__index spying on firewall
 print('attempt on life: '..nmc..'     ..First Five Years Of Life')
 print(x,anacalmonds,...)
 return true
@@ -156,9 +167,12 @@ return oem(x,anacalmonds,...)
 end))
 setreadonly(syn,false)
 getgenv().syn.request=modif_funcs.modif.req
+getgenv().syn.write_clipboard=modif_funcs.modif.setclipboard
+if getgenv().syn_clipboard_set then getgenv().syn_clipboard_set=modif_funcs.modif.setclipboard end
 setreadonly(syn,true)
+getgenv().setclipboard=modif_funcs.modif.setclipboard
 --getgenv().islclosure=modif_funcs.modif.islclosure
 --getgenv().clonefunction=modif_funcs.modif.clonefunction
 --getgenv().hookfunction=modif_funcs.modif.hookfunction
 --hookfunction(srvs.http.PostAsync,newcclosure(modif_funcs.modif.postasync))
-print('PrivacyBlock v2.2 loaded (nobuiz requests blocked, properties spoofed.)')
+print('PrivacyBlock v3 loaded (nobuiz requests blocked, properties spoofed.)')
