@@ -6,7 +6,6 @@ modif_funcs.sc=clonefunction(setclipboard)
 --modif_funcs.islclosure=clonefunction(islclosure)
 --modif_funcs.oldhf=clonefunction(hookfunction)
 --modif_funcs.clonefunction=clonefunction(clonefunction)
-local getgenv=clonefunction(getgenv)
 local checkcaller=clonefunction(checkcaller)
 local print=clonefunction(print) --prevent scripts attempting to log logs
 local type=clonefunction(type)
