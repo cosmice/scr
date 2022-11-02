@@ -37,11 +37,11 @@ local mtbn='HarshNoiseGothic'
 getgenv()[mtbn]=true
 local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
 local rtbbb={}
-_G[mtbn]=function(x)
+_G[mtbn]=newcclosure(function(x)
 if type(x)=='string' and hashfunc(x)==srvs.ky then
 return rtbbb
 end
-end
+end)
 local rawm=getrawmetatable(game)
 local indr=clonefunction(rawm.__index)
 local rnind=clonefunction(rawm.__newindex)
