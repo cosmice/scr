@@ -32,9 +32,9 @@ local getnamecallmethod=clonefunction(getnamecallmethod)
 local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
 local matchstr=clonefunction(string.match)
-local mtbn='HarshNoiseGothic'
+local mtbn='stupidretard'
 getgenv()[mtbn]=true
-local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
+local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]='9268a0feb7b82c99d2ab53c11839a89114b5a9b6f52016021e73dfc8e76e72ddb8492992acf24410a4708a2478556f0d'} --script should be ran at runtime before any other so we can safely cache services normally.
 local rtbbb={}
 _G[mtbn]=newcclosure(function(x)
 if type(x)=='string' and hashfunc(x)==srvs.ky then
@@ -151,6 +151,7 @@ end
 end
 return ins
 end)
+getgenv().getprops=getgenv().getproperties
 
 end
 
