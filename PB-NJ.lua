@@ -80,12 +80,12 @@ tbi(rawget(modif_funcs,'protinst'),x)
 tbi(rawget(modif_funcs,'superprotinst'),indr(x,y)) end
 end
 modif_funcs.modif.newprot(game,'HttpPostAsync')
-modif_funcs.modif.newprot(game,'HttpGetAsync')
-modif_funcs.modif.newprot(game,'HttpGet')
+--modif_funcs.modif.newprot(game,'HttpGetAsync')
+--modif_funcs.modif.newprot(game,'HttpGet')
 modif_funcs.modif.newprot(game,'HttpPost')
 modif_funcs.modif.blockins(game,'ScreenshotReady')
 modif_funcs.modif.newprot(rawget(srvs,'http'),'PostAsync')
-modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') --attempt to block PI revealing functions/events
+--modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') --attempt to block PI revealing functions/events
 modif_funcs.modif.newprot(rawget(srvs,'http'),'RequestAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'RequestAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'RequestLimitedAsync')
@@ -175,4 +175,4 @@ getgenv().setclipboard=modif_funcs.modif.setclipboard
 --getgenv().clonefunction=modif_funcs.modif.clonefunction
 --getgenv().hookfunction=modif_funcs.modif.hookfunction
 --hookfunction(srvs.http.PostAsync,newcclosure(modif_funcs.modif.postasync))
-print('PrivacyBlock v3 loaded (nobuiz requests blocked, properties spoofed.)')
+print('PrivacyBlock v2.2 loaded (nobuiz requests blocked, properties spoofed.)')
