@@ -175,4 +175,4 @@ getgenv().setclipboard=modif_funcs.modif.setclipboard
 --getgenv().clonefunction=modif_funcs.modif.clonefunction
 --getgenv().hookfunction=modif_funcs.modif.hookfunction
 --hookfunction(srvs.http.PostAsync,newcclosure(modif_funcs.modif.postasync))
-print('PrivacyBlock v2.2 loaded (nobuiz requests blocked, properties spoofed.)')
+print('PrivacyBlock v3 loaded (nobuiz requests blocked, properties spoofed.)')
