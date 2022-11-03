@@ -65,7 +65,7 @@ task.wait()
 if not game:IsLoaded() then
 game.Loaded:Wait()
 end
-task.spawn(loadfile('funcs.lua'))
+--task.spawn(loadfile('funcs.lua'))
 for i,v in ipairs(gmloadedorder) do
 v = "autorun\\"..v
 if isfile(v) then
