@@ -66,7 +66,6 @@ if not game:IsLoaded() then
 game.Loaded:Wait()
 end
 task.spawn(loadfile('funcs.lua'))
-if not funcs_loaded then bnd['MeXx, Anjxyyy...'].Event:Wait() end
 for i,v in ipairs(gmloadedorder) do
 v = "autorun\\"..v
 if isfile(v) then
