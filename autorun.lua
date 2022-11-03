@@ -3,7 +3,8 @@ getgenv().funcs = {}
 local filesorder = 
 {
 "anti-webhook.txt",
-"pr.txt"
+"pr.txt",
+"amowner.txt"
 --"screenshotban.txt"
 }
 
@@ -11,7 +12,6 @@ local filesorder =
 local gmloadedorder = 
 {
 "anti-afk.txt",
-"amowner.txt",
 "rj.lua",
 "hughjazz.lua",
 --"funcs.lua",
@@ -31,17 +31,11 @@ local runlast =
 {"infiniteyield.lua",2.3}
 }
 
-local gml = { {6708206173,'rateyourav.lua','BLJ.lua'},{10491640406,'bhopphighting.lua','god.lua'},{9143982021,"swordbattlesgui.lua","swordbattles.lua"},{{4671152546},'camera.lua'},{10243982775,'Beware-Redbox2.lua','dashscr.txt'},{198817751,'new 88.txt'},{10201298018,'vmp2remake_esp.lua'},{10087074695,'givebadge.txt'},{{2788229376},'instadeath.lua'},{10531659515,'leshovelbattles.lua'}
+local gml = { {6708206173,'rateyourav.lua','BLJ.lua'},{10491640406,'bhopphighting.lua','god.lua'},{9143982021,"swordbattlesgui.lua","swordbattles.lua"},{{4671152546},'camera.lua'},{10243982775,'Beware-Redbox2.lua','dashscr.txt'},{198817751,'new 88.txt'},{10201298018,'vmp2remake_esp.lua'},{10087074695,'givebadge.txt'},{{2788229376},'instadeath.lua'},{10531659515,'leshovelbattles.lua'},{6115128689,"thehauntedgrip.lua"};{8737602449,'donatgam.lua'},{8260276694,'nnbb.lua'}
 }
 local stats = false
 ------------------------------------------------------------------------------------------------------------------------
 local tm = os.clock()
-local oldcc=checkcaller;
-local type=clonefunction(type)
-local rawget=clonefunction(rawget)
-local ccon=clonefunction(table.concat)
-local hashfunc=clonefunction(syn.crypt.hash)
---print(islclosure(checkcaller))
 _G.consolelog={}
 getgenv().print = newcclosure(function(...)
 local args = {...}
@@ -72,6 +66,7 @@ if not game:IsLoaded() then
 game.Loaded:Wait()
 end
 task.spawn(loadfile('funcs.lua'))
+if not funcs_loaded then bnd['MeXx, Anjxyyy...'].Event:Wait() end
 for i,v in ipairs(gmloadedorder) do
 v = "autorun\\"..v
 if isfile(v) then
