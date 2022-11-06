@@ -4,7 +4,8 @@ local filesorder =
 {
 "anti-webhook.txt",
 "pr.txt",
-"amowner.txt"
+"amowner.txt",
+'funcs.lua'
 --"screenshotban.txt"
 }
 
