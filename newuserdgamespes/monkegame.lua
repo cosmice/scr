@@ -12,7 +12,7 @@ fireclickdetector(vars.itemtb[cmd])
 end
 
 vars.funcs.gotop=function(pos)
-local bp=funcs.wfcofclass(getchar(),'BasePart') bp=bp and bp.AssemblyRootPart if not bp then return end local oldcf=bp.CFrame bp.CFrame=CFrame.new(-22.627584457397, -18.000005722046, 145.7900390625) task.wait() bp.CFrame=oldcf ; oldcf=nil
+local bp=funcs.wfcofclass(getchar(),'BasePart') bp=bp and bp.AssemblyRootPart if not bp then return end local oldcf=bp.CFrame bp.CFrame=pos task.wait() bp.CFrame=oldcf ; oldcf=nil
  end
 
 local plug={
@@ -27,7 +27,7 @@ flaskmesh=nil
 end;['desc']='retard'};
 ['orange']={['func']=vars.funcs.gotop;['onlypass']=true;['args']=CFrame.new(-22.627584457397, -18.000005722046, 145.7900390625)};
 ['green']={['func']=vars.funcs.gotop;['onlypass']=true;['args']=CFrame.new(34.918026, 3.99999905, 51.9332619, -0.0087304078, 6.14552889e-08, 0.999961913, 2.25177494e-08, 1, -6.12610336e-08, -0.999961913, 2.19820571e-08, -0.0087304078)};
-['slow']={['func']=vars.funcs.gotop;['onlypass']=true;['args']= CFrame.new(5.81715441, -13.0000038, 322.74762, -0.931687415, 5.68347325e-09, 0.363260955, -4.77256012e-09, 1, -2.78863084e-08, -0.363260955, -2.77150072e-08, -0.931687415)};
+['slow']={['func']=vars.funcs.gotop;['onlypass']=true;['args']= CFrame.new(7.57155228, -13.0000029, 324.861847, -0.978740275, 9.83571891e-10, 0.205103561, -8.25161536e-11, 1, -5.18925036e-09, -0.205103561, -5.09585263e-09, -0.978740275)};
 ['Reservedpluginname']='monkegame'
 }
 for i,v in pairs(vars.itemtb) do plug[i]={['func']=vars.funcs.itemgrab;['desc']='grab item'} end
