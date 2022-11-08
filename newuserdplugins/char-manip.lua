@@ -460,7 +460,7 @@ local plug={noclip={func=function()
 
 	local function main()
 		local char = getchar()
-		local chtb=char and {['hum']=funcs.wfcofclass(char,'Humanoid');['bp']=funcs.wfcofclass(char,'BasePart')}
+		local chtb=char and {['hum']=char:FindFirstChildWhichIsA('Humanoid');['bp']=char:FindFirstChildWhichIsA('BasePart')}
 
 		if chtb and chtb.bp and chtb.hum and chtb.hum.MoveDirection.Magnitude ~= 0 then
 			for i=1,2 do
