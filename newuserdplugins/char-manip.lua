@@ -1,3 +1,4 @@
+game:GetService('NetworkClient'):SetOutgoingKBPSLimit(9e9*12)
 local vars={['floatn']=3.3,['sz']=Vector3.new(2,0.2,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
@@ -5,7 +6,7 @@ return x:IsA("BasePart") or x:IsA("MeshPart")
 end
 	vars.zerozerozero=Vector3.new(0,0,0);
 	vars.maus=funcs.lplr:GetMouse()
-	
+
 	vars.funcs.chk=function(kk)
 	if kk.KeyCode~=Enum.KeyCode.Return then
 	vars.cdtkk=kk.KeyCode or vars.cdtkk
@@ -182,7 +183,7 @@ local plug={noclip={func=function()
 	["tk"]={["desc"]='toolkill arg[1] (should be in another plugin, technically char manip)';["func"]=function(strt,nn)
 	nn=nn and (typeof(nn)=='Instance' and (nn:IsA("Model") and nn or nn:FindFirstAncestorOfClass("Model"))) or type(nn)=='string' and funcs.xgetplr(nn,true)
 	nn=nn and (nn:IsA("Player") and getchar(nil,nil,nn) or not nn:IsA("Player") and nn)
-	if not nn:FindFirstChildOfClass("Humanoid") then
+	if nn and not nn:FindFirstChildOfClass("Humanoid") then
 	repeat
 	nn=nn:FindFirstAncestorOfClass("Model")
 	until not nn or nn:FindFirstChildOfClass('Humanoid') 
@@ -213,7 +214,7 @@ local plug={noclip={func=function()
 	tl:Activate()
 	firesignal(funcs.uip.InputBegan,vars.fkinp,false)
 	for intv,xv in pairs(nntb) do
-	task.spawn(vars.funcs.lti,100,0,v,xv)
+	task.spawn(vars.funcs.lti,2000,0,v,xv)
 	funcs.runs.RenderStepped:Wait()
 	end
 	else
@@ -289,7 +290,7 @@ local plug={noclip={func=function()
 			tvars.con:Disconnect()
 		elseif tvars and tvars.troot and tvars.root and tvars.bav and tvars.hum then
 			tvars.hum.PlatformStand=true
-			tvars.root.CFrame=((tvars.troot.CFrame*CFrame.new(0,1.7,0))*tvars.root.CFrame.Rotation --[[CFrame.Angles(0,math.rad(tvars.rot),0)--]] + tvars.troot.Velocity * (.9 / 10)) --[[tvars.thum.MoveDirection * tvars.thum.WalkSpeed * .4--]]
+			tvars.root.CFrame=((tvars.troot.CFrame*CFrame.new(0,1.7,0)*CFrame.new(math.sin(tick())*Random.new():NextNumber(1,1.2),math.sin(tick())*Random.new():NextNumber(1,1.2),math.sin(tick())*Random.new():NextNumber(1,1.2)))*tvars.root.CFrame.Rotation --[[CFrame.Angles(0,math.rad(tvars.rot),0)--]] + tvars.troot.Velocity * (.9 / 10)) --[[tvars.thum.MoveDirection * tvars.thum.WalkSpeed * .4--]]
 			tvars.bav.AngularVelocity = tvars.bav.AngularVelocity==vars.zerozerozero and tvars.vel1 or vars.zerozerozero
 			--tvars.rot=tvars.rot==93.4 and 0 or 93.4
 		end
@@ -452,21 +453,22 @@ local plug={noclip={func=function()
 	['stupidws']={['func']=function(a,aa)
 	aa=aa and tonumber(aa)
 	if not aa then return end
-	local char = getchar()
-	local hum: Humanoid = funcs.wfcofclass(char,"Humanoid")
 
 	local walkspeed: number = aa
 
 	if vars.uv_speedhax then vars.uv_speedhax:Disconnect() end
 
 	local function main()
-		if not hum then vars.uv_speedhax:Disconnect() end
+		local char = getchar()
+		local chtb=char and {['hum']=funcs.wfcofclass(char,'Humanoid');['bp']=funcs.wfcofclass(char,'BasePart')}
+		if not chtb or not chtb['bp'] or not chtb['hum'] then vars.uv_speedhax:Disconnect() end
 
-		if hum.MoveDirection.Magnitude ~= 0 then
+		if chtb.hum.MoveDirection.Magnitude ~= 0 then
 			for i=1,2 do
-				char.PrimaryPart:ApplyImpulse(hum.MoveDirection * walkspeed)
+				chtb.bp.AssemblyRootPart:ApplyImpulse(chtb.hum.MoveDirection * walkspeed)
 			end
 		end
+		chtb,char=nil,nil
 	end
 
 	 vars.uv_speedhax = funcs.runs["Heartbeat"]:Connect(main)
