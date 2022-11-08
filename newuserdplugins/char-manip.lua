@@ -461,9 +461,8 @@ local plug={noclip={func=function()
 	local function main()
 		local char = getchar()
 		local chtb=char and {['hum']=funcs.wfcofclass(char,'Humanoid');['bp']=funcs.wfcofclass(char,'BasePart')}
-		if not chtb or not chtb['bp'] or not chtb['hum'] then vars.uv_speedhax:Disconnect() end
 
-		if chtb.hum.MoveDirection.Magnitude ~= 0 then
+		if chtb and chtb.bp and chtb.hum and chtb.hum.MoveDirection.Magnitude ~= 0 then
 			for i=1,2 do
 			if chtb.bp and chtb.hum then	chtb.bp.AssemblyRootPart:ApplyImpulse(chtb.hum.MoveDirection * walkspeed) end
 			end
