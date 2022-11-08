@@ -465,7 +465,7 @@ local plug={noclip={func=function()
 
 		if chtb.hum.MoveDirection.Magnitude ~= 0 then
 			for i=1,2 do
-				chtb.bp.AssemblyRootPart:ApplyImpulse(chtb.hum.MoveDirection * walkspeed)
+			if chtb.bp and chtb.hum then	chtb.bp.AssemblyRootPart:ApplyImpulse(chtb.hum.MoveDirection * walkspeed) end
 			end
 		end
 		chtb,char=nil,nil
