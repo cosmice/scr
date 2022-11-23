@@ -454,8 +454,6 @@ local plug={noclip={func=function()
 	aa=aa and tonumber(aa)
 	if not aa then return end
 
-	local walkspeed: number = aa
-
 	if vars.uv_speedhax then vars.uv_speedhax:Disconnect() end
 
 	local function main()
@@ -464,7 +462,7 @@ local plug={noclip={func=function()
 
 		if chtb and chtb.bp and chtb.hum and chtb.hum.MoveDirection.Magnitude ~= 0 then
 			for i=1,2 do
-			if chtb.bp and chtb.hum then	chtb.bp.AssemblyRootPart:ApplyImpulse(chtb.hum.MoveDirection * walkspeed) end
+			if chtb.bp and chtb.hum then	chtb.bp.AssemblyRootPart:ApplyImpulse(chtb.hum.MoveDirection * aa) end
 			end
 		end
 		chtb,char=nil,nil
@@ -475,6 +473,8 @@ local plug={noclip={func=function()
 	 ['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax:Disconnect() vars.uv_speedhax=nil end end};
 	['unflyv']={['func']=function()
 			if vars.vectorfly then 
+			if getchar():FindFirstChildWhichIsA('Humanoid') then getchar():FindFirstChildWhichIsA('Humanoid'):SetStateEnabled(Enum.HumanoidStateType.FallingDown,not getchar():FindFirstChildWhichIsA('Humanoid'):GetStateEnabled(Enum.HumanoidStateType.FallingDown)) end
+
 			funcs.deb:AddItem(vars.vectorfly.part,0)
 			vars.vectorfly.part=nil
 			
@@ -486,10 +486,12 @@ local plug={noclip={func=function()
 	['flyv']={['func']=function(a,aa)
 		local cam: Camera = workspace.CurrentCamera
 
-		local char = getchar()
-
 		local flyspeed: number = aa and tonumber(aa) or .8
-		
+		local char = getchar()
+		local chp=char and char:FindFirstChildWhichIsA('BasePart')
+		chp=chp and chp.AssemblyRootPart
+		if char:FindFirstChildWhichIsA('Humanoid') then char:FindFirstChildWhichIsA('Humanoid'):SetStateEnabled(Enum.HumanoidStateType.FallingDown,false) end
+		if not chp then return end
 		local part: BasePart
 
 		local keys_using = {
@@ -531,13 +533,15 @@ local plug={noclip={func=function()
 			local x_vec: Vector3   = cam.CFrame.XVector*speed
 			local look_vec: Vector3= cam.CFrame.LookVector*speed
 			local y_vec: Vector3   = cam.CFrame.YVector/2
-
-			if not char then
-				vars.vectorfly.part:Destroy()
-
+			char = funcs.lplr.Character
+			chp=char and char:FindFirstChildWhichIsA('BasePart')
+			chp=chp and chp.AssemblyRootPart
+			if not chp or not chp.Parent then
 				for i=1,#vars.vectorfly do
 					vars.vectorfly[i]:Disconnect()
 				end
+				funcs.deb:AddItem(vars.vectorfly.part,0)
+			return
 			end
 
 			if keys_using["W"] and not keys_using["S"] then
@@ -559,15 +563,18 @@ local plug={noclip={func=function()
 				part.Position += y_vec
 			end
 
-			char:MoveTo(part.Position)
+			chp:PivotTo(part.CFrame*chp.CFrame.Rotation)
+			chp.Velocity=Vector3.zero
+			chp.RotVelocity=Vector3.zero
 		end
 
 		part = Instance.new("Part")
 		part.Anchored = true
-		part.Position = char.PrimaryPart.Position
+		part.CanCollide=false
+		part.Position = chp.Position
 
 		vars.vectorfly = {
-			part = part
+			['part'] = part
 		}
 
 		vars.vectorfly[#vars.vectorfly+1] = funcs.runs["Heartbeat"]:Connect(main)
