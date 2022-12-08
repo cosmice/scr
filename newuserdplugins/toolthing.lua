@@ -43,7 +43,7 @@ end
 
 vars.funcs.eqtool=function(wheneverythinggoeswrong)
 local hmnoid=funcs.wfcofclass(getchar(),'Humanoid')
-if hmnoid and wheneverythinggoeswrong and wheneverythinggoeswrong.Parent and wheneverythinggoeswrong:IsA('BackpackItem') then
+if hmnoid and wheneverythinggoeswrong and wheneverythinggoeswrong.Parent and wheneverythinggoeswrong:IsA('BackpackItem') and wheneverythinggoeswrong.Parent~=getchar() then
 task.defer(hmnoid.EquipTool,hmnoid,wheneverythinggoeswrong)
 end
 hmnoid=nil
@@ -80,6 +80,9 @@ end;['desc']='specify arg[1] for descendants, default GetChildren'};
 ['ungrabtools']={['func']=function() if vars.grabcon then vars.grabcon=vars.grabcon:Disconnect() funcs.sendnotif('toolthing\\grabtools','false','rbxassetid://11012215782',5) end end};
 ['rjgtool']={['func']=function(strt,strd,str) powersupply.cmds['gtool'][1](strt,strd,str) end;['desc']='givetools and then rejoin'};
 ['equiptools']={['func']=function() local bp=funcs.wfcofclass(funcs.lplr,'Backpack') if bp then for i,v in pairs(bp:GetChildren()) do if v:IsA('Tool') then v.Parent=getchar() end end bp=nil end end;['aliases']={['eqtools']='equiptools'}};
+['actvtools']={['func']=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA('Tool') then v:Activate() end end end};
+['dst']={['func']=function() funcs.deb:AddItem(getchar():FindFirstChildOfClass('Tool'),0) end};
+['dsta']={['func']=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA('Tool') then funcs.deb:AddItem(v,0) end end end};
 ['Reservedpluginname']="base.tool-manipulation"
 }
 
