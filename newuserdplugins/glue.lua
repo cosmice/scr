@@ -68,7 +68,7 @@ local plug={
 	 vrs.GLUEMAXSIZE=aa and tonumber(aa) or vrs.GLUEMAXSIZE
 	 end,['desc']='glue max part size (magnitude)'},
 	 ['gluenoclip']={['func']=function() vrs.noclipmd=not vrs.noclipmd funcs.sendnotif("extra.glue\\gluenoclip",vrs.noclipmd and true,"rbxassetid://5258751775",5) end,['desc']='en/fs noclipping with glue command'},
-	 ['gluedes']={['func']=function() vrs.GLUEAUTODESTROY=not vrs.GLUEAUTODESTROY end;['desc']='toggle glue destroying when part is gone'},
+	 ['gluedes']={['func']=function() vrs.GLUEAUTODESTROY=not vrs.GLUEAUTODESTROY funcs.sendnotif("extra.glue\\gluenoclip",vrs.GLUEAUTODESTROY and true,"rbxassetid://5258751775",5)  end;['desc']='toggle glue destroying when part is gone'},
 	['Reservedpluginname']='extra.glue'
 	 }
 	 
