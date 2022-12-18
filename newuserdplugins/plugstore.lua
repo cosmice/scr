@@ -9,6 +9,10 @@ local pind={["base"]={
 ["diedtp"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/diedtp.lua'};
 ['stupidesp']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/esp.lua'}
 };
+['extra']={
+['glue']={'https://github.com/6yNuiC9/scr/blob/main/newuserdplugins/glue.lua',"glue urself 2 stuff/glue,unglue,gluemsize,gluenoclip,gluedes"},
+['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'}
+};
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
 };
@@ -16,7 +20,6 @@ local pind={["base"]={
 ['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua'}
 };
 ["staging"]={
-['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'}
 }
 
 }
