@@ -138,9 +138,10 @@ vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputTyp
 	funcs.deb:AddItem(vars.light,0)
 	vars.light=nil
 	end
-local plug={noclip={func=function()
-	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil else vars.noclipping = funcs.runs.Stepped:Connect(vars.funcs.nclip) end end};
-	float={func=function() if vars.float then funcs.deb:AddItem(vars.float,0) vars.float=nil return end
+local plug={['noclip']={['func']=function()
+	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end vars.noclipping=funcs.runs.Stepped:Connect(vars.funcs.nclip) end};
+	['unnoclip']={['func']=function() if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end end};
+	['float']={['func']=function() if vars.float then funcs.deb:AddItem(vars.float,0) vars.float=nil return end
 	vars.float=Instance.new("Part")
 	funcs.rawmeta.__newindex(vars.float,"Name",vars.fn) 
 	funcs.rawmeta.__newindex(vars.float,"Size",vars.sz) 
@@ -153,10 +154,10 @@ local plug={noclip={func=function()
 	end
 	funcs.deb:AddItem(vars.float,0) vars.float=nil
 	end};
-	["lay"]={func=vars.funcs.lay;desc="character horizontal, stuns you too"};
-	["lays"]={func=vars.funcs.lay;desc="character horizontal, also makes you sit"};
-	["layh"]={func=vars.funcs.lay;desc="turns your character horizontal"};
-	["view"]={desc="view plr",func=function(strt,plrarg) 
+	["lay"]={['func']=vars.funcs.lay;desc="character horizontal, stuns you too"};
+	["lays"]={['func']=vars.funcs.lay;desc="character horizontal, also makes you sit"};
+	["layh"]={['func']=vars.funcs.lay;desc="turns your character horizontal"};
+	["view"]={['desc']="view plr",func=function(strt,plrarg) 
 	local plr=plrarg and funcs.xgetplr(plrarg,true)
 	if vars.specadd then vars.specadd:Disconnect() vars.viewchanged:Disconnect() vars.viewchanged=nil vars.specadd=nil end 
 	if plr then
