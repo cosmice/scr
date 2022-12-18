@@ -16,7 +16,7 @@ local pind={["base"]={
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
 };
-["thbase"]={
+["th"]={
 ['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua'}
 };
 ["staging"]={
