@@ -84,7 +84,7 @@ gnn._close.Font = Enum.Font.SourceSans
 gnn._close.Text = "close"
 gnn._close.TextColor3 = Color3.fromRGB(255, 255, 255)
 gnn._close.TextSize = 14.000
-local mvars=getgenv().sus_cmds_mvars or {['kbind']=Enum.KeyCode.BackSlash;['rainbow']=true;['rainbowset']=true;['saveintv']=15;['historylength']=300;['mainthr']=coroutine.running()}
+local mvars=getgenv().sus_cmds_mvars or {['kbind']=Enum.KeyCode.L;['rainbow']=true;['rainbowset']=true;['saveintv']=15;['historylength']=300;['mainthr']=coroutine.running()}
 gnn.fcks={}
 gnn.cns={}
 gnn.cmdhistory={}
@@ -196,7 +196,7 @@ local function onkeydown(x)
 local txtfocused = funcs.uip:GetFocusedTextBox()
 local cmdfocused=txtfocused==gnn._txtbox
 if txtfocused and not cmdfocused then return end
-if x.KeyCode == mvars.kbind then
+if x.KeyCode == mvars.kbind and not cmdfocused then
 gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
 elseif cmdfocused and x.KeyCode==Enum.KeyCode.Up then
