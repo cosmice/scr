@@ -1,7 +1,6 @@
 local pind={["base"]={
 ["avatar-edit"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/avatar_edit.lua',"2/avatar editing cmds"};
 ["char-manip"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/char-manip.lua',"character manipulation/float,noclip,god,reset,dreset,etc."};
-["icepoolshook"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/icepoolshook.lua',"game specific commands, makes hughjazz be a hub."};
 ["toolthing"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/toolthing.lua',"Z - kidnap M - hell N - Void B - Refresh/refresh,gtool,void,etc"};
 ["tp-cmds"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua',"teleport commands/goto/to/lgoto"};
 ["plugstore"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua',"plug store"};
@@ -11,7 +10,8 @@ local pind={["base"]={
 };
 ['extra']={
 ['glue']={'https://github.com/6yNuiC9/scr/blob/main/newuserdplugins/glue.lua',"glue urself 2 stuff/glue,unglue,gluemsize,gluenoclip,gluedes"},
-['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'}
+['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'},
+["icepoolshook"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/icepoolshook.lua',"game specific commands, makes hughjazz be a hub."};
 };
 ['extra.bad']={
 ['pathfinding']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/pathfinding.lua',"7/IY plugin by tostring, updated, improved & converted/pfplayer,pfpos,pfnearest,markpos,etc"}
