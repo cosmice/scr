@@ -4,23 +4,22 @@ local vrs={}
 	vrs.gluep={}
 	vrs.GLUEMAXSIZE=1000
 	vrs.GLUEAUTODESTROY=true
+	vrs.GLUEMUSTCOLLIDE=true
 	vrs.funcs.reloadglue=function()
 	for i,v in next,vrs.gluep do
 	funcs.deb:AddItem(v,0)
 	end
 	vrs.gluecon=nil --if vrs.gluecon then vrs.gluecon=vrs.gluecon:Disconnect() end
 	vrs.gluep.h = Instance.new("WeldConstraint")
-	if vrs.noclipmd and powersupply.cmds['unnoclip'] then vrs.gluep.h.Destroying:Connect(powersupply.cmds['unnoclip'][1]) end
+	if vrs.noclipmd and powersupply.cmds['clip'] then vrs.gluep.h.Destroying:Connect(powersupply.cmds['clip'][1]) end
 	vrs.gluep.h.Name = funcs.rndmstr(5,20)
-	--vrs.gluep.h.ActuatorType=Enum.ActuatorType.None
-	--vrs.gluep.h.Visible = false
 	end
 	
 	vrs.funcs.addglue=function(with,tvr)
 						if not with:IsDescendantOf(tvr.ch) and with.Size.Magnitude<vrs.GLUEMAXSIZE then
 						local hrp=tvr.ch:FindFirstChild'HumanoidRootPart' or tvr.ch:FindFirstChildWhichIsA'BasePart'
 						local hum=tvr.hum or tvr.ch:FindFirstChildOfClass('Humanoid')
-						if hrp and hum then
+						if hrp and (not vrs.GLUEMUSTCOLLIDE or with.CanCollide) and hum then
 						for i,v in next,tvr.touched do tvr.touched[i]=v:Disconnect() end
 						local ccons={}
 						for i,v in next,getconnections(tvr.ch.ChildAdded) do if v.State then table.insert(ccons,v) v:Disable() end end for i,v in next,getconnections(tvr.ch.DescendantAdded) do if v.State then table.insert(ccons,v) v:Disable() end end
@@ -30,7 +29,7 @@ local vrs={}
 						--if vrs.GLUEAUTODESTROY then local rcon,bb=nil,nil rcon=with.Destroying:Connect(function() funcs.deb:AddItem(strf,0) rcon,bb=rcon:Disconnect(),bb:Disconnect() end) bb=strf.Destroying:Connect(function() vrs.funcs.reloadglue() rcon,bb=rcon:Disconnect(),bb:Disconnect() end) end
 						strf.Size=hrp.Size strf.CFrame=hrp.CFrame strf.CanCollide=false strf.Transparency=1
 						strf.Name=funcs.rndmstr(5,20)
-						strf.Parent=tvr.ch
+						strf.Parent=vrs.GLUEAUTODESTROY and with or tvr.ch
 						vrs.gluep.h.Parent = vrs.GLUEAUTODESTROY and with or strf
 						vrs.gluep.h.Part0 = strf
 						vrs.gluep.h.Part1 = with
@@ -44,12 +43,9 @@ local vrs={}
 					end
 	end
 	
-	vrs.funcs.reloadglue()
-
-	funcs.lplr.CharacterRemoving:Connect(vrs.funcs.reloadglue)
-	
 local plug={
 	['glue']={['func']=function(strt,parg,str,cmd,arg) 
+				if not vrs.gluep.h then vrs.funcs.reloadglue() end
 				local tvr={} tvr.touched={}
 				tvr.ch=getchar()
 				tvr.hum=tvr.ch:FindFirstChildOfClass('Humanoid')
@@ -62,14 +58,14 @@ local plug={
 				vrs.funcs.reloadglue()
 				if hm then hm:SetStateEnabled("Landed",true) end
 				for _,v in next,getchar():GetChildren() do if v:IsA("BasePart") then v.Massless = false end end 
-				if powersupply.cmds['unnoclip'] then powersupply.cmds["unnoclip"][1]() end
+				if powersupply.cmds['clip'] then powersupply.cmds["clip"][1]() end
 	 end},
 	 ['gluemsize']={['func']=function(a,aa)
 	 vrs.GLUEMAXSIZE=aa and tonumber(aa) or vrs.GLUEMAXSIZE
 	 end,['desc']='glue max part size (magnitude)'},
-	 ['gluenoclip']={['func']=function() vrs.noclipmd=not vrs.noclipmd funcs.sendnotif("extra.glue\\gluenoclip",vrs.noclipmd and true,"rbxassetid://5258751775",5) end,['desc']='en/fs noclipping with glue command'},
-	 ['gluedes']={['func']=function() vrs.GLUEAUTODESTROY=not vrs.GLUEAUTODESTROY funcs.sendnotif("extra.glue\\gluenoclip",vrs.GLUEAUTODESTROY and true,"rbxassetid://5258751775",5)  end;['desc']='toggle glue destroying when part is gone'},
-	['Reservedpluginname']='extra.glue'
+	 ['gluenoclip']={['func']=function() vrs.noclipmd=not vrs.noclipmd funcs.sendnotif("extra.glue\\gluenoclip",tostring(vrs.noclipmd and true),"rbxassetid://5258751775",5) end,['desc']='en/fs noclipping with glue command'},
+	 ['gluedes']={['func']=function() vrs.GLUEAUTODESTROY=not vrs.GLUEAUTODESTROY funcs.sendnotif("extra.glue\\gluenoclip",tostring(vrs.GLUEAUTODESTROY and true),"rbxassetid://5258751775",5)  end;['desc']='toggle glue destroying when part is gone'},
+	 ['Reservedpluginname']='extra.glue'
 	 }
 	 
 return plug
