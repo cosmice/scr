@@ -57,7 +57,7 @@ local plug={
 				local hm=getchar('Humanoid',true) if hm then hm.PlatformStand = false end
 				vrs.funcs.reloadglue()
 				if hm then hm:SetStateEnabled("Landed",true) end
-				for _,v in next,getchar():GetChildren() do if v:IsA("BasePart") then v.Massless = false end end 
+				for _,v in next,getchar():GetChildren() do if v:IsA("BasePart") then v.Velocity=Vector3.zero end end 
 				if powersupply.cmds['clip'] then powersupply.cmds["clip"][1]() end
 	 end},
 	 ['gluemsize']={['func']=function(a,aa)
