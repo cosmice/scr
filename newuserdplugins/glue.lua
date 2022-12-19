@@ -3,7 +3,7 @@ local vrs={}
 	vrs.funcs={}
 	vrs.gluep={}
 	vrs.GLUEMAXSIZE=1000
-	vrs.GLUEAUTODESTROY=true
+	vrs.GLUEMUSTDIE=true
 	vrs.GLUEMUSTCOLLIDE=true
 	vrs.funcs.reloadglue=function()
 	for i,v in next,vrs.gluep do
@@ -23,14 +23,14 @@ local vrs={}
 						for i,v in next,tvr.touched do tvr.touched[i]=v:Disconnect() end
 						local ccons={}
 						for i,v in next,getconnections(tvr.ch.ChildAdded) do if v.State then table.insert(ccons,v) v:Disable() end end for i,v in next,getconnections(tvr.ch.DescendantAdded) do if v.State then table.insert(ccons,v) v:Disable() end end
-						if vrs.GLUEAUTODESTROY then for i,v in next,getconnections(with.DescendantAdded) do if v.State then table.insert(ccons,v) v:Disable() end end for i,v in next,getconnections(with.ChildAdded) do if v.State then table.insert(ccons,v) v:Disable() end end end
+						if vrs.GLUEMUSTDIE then for i,v in next,getconnections(with.DescendantAdded) do if v.State then table.insert(ccons,v) v:Disable() end end for i,v in next,getconnections(with.ChildAdded) do if v.State then table.insert(ccons,v) v:Disable() end end end
 						vrs.gluecon=true
 						local strf=Instance.new('Part') vrs.gluep.gluepar=strf
-						--if vrs.GLUEAUTODESTROY then local rcon,bb=nil,nil rcon=with.Destroying:Connect(function() funcs.deb:AddItem(strf,0) rcon,bb=rcon:Disconnect(),bb:Disconnect() end) bb=strf.Destroying:Connect(function() vrs.funcs.reloadglue() rcon,bb=rcon:Disconnect(),bb:Disconnect() end) end
+						--if vrs.GLUEMUSTDIE then local rcon,bb=nil,nil rcon=with.Destroying:Connect(function() funcs.deb:AddItem(strf,0) rcon,bb=rcon:Disconnect(),bb:Disconnect() end) bb=strf.Destroying:Connect(function() vrs.funcs.reloadglue() rcon,bb=rcon:Disconnect(),bb:Disconnect() end) end
 						strf.Size=hrp.Size strf.CFrame=hrp.CFrame strf.CanCollide=false strf.Transparency=1
 						strf.Name=funcs.rndmstr(5,20)
-						strf.Parent=vrs.GLUEAUTODESTROY and with or tvr.ch
-						vrs.gluep.h.Parent = vrs.GLUEAUTODESTROY and with or strf
+						strf.Parent=vrs.GLUEMUSTDIE and with or tvr.ch
+						vrs.gluep.h.Parent = vrs.GLUEMUSTDIE and with or strf
 						vrs.gluep.h.Part0 = strf
 						vrs.gluep.h.Part1 = with
 						funcs.sendnotif("extra.glue",string.format('gluep: %s glueppath: %s gluepmag: %s',with.Name,with:GetFullName(),with.Size.Magnitude),"rbxassetid://5258751775",5)
@@ -64,7 +64,7 @@ local plug={
 	 vrs.GLUEMAXSIZE=aa and tonumber(aa) or vrs.GLUEMAXSIZE
 	 end,['desc']='glue max part size (magnitude)'},
 	 ['gluenoclip']={['func']=function() vrs.noclipmd=not vrs.noclipmd funcs.sendnotif("extra.glue\\gluenoclip",tostring(vrs.noclipmd and true),"rbxassetid://5258751775",5) end,['desc']='en/fs noclipping with glue command'},
-	 ['gluedes']={['func']=function() vrs.GLUEAUTODESTROY=not vrs.GLUEAUTODESTROY funcs.sendnotif("extra.glue\\gluenoclip",tostring(vrs.GLUEAUTODESTROY and true),"rbxassetid://5258751775",5)  end;['desc']='toggle glue destroying when part is gone'},
+	 ['gluedes']={['func']=function() vrs.GLUEMUSTDIE=not vrs.GLUEMUSTDIE funcs.sendnotif("extra.glue\\gluedes",tostring(vrs.GLUEMUSTDIE and true),"rbxassetid://5258751775",5)  end;['desc']='toggle glue destroying when part is gone'},
 	 ['Reservedpluginname']='extra.glue'
 	 }
 	 
