@@ -1,5 +1,5 @@
 game:GetService('NetworkClient'):SetOutgoingKBPSLimit(9e9*12)
-local vars={['floatn']=3.3,['sz']=Vector3.new(2,0.2,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
+local vars={['floatn']=3.025,['sz']=Vector3.new(2,0.05,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
@@ -34,6 +34,10 @@ vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputTyp
  
 	vars.funcs.lti=function(num,col,p,t)
 	for i=1,num do if p and t then firetouchinterest(p,t,0) firetouchinterest(p,t,1) firetouchinterest(t,p,0) firetouchinterest(t,p,1) task.wait(col) else break end end
+	end
+	
+	vars.funcs.axisinc=function(strt,aa,str,cmd,arg)
+	aa=aa and tonumber(aa) if aa then local tmpax={0,0,0} tmpax[arg[1]]=aa local mp=getchar():FindFirstChildWhichIsA'BasePart' mp=mp and mp.AssemblyRootPart if mp then mp[arg[2]]*=arg[3].new(unpack(tmpax)) end end
 	end
 	
 	vars.funcs.novel=function()
@@ -140,17 +144,17 @@ vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputTyp
 	end
 local plug={['noclip']={['func']=function()
 	if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end vars.noclipping=funcs.runs.Stepped:Connect(vars.funcs.nclip) end};
-	['unnoclip']={['func']=function() if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end end};
+	['clip']={['func']=function() if vars.noclipping then vars.noclipping:Disconnect() vars.noclipping=nil end end};
 	['float']={['func']=function() if vars.float then funcs.deb:AddItem(vars.float,0) vars.float=nil return end
 	vars.float=Instance.new("Part")
 	funcs.rawmeta.__newindex(vars.float,"Name",vars.fn) 
 	funcs.rawmeta.__newindex(vars.float,"Size",vars.sz) 
 	funcs.rawmeta.__newindex(vars.float,"Parent",getchar())  --i am retarded
 	funcs.rawmeta.__newindex(vars.float,"Transparency",1)
-	local rp=getchar():FindFirstChild("HumanoidRootPart")
+	local rp=getchar():FindFirstChildWhichIsA'BasePart' rp=rp and rp.AssemblyRootPart
 	while vars.float and rp and rp.Parent do 
-	funcs.rawmeta.__newindex(vars.float,"CFrame",rp.CFrame*CFrame.new(0,-vars.floatn,0))
-	task.wait(0)
+	vars.float.CFrame=rp.CFrame*CFrame.new(0,-vars.floatn,0)
+	task.wait()
 	end
 	funcs.deb:AddItem(vars.float,0) vars.float=nil
 	end};
@@ -323,8 +327,12 @@ local plug={['noclip']={['func']=function()
 				v.Grip = tvars.originalDeathGrips[i]
 			end
 		end--]]
-		tvars.hum:UnequipTools(); tvars=nil; task.wait(.23) end;["desc"]="flingkill";["aliases"]={["pling"]="klink";["flingkill"]="klink"}};
-	['antiac']={desc="attempt to bypass speed checks (may be broken)",func=function(strt,parg)
+	tvars.hum:UnequipTools(); tvars=nil; task.wait(.23) end;["desc"]="flingkill";["aliases"]={["pling"]="klink";["flingkill"]="klink"}};
+	['px']={['func']=vars.funcs.axisinc,['args']={1,'CFrame',CFrame},['desc']='increase assemblyrootpart X by arg1'},['py']={['func']=vars.funcs.axisinc,['args']={2,'CFrame',CFrame},['desc']='increase assemblyrootpart Y by arg1'},['pz']={['func']=vars.funcs.axisinc,['args']={3,'CFrame',CFrame},['desc']='increase assemblyrootpart Z by arg1'},
+	['pvx']={['func']=vars.funcs.axisinc,['args']={1,'Velocity',Vector3},['desc']='increase assemblyrootpart VelocityX by arg1'},['pvy']={['func']=vars.funcs.axisinc,['args']={2,'Velocity',Vector3},['desc']='increase assemblyrootpart VelocityY by arg1'},['pvz']={['func']=vars.funcs.axisinc,['args']={3,'Velocity',Vector3},['desc']='increase assemblyrootpart VelocityZ by arg1'},
+	['jump']={['func']=function() local hum=getchar():FindFirstChildOfClass('Humanoid') if hum then hum:ChangeState(Enum.HumanoidStateType.Jumping) end hum=nil end,['desc']='u know what dis does moron'},['ycripple']={['desc']='cripple [y]ourself',['func']=function() local as=getchar():FindFirstChildWhichIsA'BasePart' as=as and as.AssemblyRootPart funcs.deb:AddItem(as,0) end},
+	['down']={['desc']='down.iy converted - noclip under a part',['func']=function() powersupply.cmds['lays'][1]() powersupply.cmds['noclip'][1]() task.wait(.4) powersupply.cmds['clip'][1]() powersupply.cmds['jump'][1]() end},
+	['antiac']={['desc']="attempt to bypass speed checks (may be broken)",func=function(strt,parg)
 				if vars.antiac then return end
 				vars.antiac=true
 				local nc=0
@@ -779,6 +787,7 @@ end;['desc']='(hopefully) stops bhop'};
 	end;["desc"]="toggle fallingdown state, detectable"};
 	["Reservedpluginname"]="base.char-manipulation"
 	}
-
-
+   plug.stws={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}}
+   plug.stjp={['desc']='set jp to starterplayer jp',['func']=vars.funcs.cprop,['args']={"JumpPower",nil,game:GetService'StarterPlayer'.CharacterJumpPower}}
+   plug.stjh={['desc']='set jh to starterplayer jh',['func']=vars.funcs.cprop,['args']={"JumpHeight",nil,game:GetService'StarterPlayer'.CharacterJumpHeight}}
 return plug
