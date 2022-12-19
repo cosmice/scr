@@ -64,6 +64,7 @@ local function pathfindpos(pos)
 	local waypoints = path:GetWaypoints()
 	for _,waypoint in next, waypoints do
 		local part = Instance.new("Part",waypointparts)
+		funcs.deb:AddItem(part,75)
 		local sha = Instance.new("SphereHandleAdornment",part)
 		part.Shape = "Ball"
 		part.Material = "Neon"
@@ -124,6 +125,7 @@ local function pathfindlist(list)
 		for _,waypoint in next, waypoints do
 			local part = Instance.new("Part",waypointparts)
 			local sha = Instance.new("SphereHandleAdornment",part)
+			funcs.deb:AddItem(part,75)
 			part.Shape = "Ball"
 			part.Material = "Neon"
 			part.Size = Vector3.new(1, 1, 1)
