@@ -22,8 +22,6 @@ local pind={["base"]={
 ["th"]={
 ['rv']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/rv-theme.lua'}
 };
-["staging"]={
-}
 
 }
 local plugss={
