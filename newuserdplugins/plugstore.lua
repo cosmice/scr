@@ -11,7 +11,8 @@ local pind={["base"]={
 };
 ['extra']={
 ['glue']={'https://github.com/6yNuiC9/scr/blob/main/newuserdplugins/glue.lua',"glue urself 2 stuff/glue,unglue,gluemsize,gluenoclip,gluedes"},
-['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'}
+['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'},
+['pathfinding']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/pathfinding.lua',"7/IY plugin by tostring, updated, improved & converted/pfplayer,pfpos,pfnearest,markpos,etc"}
 };
 ["test"]={
 ["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
