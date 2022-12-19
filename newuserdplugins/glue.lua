@@ -19,7 +19,7 @@ local vrs={}
 						if not with:IsDescendantOf(tvr.ch) and with.Size.Magnitude<vrs.GLUEMAXSIZE then
 						local hrp=tvr.ch:FindFirstChild'HumanoidRootPart' or tvr.ch:FindFirstChildWhichIsA'BasePart'
 						local hum=tvr.hum or tvr.ch:FindFirstChildOfClass('Humanoid')
-						if hrp and (not vrs.GLUEMUSTCOLLIDE or with.CanCollide) and hum then
+						if hrp and (not vrs.GLUEMUSTCOLLIDE or with.CanCollide) then
 						for i,v in next,tvr.touched do tvr.touched[i]=v:Disconnect() end
 						local ccons={}
 						for i,v in next,getconnections(tvr.ch.ChildAdded) do if v.State then table.insert(ccons,v) v:Disable() end end for i,v in next,getconnections(tvr.ch.DescendantAdded) do if v.State then table.insert(ccons,v) v:Disable() end end
@@ -37,7 +37,7 @@ local vrs={}
 						if vrs.noclipmd and powersupply.cmds['noclip'] then powersupply.cmds["noclip"][1]() end
 				        --for _,v in next,tvr.ch:GetChildren() do if v:IsA("BasePart") then v.Massless = true end end
 						for i,v in next,ccons do if v then v:Enable() end end ccons=nil
-						while vrs.gluecon and hrp and strf and hum do hrp.CFrame=strf.CFrame hum.PlatformStand = true task.wait() end
+						while vrs.gluecon and hrp and strf do hrp.CFrame=strf.CFrame if hum then hum.PlatformStand = true end task.wait() end
 						end
 						hrp,hum=nil,nil
 					end
