@@ -9,7 +9,7 @@ vars.funcs={}
 	end
 	
 			vars.loops={}
-	
+	vars.httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
 	vars.lighting=game:GetService('Lighting')
 	vars.proxsrv=game:GetService('ProximityPromptService')
 	vars.nfogstr=funcs.rndmstr()
@@ -107,8 +107,25 @@ for i,v in pairs(workspace:GetPartBoundsInBox(chc,chz)) do if not v:IsDescendant
 funcs.runs.RenderStepped:Wait()
 end vars.funcs.setsimradius(130.75393676758,1000)
 end;['desc']='the flingnet is real 2022'};
-['cmdcount']={['func']=function() local n=0 for i,v in next,powersupply.cmds do n+=1 end n=string.format('%s: %s %s','around',n,'commands :D') funcs.sendnotif('cmdcount',n,'rbxassetid://1201924561',6) end},
+['cmdcount']={['func']=function() local n=0 for i,v in next,powersupply.cmds do n+=1 end n=string.format('%s: %s %s','around',n,'commands :D') funcs.sendnotif('uncat\\cmdcount',n,'rbxassetid://1201924561',6) end},
 ['fixcam']={['func']=function() workspace.CurrentCamera:remove() task.wait(.1) workspace.CurrentCamera.CameraSubject = funcs.wfcofclass(getchar(),'Humanoid') workspace.CurrentCamera.CameraType = "Custom" funcs.lplr.CameraMinZoomDistance = 0.5 funcs.lplr.CameraMaxZoomDistance = 400 funcs.lplr.CameraMode = "Classic" end};
+['sh']={['func']=function(n,nn)
+		local servers = {}
+		local req if nn then req=vars.httprequest(nn,{Url = string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100", game.PlaceId)}) else req=vars.httprequest({Url = string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100", game.PlaceId)}) end
+		local body = funcs.httpsrv:JSONDecode(req.Body)
+		if type(body)=='table' and body.data then
+			for i, v in next, body.data do
+				if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
+					table.insert(servers, 1, v.id)
+				end 
+			end
+		end
+		if #servers > 0 then
+			funcs.tpsrv:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], funcs.lplr)
+		else
+			return funcs.sendnotif("serverhop", "Couldn't find a server.")
+		end
+	end,['desc']='serverhop, specify arg[1] for key if using blocker script'},
 --['ntch']={['func']=function()
 ["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
