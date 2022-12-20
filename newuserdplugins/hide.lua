@@ -5,7 +5,7 @@ vrs.addplr=function(plr)
 hidden[plr.UserId]={['oldpar']=plr.Character and plr.Character.Parent}
 if plr.Character then plr.Character.Parent=nil end
 local ccon;ccon=plr.CharacterAdded:Connect(function(ch) if hidden[plr.UserId] then task.defer(vrs.prnil,ch,plr) else ccon=ccon:Disconnect() end end)
-if not vrs.rcon then vrs.rcon=funcs.plrs.PlayerRemoving:Connect(function(plr) if hidden[plr.UserId] then hidden[plr.UserId]=nil local n=0 for i,v in next,hidden do n+=1 end if n<=0 then vrs.rcon=vrs.rcon:Disconnect() if ccon then ccon:Disconnect() end end end end) end plr.Parent=vrs.hiddendeath
+if not vrs.rcon then vrs.rcon=funcs.plrs.PlayerRemoving:Connect(function(plrr) if hidden[plrr.UserId] then hidden[plrr.UserId]=nil local n=0 for i,v in next,hidden do n+=1 end if n<=0 then vrs.rcon=vrs.rcon:Disconnect() if ccon then ccon:Disconnect() end end end end) end plr.Parent=vrs.hiddendeath
 end
 
 local plug={["hideplr"]={['desc']="hides arg[1]",['func']=function(n,nn) 
