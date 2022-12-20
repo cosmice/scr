@@ -1,3 +1,9 @@
+getgenv().sus_cmds={}
+sus_cmds.ExtraPlugins={}
+local fd=not isfolder("November")
+if fd or not isfile("November\\plugstore.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua') end
+if fd or not isfile("November\\hide.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/hide.lua') end
+fd=nil
 -- Gui to Lua
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/funcs.lua"))()
@@ -270,7 +276,7 @@ local ldfile
 local function pl() ldfile=type(v)=='function' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end if type(ldfile)=='table' and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
 xpcall(pl,HandlePluginError) pl=nil
 if not ldfile or type(ldfile)~='table' or not nnnnnn then counter-=1 if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end return end
-local nm=ldfile.Reservedpluginname or v
+local nm=ldfile.Reservedpluginname or type(v)=='string' and v or 'unknown.plugin'
 table.insert(tnstr,nm.." cmds:")
 for x,c in next,ldfile do
 if type(c)~='table' or c.reserved then continue end
@@ -303,7 +309,7 @@ end
 end
 if cmds.ExtraPlugins then
 for i,v in next,cmds.ExtraPlugins do
-coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v))() or v)
+coroutine.wrap(ldplug)((type(v)=='string' and loadstring(game:HttpGet(v)) or v))
 task.wait(0)
 end
 end
