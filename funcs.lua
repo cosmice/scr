@@ -140,7 +140,7 @@ end
 local function verval(vals,def)
 
 if type(vals)=='table' then
-for i,v in pairs(vals) do
+for i,v in next,vals do
 if v~= nil then
 return v
 end
@@ -172,7 +172,7 @@ getgenv().funcs.addhook=function(v,tb)
 		["cons"]=tb.cons or {}
 		}
 		local fh=tb["1h"] and funcs.hookedinst[v]
-		for x,n in pairs(funcs.hookedinst) do if not x or not n then table.remove(funcs.hookedinst,x) end end
+		for x,n in next,funcs.hookedinst do if not x or not n then table.remove(funcs.hookedinst,x) end end
 		if fh and fh.toreturn and fh.toreturn.justquit then fh.toreturn.justquit() end
 		funcs.hookedinst[v]=tb
 		if getproperties(v).Size then
@@ -225,13 +225,13 @@ getgenv().funcs.addhook=function(v,tb)
 
 		tb.toreturn.justquit=function()
 		if not tb then return end
-		for i,vv in pairs(tb.toreturn) do
+		for i,vv in next,tb.toreturn do
 		if typeof(vv)=='Instance' then
 		funcs.deb:AddItem(vv,0)
 		end
 		tb.toreturn[i]=nil
 		end
-		for i,vv in pairs(tb.cons) do
+		for i,vv in next,tb.cons do
 		if vv then vv:Disconnect() end
 		end
 		funcs.hookedinst[v]=nil
@@ -244,7 +244,7 @@ getgenv().funcs.addhook=function(v,tb)
 		table.insert(tb.cons,v.Destroying:Connect(tb.toreturn.justquit))
 		end
 		
-		for i,x in pairs(tb.dep) do
+		for i,x in next,tb.dep do
 		if typeof(x)=="Instance" then
 		table.insert(tb.cons,x.Destroying:Connect(tb.toreturn.justquit))
 		elseif typeof(x)=="RBXScriptSignal" then
@@ -297,12 +297,12 @@ getgenv().funcs.xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admi
     local Found = {}
     local Target = String:lower()
 	local curp=playerservice:GetPlayers()
-        for i,v in pairs(curp) do
+        for i,v in next,curp do
             if v.Name:lower():sub(1, #String) == String:lower() then
                 table.insert(Found,v)
             end
         end
-	   for i,v in pairs(curp) do
+	   for i,v in next,curp do
             if not table.find(Found,v) and v.DisplayName:lower():sub(1, #String) == String:lower() then
                 table.insert(Found,v)
             end
@@ -325,7 +325,7 @@ end
 return xgetplr(name,true)
 end--]]
 local function tablematch(x,y)
-for ii,vv in pairs(x) do if y[ii] and y[ii]~=vv then return false end end 
+for ii,vv in next,x do if y[ii] and y[ii]~=vv then return false end end 
 return true
 end
 getgenv().funcs.wfcofclass = function(parent: Instance, class: string, RELEASEDATE: number?, recursive: boolean?, options: table?)
@@ -339,7 +339,7 @@ getgenv().funcs.wfcofclass = function(parent: Instance, class: string, RELEASEDA
 			vrs.bndable:Fire(x)
 		end
 	end
-	vrs.evf=function(x) vrs.child=nil for i,v in pairs(vrs) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end vrs[i]=nil end vrs=nil return x end
+	vrs.evf=function(x) vrs.child=nil for i,v in next,vrs do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end vrs[i]=nil end vrs=nil return x end
 	vrs.evc=vrs.bndable.Event:Connect(vrs.evf)
 	vrs.con=parent[recursive and "DescendantAdded" or "ChildAdded"]:Connect(vrs.wfcfunc)
     if type(RELEASEDATE)~="boolean" then task.delay(RELEASEDATE or 10,vrs.bndable.Fire,vrs.bndable) end
@@ -433,7 +433,7 @@ else
 rettable = mm .. " = " .. "{"
 end
 local pparent = ""
-	for x, y in pairs(xx) do
+	for x, y in next,xx do
 	local isxokay=not tonumber(x) and tostring(x).." = "
 	if type(y) == "string" then
 		coroutine.wrap(function()
@@ -535,6 +535,10 @@ end
 --]]
 --funcs.turtlespyload()
 getgenv().funcs_loaded = true
+local res=checkcaller('MeXx, Anjxyyy...')
+if typeof(res)=='Instance' then
+res:Fire('I <3 Ec2')
+end
 --[[for i,v in pairs(listfiles("funcsdependents")) do
 loadfile(v)()
 end--]]
