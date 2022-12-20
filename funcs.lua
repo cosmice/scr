@@ -61,7 +61,7 @@ getgenv().getchar=function(x,y,p)
 p=p or funcs.lplr
 local ch=p.Character or p.CharacterAdded:Wait()
 if ch and x~=nil then
-return y and ch:FindFirstChildOfClass(x) or not y and ch:FindFirstChild(x)
+return y and ch:FindFirstChildWhichIsA(x) or not y and ch:FindFirstChild(x)
 else
 return ch
 end
@@ -270,11 +270,10 @@ end--]]
 getgenv().funcs.sg = game:GetService("StarterGui")
 getgenv().funcs.sendnotif = function(top,bottomtextuwu,icopain,durrrrr)
 funcs.sg:SetCore("SendNotification", {
-Title = top or "";
-Text = bottomtextuwu or ""; -- bottom text uwu
-Icon = icopain or "rbxassetid://9101806464";
-Duration = durrrrr or 5; -- durrrrr in seconds
-
+['Title'] = top or "";
+['Text'] = bottomtextuwu or ""; -- bottom text uwu
+['Icon'] = icopain or "rbxassetid://9101806464";
+['Duration'] = durrrrr or 5; -- durrrrr in seconds
 })
 end
 local http=game:GetService('HttpService')
@@ -483,15 +482,9 @@ return rettable
 end
 --infinite yield fe code (rj)
 getgenv().rj = function() --infinite yield
-	if #playerservice:GetPlayers() <= 1 then
 		funcs.lplr:Kick("\nRejoining...")
 		task.wait(.5)
-		game:GetService('TeleportService'):Teleport(game.PlaceId, funcs.lplr)
-	else
-		funcs.lplr:Kick("\nRejoining...")
-		task.wait(.5)
-		game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, funcs.lplr)
-end
+	if #playerservice:GetPlayers() <= 1 then game:GetService('TeleportService'):Teleport(game.PlaceId, funcs.lplr) else game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, funcs.lplr) end
 end
 
 --[[[noface^
