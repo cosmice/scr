@@ -1,10 +1,3 @@
-getgenv().sus_cmds={}
-sus_cmds.ExtraPlugins={}
-local fd=not isfolder("November")
-if fd or not isfile("November\\plugstore.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/plugstore.lua') end
-if fd or not isfile("November\\hide.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/hide.lua') end
-fd=nil
--- Gui to Lua
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/funcs.lua"))()
 end
