@@ -16,13 +16,13 @@ vars.funcs={}
 	vars.bav = Instance.new("BodyAngularVelocity")
 	vars.bav.Name=funcs.rndmstr(90,130)
 	table.insert(funcs.protectedlist,vars.bav)
-	vars.bav.AngularVelocity=Vector3.new(0,-9e9*20,0)
+	--vars.bav.AngularVelocity=Vector3.new(0,-9e9*20,0)
 	vars.bav.MaxTorque= Vector3.new(0,math.huge,0)
 	vars.funcs.theloop=function(x)
 	local stt=os.clock()
 	local con
 	con=funcs.runs.Heartbeat:Connect(function()
-	if x and x.Parent and vars.flingnet and os.clock()-stt<6 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and vars.bav.AngularVelocity or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con,stt,x=nil,nil,nil end
+	if x and x.Parent and vars.flingnet and os.clock()-stt<6 then x.AngularVelocity=x.AngularVelocity==Vector3.zero and Vector3.one*math.random(-90000000,90000000) or Vector3.zero else funcs.deb:AddItem(x,0) x=nil con:Disconnect() con,stt,x=nil,nil,nil end
 	end)
 	end
 	vars.funcs.setsimradius=function(x,y)
@@ -93,6 +93,7 @@ end;["desc"]='loopcmd (arg[1] amount of times arg[2+] being cmd+args), "multithr
 ["firstp"]={['func']=vars.funcs.povyouarefrankiepalmeri;['args']='LockFirstPerson'};
 ["norender"]={['func']=funcs.runs.Set3dRenderingEnabled;['args']={funcs.runs;false};['onlypass']=true};
 ["render"]={['func']=funcs.runs.Set3dRenderingEnabled;['args']={funcs.runs;true};['onlypass']=true};
+['cerr']={['func']=function() game:GetService("GuiService"):ClearError() funcs.runs:SetRobloxGuiFocused(false) end;['desc']='clearerror'};
 ['autoc1']={['func']=funcs.autoc1};
 ['flingnet']={['func']=function() 
 vars.flingnet=not vars.flingnet
@@ -102,10 +103,13 @@ while vars.flingnet do
 vars.funcs.setsimradius(9e9,9e9)
 local chc,chz=getchar():GetBoundingBox()
 chz*=6
-for i,v in pairs(workspace:GetPartBoundsInBox(chc,chz)) do if not v:IsDescendantOf(getchar()) and not v:FindFirstChild(vars.bav.Name) and (v:IsA'BasePart' or v:IsA'MeshPart') and not v.Anchored and isnetworkowner(v) then local tcl=vars.bav:Clone() vars.funcs.theloop(tcl) tcl.Parent=v end task.wait() end
+for i,v in pairs(workspace:GetPartBoundsInBox(chc,chz)) do if not v:IsDescendantOf(getchar()) and not v:FindFirstChild(vars.bav.Name) and (v:IsA'BasePart' or v:IsA'MeshPart') and not v.Anchored and isnetworkowner(v) then local tcl=vars.bav:Clone() vars.funcs.theloop(tcl) tcl.Parent=v end funcs.runs.Stepped:Wait() end
 funcs.runs.RenderStepped:Wait()
 end vars.funcs.setsimradius(130.75393676758,1000)
 end;['desc']='the flingnet is real 2022'};
+['cmdcount']={['func']=function() local n=0 for i,v in next,powersupply.cmds do n+=1 end n=string.format('%s: %s %s','around',n,'commands :D') funcs.sendnotif('cmdcount',n,'rbxassetid://1201924561',6) end},
+['fixcam']={['func']=function() workspace.CurrentCamera:remove() task.wait(.1) workspace.CurrentCamera.CameraSubject = funcs.wfcofclass(getchar(),'Humanoid') workspace.CurrentCamera.CameraType = "Custom" funcs.lplr.CameraMinZoomDistance = 0.5 funcs.lplr.CameraMaxZoomDistance = 400 funcs.lplr.CameraMode = "Classic" end};
+--['ntch']={['func']=function()
 ["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
 return plug
