@@ -112,8 +112,8 @@ end;['desc']='the flingnet is real 2022'};
 ['sh']={['func']=function(n,nn)
 		local servers = {}
 		local req if nn then req=vars.httprequest(nn,{Url = string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100", game.PlaceId)}) else req=vars.httprequest({Url = string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100", game.PlaceId)}) end
-		local body = funcs.httpsrv:JSONDecode(req.Body)
-		if type(body)=='table' and body.data then
+		local body = type(req)=='table' and funcs.httpsrv:JSONDecode(req.Body)
+		if body and body.data then
 			for i, v in next, body.data do
 				if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
 					table.insert(servers, 1, v.id)
