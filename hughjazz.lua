@@ -231,7 +231,7 @@ elseif slen>1 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,2)] then
 
 local lowestmatch={['txt']='',['len']=9e5}
 for i,v in next,gnn.cmds_sorted[stxt:sub(1,2)] do
- if v:sub(1,slen)==gnn._txtbox.Text and #v<lowestmatch.len then
+ if v~=stxt and v:sub(1,slen)==gnn._txtbox.Text and #v<lowestmatch.len then
 lowestmatch.txt=v lowestmatch.len=#v
  elseif stxt~=gnn._txtbox.Text then
  lowestmatch=nil
@@ -303,7 +303,7 @@ end
 end
 if cmds.ExtraPlugins then
 for i,v in next,cmds.ExtraPlugins do
-coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v)) or v)
+coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v))() or v)
 task.wait(0)
 end
 end
