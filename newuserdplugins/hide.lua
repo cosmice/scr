@@ -17,6 +17,7 @@ end},
 	for i,v in next,vrs.hiddendeath:GetChildren() do if hidden[v.UserId] then
 	v.Character.Parent=hidden[v.UserId].oldpar or workspace hidden[v.UserId]=nil v.Parent=funcs.plrs
 	end end
-end}
+end},
+['Reservedpluginname']='extra.hide'
 }
 return plug
