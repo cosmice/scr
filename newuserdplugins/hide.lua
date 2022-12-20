@@ -1,5 +1,5 @@
 local hidden = {}
-local vrs={} vrs.hiddendeath=Instance.new('Folder') vrs.prnil=function(x,plr) hidden[plr.UserId].oldpar=x.Parent x.Parent=nil local cccon;cccon=x.AncestryChanged:Connect(function() if hidden[plr.UserId] then task.defer(vrs.prnil,x,plr) else cccon=cccon:Disconnect() end end) end
+local vrs={} vrs.hiddendeath=Instance.new('Folder') vrs.prnil=function(x,plr) hidden[plr.UserId].oldpar=x.Parent x.Parent=nil local cccon;cccon=x.AncestryChanged:Connect(function() if hidden[plr.UserId] then task.defer(coroutine.running()) coroutine.yield() hidden[plr.UserId].oldpar=x.Parent x.Parent=nil else cccon=cccon:Disconnect() end end) end
 
 vrs.addplr=function(plr)
 hidden[plr.UserId]={['oldpar']=plr.Character and plr.Character.Parent}
