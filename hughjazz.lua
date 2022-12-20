@@ -227,22 +227,23 @@ elseif x.KeyCode==Enum.KeyCode.Backspace then
 gnn._acplbl.Text=''
 elseif x.KeyCode==Enum.KeyCode.Tab and gnn.acpval then
 gnn._txtbox.Text=gnn.acpval gnn._acplbl.Text='' gnn._txtbox.CursorPosition=#gnn._txtbox.Text+1
-elseif slen>=2 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,2)] then
+elseif slen>1 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,2)] then
 
 local lowestmatch={['txt']='',['len']=9e5}
 for i,v in next,gnn.cmds_sorted[stxt:sub(1,2)] do
- if v:sub(0,#gnn._txtbox.Text)==gnn._txtbox.Text and #v<lowestmatch.len then
+ if v:sub(1,slen)==gnn._txtbox.Text and #v<lowestmatch.len then
 lowestmatch.txt=v lowestmatch.len=#v
  elseif stxt~=gnn._txtbox.Text then
  lowestmatch=nil
  break
+ end
  end
 if lowestmatch and lowestmatch~='' then gnn._acplbl.Text=lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil end
 
 end
 end
 txtfocused,cmdfocused=nil,nil
-end end
+end
 gnn.Reserved_maintype=funcs.uip.InputEnded:Connect(onkeydown)
 
 --plugins
@@ -271,19 +272,19 @@ xpcall(pl,HandlePluginError) pl=nil
 if not ldfile or type(ldfile)~='table' or not nnnnnn then counter-=1 if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end return end
 local nm=ldfile.Reservedpluginname or v
 table.insert(tnstr,nm.." cmds:")
-for x,c in pairs(ldfile) do
+for x,c in next,ldfile do
 if type(c)~='table' or c.reserved then continue end
 if c.func then
-cmds[x]={c.func,c.args,c.onlypass} local xsub=string.sub(x,1,2)
-if not gnn.cmds_sorted[xsub] then gnn.cmds_sorted[xsub]={} end table.insert(gnn.cmds_sorted[xsub],x)
+cmds[x]={c.func,c.args,c.onlypass}
 end
+local xsub=x:sub(1,2) if not gnn.cmds_sorted[xsub] then gnn.cmds_sorted[xsub]={} end table.insert(gnn.cmds_sorted[xsub],x)
 if c.desc then
 table.insert(tnstr,x.."- "..c.desc)
 else
 table.insert(tnstr,x)
 end
 if c.aliases then
-for i,v in pairs(c.aliases) do
+for i,v in next,c.aliases do
 aliases[i]=v
 end
 end
@@ -295,14 +296,14 @@ end
 pst.powersupply.ldplug=ldplug
 
 if fym then
-for i,v in pairs(fym) do
-task.spawn(ldplug,v)
+for i,v in next,fym do
+coroutine.wrap(ldplug)(v)
 task.wait(0)
 end
 end
 if cmds.ExtraPlugins then
-for i,v in pairs(cmds.ExtraPlugins) do
-task.spawn(ldplug,type(v)=='string' and loadstring(game:HttpGet(v)) or v)
+for i,v in next,cmds.ExtraPlugins do
+coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v)) or v)
 task.wait(0)
 end
 end
