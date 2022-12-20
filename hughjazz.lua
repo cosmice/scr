@@ -42,7 +42,7 @@ gnn._acplbl.TextScaled=true
 gnn._acplbl.TextWrapped=true
 gnn._acplbl.TextColor3=Color3.fromRGB(255,255,255)
 gnn._acplbl.ZIndex=10
-gnn._acplbl.TextTransparency=.5
+gnn._acplbl.TextTransparency=.63
 gnn._acplbl.Parent=gnn._txtbox
 
 gnn.cmdframe.Name = "cmdframe"
@@ -164,6 +164,13 @@ if not mvars.con then
 mvars.con=funcs.uip.InputBegan:Connect(mvars.ck)
 else mvars.con:Disconnect() mvars.con=nil end
 end
+
+for i,v in next,cmds do
+local firstch=string.sub(i,1,2)
+if not gnn.cmds_sorted[firstch] then gnn.cmds_sorted[firstch]={} end
+table.insert(gnn.cmds_sorted[firstch],i)
+end
+
 local aliases={}
 
 -- Scripts:
@@ -209,37 +216,34 @@ end
 local function onkeydown(x)
 local txtfocused = funcs.uip:GetFocusedTextBox()
 local stxt=txtfocused==gnn._txtbox and gnn._txtbox.Text local slen=stxt and #stxt
-print(stxt,slen)
 if txtfocused and not stxt then return end
 if x.KeyCode == mvars.kbind and not stxt then
 gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
-else
-if stxt then
+elseif stxt then
 if x.KeyCode==Enum.KeyCode.Up then
 local lastcmd=gnn.cmdhistory[#gnn.cmdhistory] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil
 elseif x.KeyCode==Enum.KeyCode.Backspace then
 gnn._acplbl.Text=''
 elseif x.KeyCode==Enum.KeyCode.Tab and gnn.acpval then
 gnn._txtbox.Text=gnn.acpval gnn._acplbl.Text='' gnn._txtbox.CursorPosition=#gnn._txtbox.Text+1
-elseif slen~=0 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,1)] then
+elseif slen>=2 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,2)] then
 
 local lowestmatch={['txt']='',['len']=9e5}
-for i,v in next,gnn.cmds_sorted[stxt:sub(1,1)] do
- if v:sub(1,slen)==stxt and #v<lowestmatch.len then
+for i,v in next,gnn.cmds_sorted[stxt:sub(1,2)] do
+ if v:sub(0,#gnn._txtbox.Text)==gnn._txtbox.Text and #v<lowestmatch.len then
 lowestmatch.txt=v lowestmatch.len=#v
  elseif stxt~=gnn._txtbox.Text then
- lowestmatch={['txt']='',['len']=9e5}
+ lowestmatch=nil
  break
  end
-end
-gnn._acplbl.Text=lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil
+if lowestmatch and lowestmatch~='' then gnn._acplbl.Text=lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil end
 
 end
 end
 txtfocused,cmdfocused=nil,nil
 end end
-gnn.Reserved_maintype=funcs.uip.InputBegan:Connect(onkeydown)
+gnn.Reserved_maintype=funcs.uip.InputEnded:Connect(onkeydown)
 
 --plugins
 
@@ -270,7 +274,7 @@ table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
 if type(c)~='table' or c.reserved then continue end
 if c.func then
-cmds[x]={c.func,c.args,c.onlypass} local xsub=string.sub(x,1,1)
+cmds[x]={c.func,c.args,c.onlypass} local xsub=string.sub(x,1,2)
 if not gnn.cmds_sorted[xsub] then gnn.cmds_sorted[xsub]={} end table.insert(gnn.cmds_sorted[xsub],x)
 end
 if c.desc then
