@@ -12,8 +12,9 @@ txt = Instance.new("TextLabel");
 _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
 plugsloaded = Instance.new("BindableEvent");
+_acplbl=Instance.new('TextLabel');
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
-
+gnn.cmds_sorted={}
 gnn.main.Name = "main"
 gnn.main.Parent = gnn.gprot(gnn.main)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -31,6 +32,18 @@ gnn._txtbox.TextColor3 = Color3.fromRGB(255, 255, 255)
 gnn._txtbox.TextScaled = true
 gnn._txtbox.TextSize = 14.000
 gnn._txtbox.TextWrapped = true
+gnn._acplbl.Name=funcs.rndmstr(5,20)
+gnn._acplbl.BackgroundTransparency=1
+gnn._acplbl.Font=Enum.Font.SourceSans
+gnn._acplbl.Size=UDim2.new(1,0,1,0)
+gnn._acplbl.Text=''
+gnn._acplbl.TextTransparency=.5
+gnn._acplbl.TextScaled=true
+gnn._acplbl.TextWrapped=true
+gnn._acplbl.TextColor3=Color3.fromRGB(255,255,255)
+gnn._acplbl.ZIndex=10
+gnn._acplbl.TextTransparency=.5
+gnn._acplbl.Parent=gnn._txtbox
 
 gnn.cmdframe.Name = "cmdframe"
 gnn.cmdframe.Active = false
@@ -89,7 +102,7 @@ gnn.fcks={}
 gnn.cns={}
 gnn.cmdhistory={}
 if not getgenv().sus_cmds_mvars and isfile('FailedNovember.lua') then mvars=funcs.load('FailedNovember.lua',mvars) end
-mvars.rainbowins={gnn.txt,gnn._txtbox,gnn.txt2,gnn._close,gnn.cmdframe}
+mvars.rainbowins={gnn.txt,gnn._txtbox,gnn.txt2,gnn._close,gnn.cmdframe,gnn._acplbl}
 cmds["cmds"]=cmds["cmds"] or function()
 		gnn._close.Active = true
 		gnn.cmdframe.Active = true
@@ -190,20 +203,42 @@ end
 	end
 	gnn.Reserved_onclick=gnn._close.MouseButton1Click:Connect(onclick)
 local function stfu()
-gnn._txtbox.Text = ""
+gnn._txtbox.Text = '' gnn._acplbl.Text='' gnn.acpval=nil
 end
+
 local function onkeydown(x)
 local txtfocused = funcs.uip:GetFocusedTextBox()
-local cmdfocused=txtfocused==gnn._txtbox
-if txtfocused and not cmdfocused then return end
-if x.KeyCode == mvars.kbind and not cmdfocused then
+local stxt=txtfocused==gnn._txtbox and gnn._txtbox.Text local slen=stxt and #stxt
+print(stxt,slen)
+if txtfocused and not stxt then return end
+if x.KeyCode == mvars.kbind and not stxt then
 gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
-elseif cmdfocused and x.KeyCode==Enum.KeyCode.Up then
+else
+if stxt then
+if x.KeyCode==Enum.KeyCode.Up then
 local lastcmd=gnn.cmdhistory[#gnn.cmdhistory] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil
+elseif x.KeyCode==Enum.KeyCode.Backspace then
+gnn._acplbl.Text=''
+elseif x.KeyCode==Enum.KeyCode.Tab and gnn.acpval then
+gnn._txtbox.Text=gnn.acpval gnn._acplbl.Text='' gnn._txtbox.CursorPosition=#gnn.acpval
+elseif slen~=0 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,1)] then
+
+local lowestmatch={['txt']='',['len']=9e5}
+for i,v in next,gnn.cmds_sorted[stxt:sub(1,1)] do
+ if v:sub(1,slen)==stxt and #v<lowestmatch.len then
+lowestmatch.txt=v lowestmatch.len=#v
+ elseif stxt~=gnn._txtbox.Text then
+ lowestmatch={['txt']='',['len']=9e5}
+ break
+ end
+end
+gnn._acplbl.Text=lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil
+
+end
 end
 txtfocused,cmdfocused=nil,nil
-end
+end end
 gnn.Reserved_maintype=funcs.uip.InputBegan:Connect(onkeydown)
 
 --plugins
@@ -235,7 +270,8 @@ table.insert(tnstr,nm.." cmds:")
 for x,c in pairs(ldfile) do
 if type(c)~='table' or c.reserved then continue end
 if c.func then
-cmds[x]={c.func,c.args,c.onlypass}
+cmds[x]={c.func,c.args,c.onlypass} local xsub=string.sub(x,1,1)
+if not gnn.cmds_sorted[xsub] then gnn.cmds_sorted[xsub]={} end table.insert(gnn.cmds_sorted[xsub],x)
 end
 if c.desc then
 table.insert(tnstr,x.."- "..c.desc)
