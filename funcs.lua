@@ -277,6 +277,7 @@ funcs.sg:SetCore("SendNotification", {
 })
 end
 local http=game:GetService('HttpService')
+funcs.httpsrv=http
 getgenv().funcs.save = function(name,data,encode)
 if encode then
 writefile(name,http:JSONEncode(data))
