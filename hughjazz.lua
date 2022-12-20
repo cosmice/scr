@@ -221,7 +221,7 @@ local lastcmd=gnn.cmdhistory[#gnn.cmdhistory] if lastcmd then gnn._txtbox.Text=l
 elseif x.KeyCode==Enum.KeyCode.Backspace then
 gnn._acplbl.Text=''
 elseif x.KeyCode==Enum.KeyCode.Tab and gnn.acpval then
-gnn._txtbox.Text=gnn.acpval gnn._acplbl.Text='' gnn._txtbox.CursorPosition=#gnn.acpval
+gnn._txtbox.Text=gnn.acpval gnn._acplbl.Text='' gnn._txtbox.CursorPosition=#gnn._txtbox.Text+1
 elseif slen~=0 and not stxt:find(' ') and gnn.cmds_sorted[stxt:sub(1,1)] then
 
 local lowestmatch={['txt']='',['len']=9e5}
