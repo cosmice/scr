@@ -785,6 +785,8 @@ end;['desc']='(hopefully) stops bhop'};
 	funcs.sendnotif('togfall state',tostring(hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown)),'',5)
 	end
 	end;["desc"]="toggle fallingdown state, detectable"};
+	['attpr']={['desc']='attach a stick to u',['func']=function(n,nn) nn=nn and tonumber(nn) or 20 local rp=getchar('BasePart',true) local hm=getchar('Humanoid',true) rp=rp and rp.AssemblyRootPart if rp then vars.attpr=vars.attpr and vars.attpr:Destroy() or Instance.new('Part') vars.attpr.Size=Vector3.new(1,1,nn) vars.attpr.Massless=true vars.attpr.CanCollide=false vars.attpr.CanQuery=false vars.attpr.Color=Color3.fromRGB(30,0,0) vars.attpr.Material=Enum.Material.SmoothPlastic vars.attpr.CFrame=rp.CFrame local m6d=Instance.new('Motor6D') m6d.Part0=vars.attpr m6d.Part1=rp m6d.Parent=vars.attpr vars.attpr.Name=funcs.rndmstr(5,20) vars.attpr.Parent=rp.Parent end end},
+	['unattpr']={['func']=function() funcs.deb:AddItem(vars.attpr,0) end},
 	["Reservedpluginname"]="base.char-manipulation"
 	}
    plug.stws={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}}
