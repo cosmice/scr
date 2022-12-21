@@ -8,7 +8,7 @@ local cc={
 ['vhspeed']={['desc']='vehicleular mal- vehicle speed',['func']=vrs.chngvhcp,['args']='MaxSpeed'},
 ['vhtorque']={['desc']='VEHICULAR MALFUNCTION!!- change vehicle torque (the greater the number, the faster it will reach the maximum speed -roblox)',['func']=vrs.chngvhcp,['args']='Torque'},
 ['vhsteerp']={['desc']='chng vhcle steerfloat',['func']=vrs.chngvhcp,['args']='SteerFloat'},
-['vhturn']={['desc'='description~ being: turn speed vehciluar changing!!',['func']=vrs.chngvhcp,['args']='TurnSpeed'},
+['vhturn']={['desc']='description~ being: turn speed vehciluar changing!!',['func']=vrs.chngvhcp,['args']='TurnSpeed'},
 ['Reservedpluginname']='manipulation.manipulation!!'
 }
 
