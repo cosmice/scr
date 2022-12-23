@@ -123,7 +123,7 @@ local plug={
 ['f3x']={['func']=function() loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)() end;['desc']='building tools, untrustworthy loadstring'};
 ['grabtools']={['func']=function(a,aa)
 if not funcs.wfcofclass(getchar(),'Humanoid') then return end
-for i,v in pairs(workspace[aa and 'GetDescendants' or 'GetChildren'](workspace)) do
+for i,v in next,workspace[aa and 'GetDescendants' or 'GetChildren'](workspace) do
 if v:IsA('BackpackItem') then
 vars.funcs.eqtool(v)
 end
@@ -135,10 +135,10 @@ funcs.sendnotif('toolthing\\grabtools\\'..(aa and 'DescendantAdded' or 'ChildAdd
 end;['desc']='specify arg[1] for descendants, default GetChildren'};
 ['ungrabtools']={['func']=function() if vars.grabcon then vars.grabcon=vars.grabcon:Disconnect() funcs.sendnotif('toolthing\\grabtools','false','rbxassetid://11012215782',5) end end};
 ['rjgtool']={['func']=function(strt,strd,str) powersupply.cmds['gtool'][1](strt,strd,str) end;['desc']='givetools and then rejoin'};
-['equiptools']={['func']=function() local bp=funcs.wfcofclass(funcs.lplr,'Backpack') if bp then for i,v in pairs(bp:GetChildren()) do if v:IsA('Tool') then v.Parent=getchar() end end bp=nil end end;['aliases']={['eqtools']='equiptools'}};
-['actvtools']={['func']=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA('Tool') then v:Activate() end end end};
+['equiptools']={['func']=function() local bp=funcs.wfcofclass(funcs.lplr,'Backpack') if bp then for i,v in next,bp:GetChildren() do if v:IsA('Tool') then v.Parent=getchar() end end bp=nil end end;['aliases']={['eqtools']='equiptools'}};
+['actvtools']={['func']=function() for i,v in next,getchar():GetChildren() do if v:IsA('Tool') then v:Activate() end end end};
 ['dst']={['func']=function() funcs.deb:AddItem(getchar():FindFirstChildOfClass('Tool'),0) end,['desc']='destroy one equipped tool'};
-['dsta']={['func']=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA('Tool') then funcs.deb:AddItem(v,0) end end end,['desc']='destroy all equipped tools'};
+['dsta']={['func']=function() for i,v in next,getchar():GetChildren() do if v:IsA('Tool') then funcs.deb:AddItem(v,0) end end end,['desc']='destroy all equipped tools'};
 ['gtool']={['func']=vars.funcs.tthing,['args']={['cmd']='gtool',['edcmd']='gtools'},['desc']='givetools to <playerarg[1]> if <arg[2]>="1" then equip one elseif <arg[2]>=="2" equip all'},
 ['void']={['func']=vars.funcs.tthing,['args']={['cmd']='void',['edcmd']='voided',['rndcf']=60000000,['rndcfm']=9e10}},
 ['bring']={['func']=vars.funcs.tthing,['args']={['cmd']='bring',['edcmd']='brought(?)',['cf']=true}},
