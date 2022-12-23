@@ -1,6 +1,5 @@
 local vars={
 ['gamereq']=true,
-['blcl']={['Shirt']=true,['Pants']=true,['Accessory']=true,['ShirtGraphic']=true},
 ['funcs']={},['hb']=funcs.runs.Heartbeat,['nis']='NetworkIsSleeping'
 }
 local tween
@@ -15,8 +14,6 @@ local hc=h:Clone()
 hc.Parent = ch
 
 h:Destroy()
-
-vars.blcl={['Shirt']=true,['Pants']=true,['Accessory']=true,['ShirtGraphic']=true}
 
 for _,v in next,funcs.wfcofclass(funcs.lplr,'Backpack',10):GetDescendants() do
     if v.ClassName == "Tool" then
