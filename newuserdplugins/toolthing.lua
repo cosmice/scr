@@ -13,7 +13,6 @@ local h = funcs.wfcofclass(ch,'Humanoid',5)
 if not h then return end
 local hc=h:Clone()
 hc.Parent = ch
-hc.Name = "Human"
 
 h:Destroy()
 
