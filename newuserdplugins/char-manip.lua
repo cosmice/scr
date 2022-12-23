@@ -113,7 +113,7 @@ vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputTyp
 	end
 	vars.funcs.togglevar=function(strt,nn,str,cmd,arg)
 	vars[arg]=not vars[arg]
-	if nn~="nn" then funcs.sendnotif(arg,tostring(vars[arg]~=nil),"rbxassetid://8119590978",5) end
+	if nn~="nn" then funcs.sendnotif(arg,tostring(vars[arg]==true),"rbxassetid://8119590978",5) end
 	end;
 	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
