@@ -487,20 +487,22 @@ local plug={['noclip']={['func']=function()
 	['unflyv']={['func']=function()
 			if vars.vectorfly then 
 			local hum=getchar('Humanoid',true) if hum then hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,not hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown)) hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,not hum:GetStateEnabled(Enum.HumanoidStateType.Freefall)) end
-
+			
 			funcs.deb:AddItem(vars.vectorfly.part,0)
 			vars.vectorfly.part=nil
 			
 			for i,v in ipairs(vars.vectorfly) do
-				vars.vectorfly[i]=v:Disconnect()
+				v:Disconnect()
 			end
+			vars.vectorfly={}
+			powersupply.cmds['resync'][1]()
 		end
 	end};
 	['flyvrot']={['desc']='flyv camera tracking toggle',['func']=vars.funcs.togglevar,['args']='flyvrot'},
 	['stopanims']={['func']=function() local hum=getchar('Humanoid',true) if hum then for i,v in next,hum:GetPlayingAnimationTracks() do v:Stop() end end end},
 	['flyv']={['func']=function(a,aa)
 		local cam: Camera = workspace.CurrentCamera
-
+		local flyd=type(a)=='boolean' and a
 		local flyspeed: number = aa and tonumber(aa) or .8
 		local char = getchar()
 		local chp=char and char:FindFirstChildWhichIsA('BasePart')
@@ -576,7 +578,8 @@ local plug={['noclip']={['func']=function()
 			if keys_using["E"] and not keys_using["Q"] then
 				part.Position += y_vec
 			end
-
+			
+			if flyd then sethiddenproperty(chp,'DraggingV1',vars.vectorfly.resync==nil) vars.vectorfly.resync=nil end
 			chp.CFrame=vars.flyvrot and part.CFrame*CFrame.fromOrientation(cam.CoordinateFrame:ToOrientation()) or part.CFrame*CFrame.fromOrientation(chp.CFrame:ToOrientation())
 			chp.AssemblyLinearVelocity=Vector3.zero 
 		end
@@ -594,7 +597,7 @@ local plug={['noclip']={['func']=function()
 		table.insert(vars.vectorfly,funcs.uip.InputBegan:Connect(input_began))
 		table.insert(vars.vectorfly,funcs.uip.InputEnded:Connect(input_ended))
 		if hum then table.insert(vars.vectorfly,hum) end hum=nil
-		end;['desc']='vectorfly (found on discord)'};
+		end;['desc']='vectorfly (found on discord iss0, edited)',['aliases']={['unflyd']='unflyv'}};
 	["maxzoom"]={["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMaxZoomDistance=nn
 	end;["aliases"]={["mz"]="maxzoom";["nz"]="minzoom"}};
@@ -791,6 +794,9 @@ end;['desc']='(hopefully) stops bhop'};
 	end;["desc"]="toggle fallingdown state, detectable"};
 	['attpr']={['desc']='attach a stick to u arg[1] size',['func']=function(n,nn) nn=nn and tonumber(nn) or 20 local rp=getchar('BasePart',true) local hm=getchar('Humanoid',true) rp=rp and rp.AssemblyRootPart if rp then vars.attpr=vars.attpr and vars.attpr:Destroy() or Instance.new('Part') vars.attpr.Size=Vector3.new(1,1,nn) vars.attpr.Massless=true vars.attpr.CanCollide=false vars.attpr.CanQuery=false vars.attpr.Color=Color3.fromRGB(30,0,0) vars.attpr.Material=Enum.Material.ForceField vars.attpr.CFrame=rp.CFrame local m6d=Instance.new('Motor6D') m6d.Part0=vars.attpr m6d.Part1=rp m6d.Parent=vars.attpr vars.attpr.Name=funcs.rndmstr(5,20) vars.attpr.Parent=rp.Parent end end},
 	['unattpr']={['func']=function() funcs.deb:AddItem(vars.attpr,0) end},
+	['desync']={['desc']='draggingv1',['func']=function() local bp=getchar('BasePart',true) bp=bp and bp.AssemblyRootPart if bp then sethiddenproperty(bp,'DraggingV1',true) end end},
+	['flyd']={['desc']='desync flyv shortcut',['func']=function() powersupply.cmds['desync'][1]() powersupply.cmds['flyv'][1](true) end},
+	['resync']={['desc']='draggingv1 false',['func']=function() local bp=getchar('BasePart',true) bp=bp and bp.AssemblyRootPart if bp then vars.vectorfly.resync=true sethiddenproperty(bp,'DraggingV1',false) sethiddenproperty(bp,'NetworkIsSleeping',false) end end},
    ['stws']={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}},
    ['stjp']={['desc']='set jp to starterplayer jp',['func']=vars.funcs.cprop,['args']={"JumpPower",nil,game:GetService'StarterPlayer'.CharacterJumpPower}},
    ['stjh']={['desc']='set jh to starterplayer jh',['func']=vars.funcs.cprop,['args']={"JumpHeight",nil,game:GetService'StarterPlayer'.CharacterJumpHeight}},
