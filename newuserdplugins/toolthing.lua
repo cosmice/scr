@@ -1,6 +1,6 @@
 local vars={
 ['gamereq']=true,
-['funcs']={},['hb']=funcs.runs.Heartbeat,['nis']='NetworkIsSleeping'
+['funcs']={},['nis']='NetworkIsSleeping'
 }
 local tween
 vars.funcs.bloodforevening=function(input,gameprocessed)
