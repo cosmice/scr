@@ -59,8 +59,8 @@ end
 vars.funcs.re=function(x)
 		if x then funcs.lplr.CharacterAdded:Wait():PivotTo(task.wait() and x) end
 end
-vars.funcs.ref=function()
-local Char=getchar() local cf=Char:FindFirstChildWhichIsA'BasePart' cf=cf and cf.AssemblyRootPart.CFrame
+vars.funcs.ref=function(x)
+local Char=getchar() if not typeof(x)=='CFrame' then local cf=Char:FindFirstChildWhichIsA'BasePart' cf=cf and cf.AssemblyRootPart.CFrame end
 	local hum=Char:FindFirstChildWhichIsA('Humanoid') if hum then hum:ChangeState(15) end
 	Char:ClearAllChildren()
 	local newChar = Instance.new("Model")
@@ -69,7 +69,7 @@ local Char=getchar() local cf=Char:FindFirstChildWhichIsA'BasePart' cf=cf and cf
 	funcs.lplr.Character = newChar
 	task.wait()
 	funcs.lplr.Character = Char
-	funcs.deb:AddItem(newChar,0) Char=nil coroutine.wrap(vars.funcs.re)(cf)
+	funcs.deb:AddItem(newChar,0) Char=nil coroutine.wrap(vars.funcs.re)(x)
 end
 
 vars.funcs.tthing=function(strt,nn,str,cmd,arg)
