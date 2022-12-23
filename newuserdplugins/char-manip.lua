@@ -508,6 +508,7 @@ local plug={['noclip']={['func']=function()
 		local chp=char and char:FindFirstChildWhichIsA('BasePart')
 		chp=chp and chp.AssemblyRootPart
 		local hum=char:FindFirstChildWhichIsA('Humanoid') if hum then vars.vectorfly.wasen=hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown) hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,false) hum=hum.AnimationPlayed:Connect(vars.funcs.animpl) powersupply.cmds['stopanims'][1]() end
+		local bps={} for i,v in next,workspace:GetPartBoundsInBox(char:GetBoundingBox()) do if v:IsDescendantOf(char) then table.insert(bps,v) end end
 		if not chp then return end
 		local part: BasePart
 
@@ -582,6 +583,7 @@ local plug={['noclip']={['func']=function()
 			if flyd then sethiddenproperty(chp,'DraggingV1',vars.vectorfly.resync==nil) vars.vectorfly.resync=nil end
 			chp.CFrame=vars.flyvrot and part.CFrame*CFrame.fromOrientation(cam.CoordinateFrame:ToOrientation()) or part.CFrame*CFrame.fromOrientation(chp.CFrame:ToOrientation())
 			chp.AssemblyLinearVelocity=Vector3.zero 
+			if vars.tchflyd then for i,v in next,bps do if v then for i,x in next,workspace:GetPartBoundsInBox(v.CFrame,v.Size*1.2) do if x and v then firetouchinterest(v,x,0) end end end end end
 		end
 
 		part = Instance.new("Part")
@@ -793,6 +795,7 @@ end;['desc']='(hopefully) stops bhop'};
 	['attpr']={['desc']='attach a stick to u arg[1] size',['func']=function(n,nn) nn=nn and tonumber(nn) or 20 local rp=getchar('BasePart',true) local hm=getchar('Humanoid',true) rp=rp and rp.AssemblyRootPart if rp then vars.attpr=vars.attpr and vars.attpr:Destroy() or Instance.new('Part') vars.attpr.Size=Vector3.new(1,1,nn) vars.attpr.Massless=true vars.attpr.CanCollide=false vars.attpr.CanQuery=false vars.attpr.Color=Color3.fromRGB(30,0,0) vars.attpr.Material=Enum.Material.ForceField vars.attpr.CFrame=rp.CFrame local m6d=Instance.new('Motor6D') m6d.Part0=vars.attpr m6d.Part1=rp m6d.Parent=vars.attpr vars.attpr.Name=funcs.rndmstr(5,20) vars.attpr.Parent=rp.Parent end end},
 	['unattpr']={['func']=function() funcs.deb:AddItem(vars.attpr,0) end},
 	['desync']={['desc']='draggingv1',['func']=function() local bp=getchar('BasePart',true) bp=bp and bp.AssemblyRootPart if bp then sethiddenproperty(bp,'DraggingV1',true) end end},
+	['tchflyd']={['desc']='touch stuff w/ flyd setting',['func']=vars.funcs.togglevar,['args']='tchflyd'},
 	['flyd']={['desc']='desync flyv shortcut',['func']=function() powersupply.cmds['desync'][1]() powersupply.cmds['flyv'][1](true) end},
 	['resync']={['desc']='draggingv1 false',['func']=function() local bp=getchar('BasePart',true) bp=bp and bp.AssemblyRootPart if bp then vars.vectorfly.resync=true sethiddenproperty(bp,'DraggingV1',false) sethiddenproperty(bp,'NetworkIsSleeping',false) end end},
    ['stws']={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}},
