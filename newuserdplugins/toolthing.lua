@@ -54,7 +54,7 @@ hmnoid=nil
 end
 
 vars.funcs.re=function(x)
-		if x then funcs.lplr.CharacterAdded:Wait():PivotTo(task.wait() and x) end
+		if typeof(x)=='CFrame' then funcs.lplr.CharacterAdded:Wait():PivotTo(task.wait() and x) end
 end
 vars.funcs.ref=function(x)
 local Char=getchar() if not typeof(x)=='CFrame' then local cf=Char:FindFirstChildWhichIsA'BasePart' cf=cf and cf.AssemblyRootPart.CFrame end
