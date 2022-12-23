@@ -1,6 +1,6 @@
 local vars={
 ['gamereq']=true,
-['funcs']={},['nis']='NetworkIsSleeping'
+['funcs']={},['nis']='NetworkIsSleeping',['refd']=.5
 }
 local tween
 vars.funcs.bloodforevening=function(input,gameprocessed)
@@ -54,19 +54,19 @@ hmnoid=nil
 end
 
 vars.funcs.re=function(x)
-		if typeof(x)=='CFrame' then funcs.lplr.CharacterAdded:Wait():PivotTo(task.wait() and x) end
+		local bp=funcs.lplr.CharacterAdded:Wait() if vars.refd>=0 then task.wait(vars.refd) end if bp then bp:PivotTo(x) end
 end
 vars.funcs.ref=function(x)
-local Char=getchar() if not typeof(x)=='CFrame' then x=Char:FindFirstChildWhichIsA'BasePart' x=x and x.AssemblyRootPart.CFrame end
-	local hum=Char:FindFirstChildWhichIsA('Humanoid') if hum then hum:ChangeState(15) end
-	Char:ClearAllChildren()
+local Char=funcs.lplr.Character local cf=typeof(x)=='CFrame' and x or Char and Char:FindFirstChildWhichIsA'BasePart' if typeof(cf)=='Instance' then cf=cf.AssemblyRootPart and cf.AssemblyRootPart.CFrame end
+	local hum=Char and Char:FindFirstChildWhichIsA('Humanoid') if hum then hum:ChangeState(15) end
+	if Char then Char:ClearAllChildren() end
 	local newChar = Instance.new("Model")
 	newChar.Name=Char.Name
 	newChar.Parent = workspace
 	funcs.lplr.Character = newChar
 	task.wait()
 	funcs.lplr.Character = Char
-	funcs.deb:AddItem(newChar,0) Char=nil coroutine.wrap(vars.funcs.re)(x)
+	funcs.deb:AddItem(newChar,0) Char=nil funcs.lplr.Character=nil vars.funcs.re(cf)
 end
 
 vars.funcs.tthing=function(strt,nn,str,cmd,arg)
@@ -142,6 +142,7 @@ end;['desc']='specify arg[1] for descendants, default GetChildren'};
 ['gtool']={['func']=vars.funcs.tthing,['args']={['cmd']='gtool',['edcmd']='gtools'},['desc']='givetools to <playerarg[1]> if <arg[2]>="1" then equip one elseif <arg[2]>=="2" equip all'},
 ['void']={['func']=vars.funcs.tthing,['args']={['cmd']='void',['edcmd']='voided',['rndcf']=60000000,['rndcfm']=9e10}},
 ['bring']={['func']=vars.funcs.tthing,['args']={['cmd']='bring',['edcmd']='brought(?)',['cf']=true}},
+['refd']={['func']=function(a,nn) nn=nn and tonumber(nn) if nn then vars.refd=nn end end,['desc']='refdelay before tping'}, 
 ['kill']={['func']=function(strt,nn,str,cmd,arg) local fpds=workspace.FallenPartsDestroyHeight workspace.FallenPartsDestroyHeight=-9e9 arg.cf=CFrame.new(0,fpds*.85,0) vars.funcs.tthing(strt,nn,str,cmd,arg) workspace.FallenPartsDestroyHeight=fpds end,['args']={['cmd']='bring',['edcmd']='brought(?)'}},
 ['Reservedpluginname']="base.tool-manipulation"
 }
