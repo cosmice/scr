@@ -57,7 +57,7 @@ vars.funcs.re=function(x)
 		if typeof(x)=='CFrame' then funcs.lplr.CharacterAdded:Wait():PivotTo(task.wait() and x) end
 end
 vars.funcs.ref=function(x)
-local Char=getchar() if not typeof(x)=='CFrame' then local cf=Char:FindFirstChildWhichIsA'BasePart' cf=cf and cf.AssemblyRootPart.CFrame end
+local Char=getchar() if not typeof(x)=='CFrame' then x=Char:FindFirstChildWhichIsA'BasePart' x=x and x.AssemblyRootPart.CFrame end
 	local hum=Char:FindFirstChildWhichIsA('Humanoid') if hum then hum:ChangeState(15) end
 	Char:ClearAllChildren()
 	local newChar = Instance.new("Model")
