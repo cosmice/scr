@@ -1,5 +1,5 @@
 game:GetService('NetworkClient'):SetOutgoingKBPSLimit(9e9*12)
-local vars={['floatn']=3.025,['sz']=Vector3.new(2,0.05,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma}
+local vars={['floatn']=3.025,['sz']=Vector3.new(2,0.05,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma,['flyvrot']=true}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
@@ -27,6 +27,10 @@ end
 		vars.noclipping=nil
 		end
 	end
+	vars.funcs.animpl=function(x)
+	x:Stop()
+	end
+	
 vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputType.MouseButton1;['UserInputState']=Enum.UserInputState.Begin;['Delta']=Vector3.new(math.random(1,25),math.random(1,25),math.random(1,25));['Position']=Vector3.new(math.random(1,25),math.random(1,25),math.random(1,25))}
  function vars.fkinp:IsA(x) 
  if x=='InputObject' then return true else return false end
@@ -109,7 +113,7 @@ vars.fkinp={['KeyCode']=Enum.KeyCode.Unknown;['UserInputType']=Enum.UserInputTyp
 	end
 	vars.funcs.togglevar=function(strt,nn,str,cmd,arg)
 	vars[arg]=not vars[arg]
-	if nn~="nn" then funcs.sendnotif(arg,vars[arg] and "true" or "false","rbxassetid://8119590978",5) end
+	if nn~="nn" then funcs.sendnotif(arg,tostring(vars[arg]~=nil),"rbxassetid://8119590978",5) end
 	end;
 	vars.funcs.cprop=function(strt,nn,str,cmd,arg)
 	local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
@@ -479,19 +483,21 @@ local plug={['noclip']={['func']=function()
 
 	 vars.uv_speedhax = funcs.runs["Heartbeat"]:Connect(main)
 	 end;['desc']='speedbp, found on discord (Iss0)'};
-	 ['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax:Disconnect() vars.uv_speedhax=nil end end};
+	 ['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax=vars.uv_speedhax:Disconnect() end end};
 	['unflyv']={['func']=function()
 			if vars.vectorfly then 
-			if getchar():FindFirstChildWhichIsA('Humanoid') then getchar():FindFirstChildWhichIsA('Humanoid'):SetStateEnabled(Enum.HumanoidStateType.FallingDown,not getchar():FindFirstChildWhichIsA('Humanoid'):GetStateEnabled(Enum.HumanoidStateType.FallingDown)) end
+			local hum=getchar('Humanoid',true) if hum then hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,not hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown)) hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,not hum:GetStateEnabled(Enum.HumanoidStateType.Freefall)) end
 
 			funcs.deb:AddItem(vars.vectorfly.part,0)
 			vars.vectorfly.part=nil
 			
-			for i=1,#vars.vectorfly do
-				vars.vectorfly[i]:Disconnect()
+			for i,v in ipairs(vars.vectorfly) do
+				vars.vectorfly[i]=v:Disconnect()
 			end
 		end
 	end};
+	['flyvrot']={['desc']='flyv camera tracking toggle',['func']=vars.funcs.togglevar,['args']='flyvrot'},
+	['stopanims']={['func']=function() local hum=getchar('Humanoid',true) if hum then for i,v in next,hum:GetPlayingAnimationTracks() do v:Stop() end end end},
 	['flyv']={['func']=function(a,aa)
 		local cam: Camera = workspace.CurrentCamera
 
@@ -499,7 +505,7 @@ local plug={['noclip']={['func']=function()
 		local char = getchar()
 		local chp=char and char:FindFirstChildWhichIsA('BasePart')
 		chp=chp and chp.AssemblyRootPart
-		if char:FindFirstChildWhichIsA('Humanoid') then char:FindFirstChildWhichIsA('Humanoid'):SetStateEnabled(Enum.HumanoidStateType.FallingDown,false) end
+		local hum=char:FindFirstChildWhichIsA('Humanoid') if hum then hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,false) hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,false) hum=hum.AnimationPlayed:Connect(vars.funcs.animpl) powersupply.cmds['stopanims'][1]() end
 		if not chp then return end
 		local part: BasePart
 
@@ -537,22 +543,21 @@ local plug={['noclip']={['func']=function()
 		end
 
 		local function main(delta_time)
-			local speed: number = flyspeed * (delta_time / (1/60))
-
-			local x_vec: Vector3   = cam.CFrame.XVector*speed
-			local look_vec: Vector3= cam.CFrame.LookVector*speed
-			local y_vec: Vector3   = cam.CFrame.YVector/2
-			char = funcs.lplr.Character
+			local speed=flyspeed * (delta_time / (1/60))
+			char=funcs.lplr.Character
 			chp=char and char:FindFirstChildWhichIsA('BasePart')
 			chp=chp and chp.AssemblyRootPart
-			if not chp or not chp.Parent then
+			if not (chp and chp.Parent and cam) then
 				for i=1,#vars.vectorfly do
 					vars.vectorfly[i]:Disconnect()
 				end
 				funcs.deb:AddItem(vars.vectorfly.part,0)
 			return
 			end
-
+			local x_vec=cam.CFrame.XVector*speed
+			local look_vec=cam.CFrame.LookVector*speed
+			local y_vec=cam.CFrame.YVector/2
+			
 			if keys_using["W"] and not keys_using["S"] then
 				part.Position += look_vec
 			end
@@ -572,9 +577,8 @@ local plug={['noclip']={['func']=function()
 				part.Position += y_vec
 			end
 
-			chp:PivotTo(part.CFrame*chp.CFrame.Rotation)
-			chp.Velocity=Vector3.zero
-			chp.RotVelocity=Vector3.zero
+			chp.CFrame=vars.flyvrot and part.CFrame*CFrame.fromOrientation(cam.CoordinateFrame:ToOrientation()) or part.CFrame*CFrame.fromOrientation(chp.CFrame:ToOrientation())
+			chp.AssemblyLinearVelocity=Vector3.zero 
 		end
 
 		part = Instance.new("Part")
@@ -586,10 +590,10 @@ local plug={['noclip']={['func']=function()
 			['part'] = part
 		}
 
-		vars.vectorfly[#vars.vectorfly+1] = funcs.runs["Heartbeat"]:Connect(main)
-		vars.vectorfly[#vars.vectorfly+1] = funcs.uip.InputBegan:Connect(input_began)
-		vars.vectorfly[#vars.vectorfly+1] = funcs.uip.InputEnded:Connect(input_ended)
-		
+		table.insert(vars.vectorfly,funcs.runs["Heartbeat"]:Connect(main))
+		table.insert(vars.vectorfly,funcs.uip.InputBegan:Connect(input_began))
+		table.insert(vars.vectorfly,funcs.uip.InputEnded:Connect(input_ended))
+		if hum then table.insert(vars.vectorfly,hum) end hum=nil
 		end;['desc']='vectorfly (found on discord)'};
 	["maxzoom"]={["func"]=function(strt,nn,str,cmd,arg)
 	funcs.lplr.CameraMaxZoomDistance=nn
@@ -785,11 +789,11 @@ end;['desc']='(hopefully) stops bhop'};
 	funcs.sendnotif('togfall state',tostring(hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown)),'',5)
 	end
 	end;["desc"]="toggle fallingdown state, detectable"};
-	['attpr']={['desc']='attach a stick to u',['func']=function(n,nn) nn=nn and tonumber(nn) or 20 local rp=getchar('BasePart',true) local hm=getchar('Humanoid',true) rp=rp and rp.AssemblyRootPart if rp then vars.attpr=vars.attpr and vars.attpr:Destroy() or Instance.new('Part') vars.attpr.Size=Vector3.new(1,1,nn) vars.attpr.Massless=true vars.attpr.CanCollide=false vars.attpr.CanQuery=false vars.attpr.Color=Color3.fromRGB(30,0,0) vars.attpr.Material=Enum.Material.SmoothPlastic vars.attpr.CFrame=rp.CFrame local m6d=Instance.new('Motor6D') m6d.Part0=vars.attpr m6d.Part1=rp m6d.Parent=vars.attpr vars.attpr.Name=funcs.rndmstr(5,20) vars.attpr.Parent=rp.Parent end end},
+	['attpr']={['desc']='attach a stick to u arg[1] size',['func']=function(n,nn) nn=nn and tonumber(nn) or 20 local rp=getchar('BasePart',true) local hm=getchar('Humanoid',true) rp=rp and rp.AssemblyRootPart if rp then vars.attpr=vars.attpr and vars.attpr:Destroy() or Instance.new('Part') vars.attpr.Size=Vector3.new(1,1,nn) vars.attpr.Massless=true vars.attpr.CanCollide=false vars.attpr.CanQuery=false vars.attpr.Color=Color3.fromRGB(30,0,0) vars.attpr.Material=Enum.Material.ForceField vars.attpr.CFrame=rp.CFrame local m6d=Instance.new('Motor6D') m6d.Part0=vars.attpr m6d.Part1=rp m6d.Parent=vars.attpr vars.attpr.Name=funcs.rndmstr(5,20) vars.attpr.Parent=rp.Parent end end},
 	['unattpr']={['func']=function() funcs.deb:AddItem(vars.attpr,0) end},
+   ['stws']={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}},
+   ['stjp']={['desc']='set jp to starterplayer jp',['func']=vars.funcs.cprop,['args']={"JumpPower",nil,game:GetService'StarterPlayer'.CharacterJumpPower}},
+   ['stjh']={['desc']='set jh to starterplayer jh',['func']=vars.funcs.cprop,['args']={"JumpHeight",nil,game:GetService'StarterPlayer'.CharacterJumpHeight}},
 	["Reservedpluginname"]="base.char-manipulation"
 	}
-   plug.stws={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}}
-   plug.stjp={['desc']='set jp to starterplayer jp',['func']=vars.funcs.cprop,['args']={"JumpPower",nil,game:GetService'StarterPlayer'.CharacterJumpPower}}
-   plug.stjh={['desc']='set jh to starterplayer jh',['func']=vars.funcs.cprop,['args']={"JumpHeight",nil,game:GetService'StarterPlayer'.CharacterJumpHeight}}
 return plug
