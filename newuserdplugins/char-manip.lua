@@ -1,5 +1,5 @@
 game:GetService('NetworkClient'):SetOutgoingKBPSLimit(9e9*12)
-local vars={['floatn']=3.025,['sz']=Vector3.new(2,0.05,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma,['flyvrot']=true}
+local vars={['floatn']=3.025,['sz']=Vector3.new(2,0.05,1.5),['fn']=tostring(Random.new():NextNumber(1245,99999));["funcs"]={};["flingtime"]=3;['cdtkk']=Enum.KeyCode.Comma,['flyvrot']=true,['vectorfly']={}}
 vars.mouse=funcs.lplr:GetMouse()
 vars.funcs.getproperties=getproperties or function(x)
 return x:IsA("BasePart") or x:IsA("MeshPart")
@@ -485,8 +485,8 @@ local plug={['noclip']={['func']=function()
 	 end;['desc']='speedbp, found on discord (Iss0)'};
 	 ['unstupidws']={['func']=function() if vars.uv_speedhax then vars.uv_speedhax=vars.uv_speedhax:Disconnect() end end};
 	['unflyv']={['func']=function()
-			if vars.vectorfly then 
-			local hum=getchar('Humanoid',true) if hum then hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,not hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown)) hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,not hum:GetStateEnabled(Enum.HumanoidStateType.Freefall)) end
+			if vars.vectorfly.part then 
+			local hum=getchar('Humanoid',true) if hum then hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,vars.vectorfly.wasen) end
 			
 			funcs.deb:AddItem(vars.vectorfly.part,0)
 			vars.vectorfly.part=nil
@@ -495,7 +495,7 @@ local plug={['noclip']={['func']=function()
 				v:Disconnect()
 			end
 			vars.vectorfly={}
-			powersupply.cmds['resync'][1]()
+			task.defer(powersupply.cmds['resync'][1])
 		end
 	end};
 	['flyvrot']={['desc']='flyv camera tracking toggle',['func']=vars.funcs.togglevar,['args']='flyvrot'},
@@ -507,7 +507,7 @@ local plug={['noclip']={['func']=function()
 		local char = getchar()
 		local chp=char and char:FindFirstChildWhichIsA('BasePart')
 		chp=chp and chp.AssemblyRootPart
-		local hum=char:FindFirstChildWhichIsA('Humanoid') if hum then hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,false) hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,false) hum=hum.AnimationPlayed:Connect(vars.funcs.animpl) powersupply.cmds['stopanims'][1]() end
+		local hum=char:FindFirstChildWhichIsA('Humanoid') if hum then vars.vectorfly.wasen=hum:GetStateEnabled(Enum.HumanoidStateType.FallingDown) hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,false) hum=hum.AnimationPlayed:Connect(vars.funcs.animpl) powersupply.cmds['stopanims'][1]() end
 		if not chp then return end
 		local part: BasePart
 
@@ -589,9 +589,7 @@ local plug={['noclip']={['func']=function()
 		part.CanCollide=false
 		part.Position = chp.Position
 
-		vars.vectorfly = {
-			['part'] = part
-		}
+		vars.vectorfly.part=part
 
 		table.insert(vars.vectorfly,funcs.runs["Heartbeat"]:Connect(main))
 		table.insert(vars.vectorfly,funcs.uip.InputBegan:Connect(input_began))
