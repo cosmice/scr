@@ -139,7 +139,7 @@ end;['desc']='specify arg[1] for descendants, default GetChildren'};
 ['actvtools']={['func']=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA('Tool') then v:Activate() end end end};
 ['dst']={['func']=function() funcs.deb:AddItem(getchar():FindFirstChildOfClass('Tool'),0) end,['desc']='destroy one equipped tool'};
 ['dsta']={['func']=function() for i,v in pairs(getchar():GetChildren()) do if v:IsA('Tool') then funcs.deb:AddItem(v,0) end end end,['desc']='destroy all equipped tools'};
-['gtool']={['func']=vars.funcs.tthing,['args']={['cmd']='gtool',['edcmd']='gtools'},['desc']='givetools to <playerarg[1]> if <arg[2]>="1" then equip all elseif <arg[2]>=="2" equip one tool'},
+['gtool']={['func']=vars.funcs.tthing,['args']={['cmd']='gtool',['edcmd']='gtools'},['desc']='givetools to <playerarg[1]> if <arg[2]>="1" then equip one elseif <arg[2]>=="2" equip all'},
 ['void']={['func']=vars.funcs.tthing,['args']={['cmd']='void',['edcmd']='voided',['rndcf']=60000000,['rndcfm']=9e10}},
 ['bring']={['func']=vars.funcs.tthing,['args']={['cmd']='bring',['edcmd']='brought(?)',['cf']=true}},
 ['kill']={['func']=function(strt,nn,str,cmd,arg) local fpds=workspace.FallenPartsDestroyHeight workspace.FallenPartsDestroyHeight=-9e9 arg.cf=CFrame.new(0,fpds*.85,0) vars.funcs.tthing(strt,nn,str,cmd,arg) workspace.FallenPartsDestroyHeight=fpds end,['args']={['cmd']='bring',['edcmd']='brought(?)'}},
