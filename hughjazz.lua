@@ -1,3 +1,4 @@
+-- I Watched the Sun Explode, and in Splendor, Contemplated Existence
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/funcs.lua"))()
 end
@@ -14,6 +15,7 @@ plugsloaded = Instance.new("BindableEvent");
 _acplbl=Instance.new('TextLabel');
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
 gnn.cmds_sorted={}
+gnn.cmdformatstr='%s - %s'
 gnn.main.Name = "main"
 gnn.main.Parent = gnn.gprot(gnn.main)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -36,7 +38,7 @@ gnn._acplbl.BackgroundTransparency=1
 gnn._acplbl.Font=Enum.Font.SourceSans
 gnn._acplbl.Size=UDim2.new(1,0,1,0)
 gnn._acplbl.Text=''
-gnn._acplbl.TextTransparency=.5
+gnn._acplbl.TextTransparency=.35
 gnn._acplbl.TextScaled=true
 gnn._acplbl.TextWrapped=true
 gnn._acplbl.TextColor3=Color3.fromRGB(255,255,255)
@@ -196,7 +198,7 @@ end
 
 	local function onfocus(x)
 		if x then
-			gnn.cmdfunc(gnn._txtbox.Text:lower(),gnn._txtbox.Text)
+			gnn.cmdfunc(gnn._txtbox.Text:lower(),gnn._txtbox.Text) gnn.curhisn=0
 		end
 	end
 	gnn.Reserved_onfocus=gnn._txtbox.FocusLost:Connect(onfocus)
@@ -211,7 +213,7 @@ end
 local function stfu()
 gnn._txtbox.Text = '' gnn._acplbl.Text='' gnn.acpval=nil
 end
-
+gnn.curhisn=0
 local function onkeydown(x)
 local txtfocused = funcs.uip:GetFocusedTextBox()
 local stxt=txtfocused==gnn._txtbox and gnn._txtbox.Text local slen=stxt and #stxt
@@ -221,7 +223,7 @@ gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
 elseif stxt then
 if x.KeyCode==Enum.KeyCode.Up then
-local lastcmd=gnn.cmdhistory[#gnn.cmdhistory] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil
+local lastcmd=gnn.cmdhistory[#gnn.cmdhistory-gnn.curhisn] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil gnn.curhisn+=1
 elseif x.KeyCode==Enum.KeyCode.Backspace then
 gnn._acplbl.Text=''
 elseif x.KeyCode==Enum.KeyCode.Tab and gnn.acpval then
@@ -237,7 +239,7 @@ lowestmatch.txt=v lowestmatch.len=#v
  break
  end
  end
-if lowestmatch and lowestmatch~='' then gnn._acplbl.Text=lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil end
+if lowestmatch and lowestmatch~='' then gnn._acplbl.Text=type(cmds[lowestmatch.txt])=='table' and cmds[lowestmatch.txt][4] and gnn.cmdformatstr:format(lowestmatch.txt,cmds[lowestmatch.txt][4]) or lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil end
 
 end
 end
@@ -269,12 +271,12 @@ local ldfile
 local function pl() ldfile=type(v)=='function' and v or loadfile(v); if type(ldfile)=='function' then setfenv(ldfile,pst) nnnnnn,ldfile=xpcall(ldfile,HandlePluginError) end if type(ldfile)=='table' and ldfile.Init then ldfile=ldfile.Init(HandlePluginError,ldplug,gnn) end end
 xpcall(pl,HandlePluginError) pl=nil
 if not ldfile or type(ldfile)~='table' or not nnnnnn then counter-=1 if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end return end
-local nm=ldfile.Reservedpluginname or type(v)=='string' and v or 'unknown.plugin'
+local nm=ldfile.Reservedpluginname or v
 table.insert(tnstr,nm.." cmds:")
 for x,c in next,ldfile do
 if type(c)~='table' or c.reserved then continue end
 if c.func then
-cmds[x]={c.func,c.args,c.onlypass}
+cmds[x]={c.func,c.args,c.onlypass,c.desc}
 end
 local xsub=x:sub(1,2) if not gnn.cmds_sorted[xsub] then gnn.cmds_sorted[xsub]={} end table.insert(gnn.cmds_sorted[xsub],x)
 if c.desc then
@@ -302,7 +304,7 @@ end
 end
 if cmds.ExtraPlugins then
 for i,v in next,cmds.ExtraPlugins do
-coroutine.wrap(ldplug)((type(v)=='string' and loadstring(game:HttpGet(v)) or v))
+coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v)) or v)
 task.wait(0)
 end
 end
