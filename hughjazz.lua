@@ -2,7 +2,7 @@
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/funcs.lua"))()
 end
-local cmds=getgenv().sus_cmds and table.clone(getgenv().sus_cmds) or {}
+local cmds=getgenv().sus_cmds or {}
 getgenv().sus_cmds=nil
 local gnn={
 main = Instance.new("ScreenGui");
@@ -20,7 +20,7 @@ gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gnn._txtbox.Name = "_txtbox"
 gnn._txtbox.Parent = gnn.main
 gnn._txtbox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-gnn._txtbox.BackgroundTransparency = 0.350
+gnn._txtbox.BackgroundTransparency = .45 --.35
 gnn._txtbox.Draggable = true
 gnn._txtbox.Position = UDim2.new(0.61360544, 0, 0.0637362674, 0)
 gnn._txtbox.Size = UDim2.new(0.136734694, 0, 0.0802197829, 0)
@@ -228,7 +228,6 @@ lowestmatch.txt=v lowestmatch.len=#v
  end
  end
 if lowestmatch and lowestmatch~='' then gnn._acplbl.Text=type(cmds[lowestmatch.txt])=='table' and cmds[lowestmatch.txt][4] and gnn.cmdformatstr:format(lowestmatch.txt,cmds[lowestmatch.txt][4]) or lowestmatch.txt gnn.acpval=lowestmatch.txt lowestmatch=nil end
-
 end
 end
 txtfocused,cmdfocused=nil,nil
@@ -262,7 +261,7 @@ cmds[x]={c.func,c.args,c.onlypass,c.desc}
 end
 local xsub=x:sub(1,2) if not gnn.cmds_sorted[xsub] then gnn.cmds_sorted[xsub]={} end table.insert(gnn.cmds_sorted[xsub],x)
 if c.desc then
-table.insert(tnstr,x.."- "..c.desc)
+table.insert(tnstr,gnn.cmdformatstr:format(x,c.desc))
 else
 table.insert(tnstr,x)
 end
@@ -272,7 +271,7 @@ aliases[i]=v
 end
 end
 end
-gnn.txt.Text=gnn.txt.Text..'\n'..table.concat(tnstr,"\n").."\n"
+gnn.txt.Text=('%s\n%s\n'):format(gnn.txt.Text,table.concat(tnstr,"\n"))
 counter-=1
 if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end
 end
