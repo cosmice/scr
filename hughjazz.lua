@@ -189,7 +189,7 @@ end
 
 	local function onfocus(x)
 		if x then
-			gnn.cmdfunc(gnn._txtbox.Text:lower(),gnn._txtbox.Text) gnn.curhisn=0
+			gnn.cmdfunc(gnn._txtbox.Text:lower(),gnn._txtbox.Text) gnn.curhisn=-1
 		end
 	end
 	gnn.Reserved_onfocus=gnn._txtbox.FocusLost:Connect(onfocus)
@@ -204,17 +204,17 @@ end
 local function stfu()
 gnn._txtbox.Text = '' gnn._acplbl.Text='' gnn.acpval=nil
 end
-gnn.curhisn=0
+gnn.curhisn=-1
 local function onkeydown(x)
-local txtfocused = funcs.uip:GetFocusedTextBox()
+local txtfocused,iuk = funcs.uip:GetFocusedTextBox(),x.KeyCode==Enum.KeyCode.Up
 local stxt=txtfocused==gnn._txtbox and gnn._txtbox.Text local slen=stxt and #stxt
 if txtfocused and not stxt then return end
 if x.KeyCode == mvars.kbind and not stxt then
 gnn._txtbox:CaptureFocus()
 task.defer(stfu,"")
 elseif stxt then
-if x.KeyCode==Enum.KeyCode.Up then
-local lastcmd=gnn.cmdhistory[#gnn.cmdhistory-gnn.curhisn] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil gnn.curhisn+=1
+if iuk or x.KeyCode==Enum.KeyCode.Down then
+local cmdlen=#gnn.cmdhistory gnn.curhisn=math.clamp(gnn.curhisn+(iuk and 1 or -1),0,cmdlen-1) local lastcmd=gnn.cmdhistory[cmdlen-gnn.curhisn] if lastcmd then gnn._txtbox.Text=lastcmd gnn._txtbox.CursorPosition=string.len(lastcmd)+1 end lastcmd=nil
 elseif x.KeyCode==Enum.KeyCode.Backspace then
 gnn._acplbl.Text=''
 elseif x.KeyCode==Enum.KeyCode.Tab and gnn.acpval then
