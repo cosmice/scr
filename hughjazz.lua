@@ -70,9 +70,7 @@ wip: strangers,nteam,team
 
 commands:
 rj
-usave - save settings
-saves - toggle autosave (off by default)
-savesint - change autosave interval (arg[1]) (default: off, 15)
+usave - disabled 4 now
 rainbow - toggles rainbow ui, specify arg[1] to toggle 'full' ui rainbow
 kbind - changes keybind to next keypressed
 gclose - deletegui
@@ -122,16 +120,9 @@ mainthr=nil
 end
 task.spawn(aaaaaaaaAAaa)
 end
-cmds['usave']=cmds['usave'] or function(x)
+--[[cmds['usave']=cmds['usave'] or function(x)
 funcs.save('FailedNovember.lua',mvars,true)
-end
-cmds['saves']=cmds['saves'] or function()
-if gnn.cns.saves then gnn.cns.saves:Disconnect() gnn.cns.saves=nil else gnn.cns.saves=game.Close:Connect(cmds['usave']) while gnn.cns.saves do cmds['usave']() task.wait(mvars.saveintv) end end  
-funcs.sendnotif("cmds/bambi.exe",vars.cns.saves and "hi" or "fucking idiot","rbxassetid://8119590978",4) 
-end
-cmds['savesint']=cmds['savesint'] or function(strd,plrarg)
-plrarg=tonumber(plrarg or 15) if plrarg > .9 then mvars.saveintv=plrarg end
-end
+end]]
 gnn.fcks.rnbow=function()
 if mvars.rainbow then for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function satr(x,y) local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end table.foreach(getproperties(v),satr) satr=nil end end 
 else
