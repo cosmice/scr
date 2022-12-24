@@ -112,9 +112,9 @@ end
 cmds["gclose"]=cmds["gclose"] or function()
 local function aaaaaaaaAAaa()
 local mainthr=mvars.mainthr
-for i,v in pairs(mvars) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end mvars=nil
-for i,v in pairs(gnn) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end gnn=nil
-for i,v in pairs(cmds) do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end cmds=nil
+for i,v in next,mvars do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end mvars=nil
+for i,v in next,gnn do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end gnn=nil
+for i,v in next,cmds do if typeof(v)=='Instance' then funcs.deb:AddItem(v,0) elseif typeof(v)=='RBXScriptConnection' then v:Disconnect() end task.wait() end cmds=nil
 task.cancel(mainthr)
 mainthr=nil
 end
@@ -124,15 +124,15 @@ end
 funcs.save('FailedNovember.lua',mvars,true)
 end]]
 gnn.fcks.rnbow=function()
-if mvars.rainbow then for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function satr(x,y) local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end table.foreach(getproperties(v),satr) satr=nil end end 
+if mvars.rainbow then for i,v in next,gnn do if typeof(v)=='Instance' then local function satr(x,y) local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end table.foreach(getproperties(v),satr) satr=nil end end 
 else
-for i,v in pairs(gnn) do if typeof(v)=='Instance' then local function ratr(x,y) v[x]=y v:SetAttribute(x,nil) end table.foreach(v:GetAttributes(),ratr) end end
+for i,v in next,gnn do if typeof(v)=='Instance' then local function ratr(x,y) v[x]=y v:SetAttribute(x,nil) end table.foreach(v:GetAttributes(),ratr) end end
 end
 while gnn and gnn._txtbox and mvars and mvars.rainbow do
 local col=Color3.fromHSV(os.clock() % 5/5, 1, 1)
 gnn._txtbox.TextColor3=col
 gnn._txtbox.PlaceholderColor3=col
-if mvars.rainbowset then for i,v in pairs(mvars.rainbowins) do local propZ=getproperties(v) if propZ.TextColor3 then v.TextColor3=col elseif propZ.ScrollBarImageColor3 then v.ScrollBarImageColor3=col end propZ=nil end end task.wait()
+if mvars.rainbowset then for i,v in next,mvars.rainbowins do local propZ=getproperties(v) if propZ.TextColor3 then v.TextColor3=col elseif propZ.ScrollBarImageColor3 then v.ScrollBarImageColor3=col end propZ=nil end end task.wait()
 end
 end
 
@@ -172,8 +172,8 @@ local strd=string.split(x," ")
 if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
  if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=-1 then table.insert(gnn.cmdhistory,x) end
 local cmdsequel,plrarg=strd[1],strd[2]
-if plrarg=="all" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return elseif plrarg=="allt" then for i,v in pairs(funcs.plrs:GetPlayers()) do strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end 
-elseif plrarg=="others" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," "),-1) end end elseif plrarg=="otherst" then for i,v in pairs(funcs.plrs:GetPlayers()) do if v~=funcs.lplr then strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end end 
+if plrarg=="all" then for i,v in next,funcs.plrs:GetPlayers() do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return elseif plrarg=="allt" then for i,v in next,funcs.plrs:GetPlayers() do strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end 
+elseif plrarg=="others" then for i,v in next,funcs.plrs:GetPlayers() do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," "),-1) end end elseif plrarg=="otherst" then for i,v in next,funcs.plrs:GetPlayers() do if v~=funcs.lplr then strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end end 
 return end
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end if plrarg=='inf' or plrarg=='math.huge' then plrarg=math.huge end
