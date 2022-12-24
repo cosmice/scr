@@ -14,10 +14,10 @@ event = Instance.new("BindableEvent");
 plugsloaded = Instance.new("BindableEvent");
 _acplbl=Instance.new('TextLabel'),['cmdformatstr']='%s - %s',['cmds_sorted']={},
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
-gnn.main.Name = "main"
+gnn.main.Name = funcs.rndmstr(5,20)
 gnn.main.Parent = gnn.gprot(gnn.main)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-gnn._txtbox.Name = "_txtbox"
+gnn._txtbox.Name = funcs.rndmstr(5,20)
 gnn._txtbox.Parent = gnn.main
 gnn._txtbox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 gnn._txtbox.BackgroundTransparency = .45 --.35
@@ -43,8 +43,8 @@ gnn._acplbl.TextColor3=Color3.fromRGB(255,255,255)
 gnn._acplbl.ZIndex=10
 gnn._acplbl.Parent=gnn._txtbox
 
-gnn.cmdframe.Name = "cmdframe"
-gnn.cmdframe.Active = false
+gnn.cmdframe.Name = funcs.rndmstr(5,20)
+gnn.cmdframe.Active=true
 gnn.cmdframe.Parent = gnn.main
 gnn.cmdframe.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 gnn.cmdframe.Position = UDim2.new(0.376870751, 0, 0.309890121, 0)
@@ -55,7 +55,7 @@ gnn.cmdframe.Draggable=true
 gnn.cmdframe.AutomaticCanvasSize=3
 gnn.cmdframe.CanvasSize=UDim2.new(0.5,0,0,0)
 
-gnn.txt.Name = "txt"
+gnn.txt.Name = funcs.rndmstr(5,20)
 gnn.txt.Parent = gnn.cmdframe
 gnn.txt.BackgroundTransparency = 1.000
 gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
@@ -237,7 +237,7 @@ gnn.Reserved_maintype=funcs.uip.InputEnded:Connect(onkeydown)
 --plugins
 
 local pst=table.clone(getrenv()) for i,v in next,getgenv() do pst[i]=v end
-pst.powersupply={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars,['pst']=pst}
+pst.powersupply={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars,['pst']=pst,['aliases']=aliases}
 
 local counter=cmds.ExtraPlugins and #cmds.ExtraPlugins or 0
 local fym=isfolder("November") and listfiles("November")
@@ -282,7 +282,7 @@ for i,v in next,fym do
 coroutine.wrap(ldplug)(v)
 task.wait()
 end
-end
+end fym=nil
 if cmds.ExtraPlugins then
 for i,v in next,cmds.ExtraPlugins do
 coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v)) or v)
