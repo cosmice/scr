@@ -12,10 +12,8 @@ txt = Instance.new("TextLabel");
 _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
 plugsloaded = Instance.new("BindableEvent");
-_acplbl=Instance.new('TextLabel');
+_acplbl=Instance.new('TextLabel'),['cmdformatstr']='%s - %s',['cmds_sorted']={},
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
-gnn.cmds_sorted={}
-gnn.cmdformatstr='%s - %s'
 gnn.main.Name = "main"
 gnn.main.Parent = gnn.gprot(gnn.main)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -240,14 +238,8 @@ gnn.Reserved_maintype=funcs.uip.InputEnded:Connect(onkeydown)
 
 --plugins
 
-local pst={["powersupply"]={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars}}
-local function merge(t,v)
-pst[t]=v
-end
-table.foreach(getrenv(),merge)
-table.foreach(getgenv(),merge)
-pst.powersupply.pst=pst
-merge=nil
+local pst=table.clone(getrenv()) for i,v in next,getgenv() do pst[i]=v end
+pst.powersupply={["cmds"]=cmds;["gnn"]=gnn;["mvars"]=mvars,['pst']=pst}
 
 local counter=cmds.ExtraPlugins and #cmds.ExtraPlugins or 0
 local fym=isfolder("November") and listfiles("November")
@@ -290,13 +282,13 @@ pst.powersupply.ldplug=ldplug
 if fym then
 for i,v in next,fym do
 coroutine.wrap(ldplug)(v)
-task.wait(0)
+task.wait()
 end
 end
 if cmds.ExtraPlugins then
 for i,v in next,cmds.ExtraPlugins do
 coroutine.wrap(ldplug)(type(v)=='string' and loadstring(game:HttpGet(v)) or v)
-task.wait(0)
+task.wait()
 end
 end
 
