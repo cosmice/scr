@@ -36,12 +36,11 @@ gnn._acplbl.BackgroundTransparency=1
 gnn._acplbl.Font=Enum.Font.SourceSans
 gnn._acplbl.Size=UDim2.new(1,0,1,0)
 gnn._acplbl.Text=''
-gnn._acplbl.TextTransparency=.35
+gnn._acplbl.TextTransparency=.6
 gnn._acplbl.TextScaled=true
 gnn._acplbl.TextWrapped=true
 gnn._acplbl.TextColor3=Color3.fromRGB(255,255,255)
 gnn._acplbl.ZIndex=10
-gnn._acplbl.TextTransparency=.63
 gnn._acplbl.Parent=gnn._txtbox
 
 gnn.cmdframe.Name = "cmdframe"
