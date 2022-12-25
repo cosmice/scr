@@ -1,11 +1,17 @@
 local vars={}
 vars.funcs={}
+vars.cds={}
+	
 	vars.funcs.ft=function(v,nn)
 	firetouchinterest(getchar(nil,nil,nn):FindFirstChildWhichIsA("BasePart") or getchar(nil,nil,nn):FindFirstChildWhichIsA("MeshPart"),v.Parent,0) firetouchinterest(getchar(nil,nil,nn):FindFirstChildWhichIsA("BasePart") or getchar(nil,nil,nn):FindFirstChildWhichIsA("MeshPart"),v.Parent,1)
 	end
 	
 	vars.funcs.povyouarefrankiepalmeri=function(strd,parg,x,cmd,args,realx)
 	local cons={unpack(getconnections(funcs.lplr.Changed)),unpack(getconnections(funcs.lplr:GetPropertyChangedSignal'CameraMode'))} for i,v in pairs(cons) do v:Disable() end funcs.lplr.CameraMode = args for i,v in pairs(cons) do v:Enable() end cons=nil
+	end
+	
+	vars.funcs.adcd=function(x,n)
+	if x then vars.cds[x]=x.MaxActivationDistance local cons={unpack(getconnections(x.Changed)),unpack(getconnections(x:GetPropertyChangedSignal('MaxActivationDistance')))} for i,v in next,cons do v:Disable() end x.MaxActivationDistance=n x.Destroying:Connect(function() vars.cds[x]=nil end) for i,v in next,cons do v:Enable() end end
 	end
 	
 			vars.loops={}
@@ -126,6 +132,8 @@ end;['desc']='the flingnet is real 2022'};
 			return funcs.sendnotif("serverhop", "Couldn't find a server.")
 		end
 	end,['desc']='serverhop, specify arg[1] for key if using blocker script'},
+['limitcds']={['desc']='limit clickdetectors',['func']=function() for i,v in next,vars.cds do i.MaxActivationDistance=v end vars.cds={} end},
+['cdlimits']={['desc']='clickdetector limits=arg2 or huge',['func']=function(n,nn) nn=tonumber(nn) or math.huge for i,v in next,workspace:GetDescendants() do if v:IsA('ClickDetector') then coroutine.wrap(vars.funcs.adcd)(v,nn) end end end},
 --['ntch']={['func']=function()
 ["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
