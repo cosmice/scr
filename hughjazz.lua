@@ -12,7 +12,7 @@ txt = Instance.new("TextLabel");
 _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
 plugsloaded = Instance.new("BindableEvent");
-_acplbl=Instance.new('TextLabel'),['cmdformatstr']='%s - %s',['cmds_sorted']={},
+_acplbl=Instance.new('TextLabel'),['cmdformatstr']='%s - %s',['cmdlistformatstr']='%s\n%s\n',['cmds_sorted']={},['plrcase']={},
 gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
 gnn.main.Name = funcs.rndmstr(5,20)
 gnn.main.Parent = gnn.gprot(gnn.main)
@@ -167,11 +167,9 @@ local aliases={}
 gnn.cmdfunc=function(x,realx) 
 local strd=string.split(x," ")
 if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
- if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=-1 then table.insert(gnn.cmdhistory,x) end
+ if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=nil then table.insert(gnn.cmdhistory,x) end
+if gnn.plrcase[strd[2]] and realx then gnn.plrcase[strd[2]](funcs.plrs:GetPlayers(),strd,x,realx) return end
 local cmdsequel,plrarg=strd[1],strd[2]
-if plrarg=="all" then for i,v in next,funcs.plrs:GetPlayers() do strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," ")) end return elseif plrarg=="allt" then for i,v in next,funcs.plrs:GetPlayers() do strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end 
-elseif plrarg=="others" then for i,v in next,funcs.plrs:GetPlayers() do if v~=funcs.lplr then strd[2]=v.Name ; gnn.cmdfunc(table.concat(strd," "),-1) end end elseif plrarg=="otherst" then for i,v in next,funcs.plrs:GetPlayers() do if v~=funcs.lplr then strd[2]=v.Name ; task.spawn(gnn.cmdfunc,table.concat(strd," "),-1) end end 
-return end
 table.remove(strd,1) table.remove(strd,1)
 if aliases[cmdsequel] then cmdsequel=aliases[cmdsequel] end if plrarg=='inf' or plrarg=='math.huge' then plrarg=math.huge end
 local TheSequelGenre=type(cmds[cmdsequel])
@@ -271,11 +269,12 @@ aliases[i]=v
 end
 end
 end
-gnn.txt.Text=('%s\n%s\n'):format(gnn.txt.Text,table.concat(tnstr,"\n"))
+gnn.txt.Text=gnn.cmdlistformatstr:format(gnn.txt.Text,table.concat(tnstr,"\n"))
 counter-=1
 if counter <=0 then gnn.Plugsloaded=true gnn.plugsloaded:Fire() end
 end
 pst.powersupply.ldplug=ldplug
+gnn.plrcase={['all']=function(plrs,strd) for i,v in next,plrs do strd[2]=v.Name gnn.cmdfunc(table.concat(strd," "))  end end,['allt']=function(plrs,strd) for i,v in next,plrs do strd[2]=v.Name coroutine.wrap(gnn.cmdfunc)(table.concat(strd," ")) end end,['others']=function(plrs,strd) for i,v in next,plrs do if v~=funcs.lplr then strd[2]=v.Name gnn.cmdfunc(table.concat(strd," ")) end end end,['otherst']=function(plrs,strd) for i,v in next,plrs do if v~=funcs.lplr then strd[2]=v.Name coroutine.wrap(gnn.cmdfunc)(table.concat(strd," ")) end end end,['team']=function(plrs,strd) for i,v in next,plrs do if v.Team==funcs.lplr.Team then strd[2]=v.Name gnn.cmdfunc(table.concat(strd," ")) end end end,['nteam']=function(plrs,strd) for i,v in next,plrs do if v.Team~=funcs.lplr.Team then strd[2]=v.Name gnn.cmdfunc(table.concat(strd," ")) end end end}
 
 if fym then
 for i,v in next,fym do
