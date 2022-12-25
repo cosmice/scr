@@ -134,6 +134,8 @@ end;['desc']='the flingnet is real 2022'};
 	end,['desc']='serverhop, specify arg[1] for key if using blocker script'},
 ['limitcds']={['desc']='limit clickdetectors',['func']=function() for i,v in next,vars.cds do i.MaxActivationDistance=v end vars.cds={} end},
 ['cdlimits']={['desc']='clickdetector limits=arg2 or huge',['func']=function(n,nn) nn=tonumber(nn) or math.huge for i,v in next,workspace:GetDescendants() do if v:IsA('ClickDetector') then coroutine.wrap(vars.funcs.adcd)(v,nn) end end end},
+['canceltp']={['func']=funcs.tpsrv.TeleportCancel,['args']=funcs.tpsrv,['onlypass']=true},
+['fpscap']={['func']=function(n,nn) nn=tonumber(nn) or 60 setfpscap(nn) end},
 --['ntch']={['func']=function()
 ["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
