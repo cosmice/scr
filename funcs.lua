@@ -2,7 +2,7 @@
 do
 getgenv().funcs = funcs or {}
 local playerservice = game:GetService("Players")
-local deb = game:GetService("Debris")
+local function desfunc(x) if x~=nil then x:Destroy() end end local deb={['AddItem']=function(s,x,t) task.delay(t or 0,desfunc,x) end} deb.r=deb.AddItem
 local lplr = playerservice.LocalPlayer
 local runservice = game:GetService("RunService")
 local rustepped = runservice.Stepped
@@ -486,7 +486,7 @@ end
 getgenv().rj = function() --infinite yield
 		funcs.lplr:Kick("\nRejoining...")
 		task.wait(.5)
-	if #playerservice:GetPlayers() <= 1 then game:GetService('TeleportService'):Teleport(game.PlaceId, funcs.lplr) else game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, funcs.lplr) end
+	if #playerservice:GetPlayers() <= 1 then tpserv:Teleport(game.PlaceId, funcs.lplr) else tpserv:TeleportToPlaceInstance(game.PlaceId, game.JobId, funcs.lplr) end
 end
 
 --[[[noface^
