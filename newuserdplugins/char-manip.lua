@@ -802,7 +802,7 @@ end;['desc']='(hopefully) stops bhop'};
    ['stws']={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}},
    ['stjp']={['desc']='set jp to starterplayer jp',['func']=vars.funcs.cprop,['args']={"JumpPower",nil,game:GetService'StarterPlayer'.CharacterJumpPower}},
    ['stjh']={['desc']='set jh to starterplayer jh',['func']=vars.funcs.cprop,['args']={"JumpHeight",nil,game:GetService'StarterPlayer'.CharacterJumpHeight}},
-   ['spin']={['desc']='detectable',['func']=function(n,nn) nn=tonumber(nn) or 20 local sp = Instance.new("BodyAngularVelocity") sp.MaxTorque = Vector3.new(0, math.huge, 0) sp.AngularVelocity = Vector3.new(0, nn, 0) local spp=#vars.spin+1 vars.spin[spp]=sp sp.Destroying:Once(function() if vars.spin[spp]==sp then vars.spin[spp]=nil end sp=nil end) local rp=getchar('BasePart',true) rp=rp and rp.AssemblyRootPart sp.Parent=rp rp=nil end},
+   ['spin']={['desc']='detectable',['func']=function(n,nn) nn=tonumber(nn) or 20 local sp = Instance.new("BodyAngularVelocity") sp.MaxTorque = Vector3.new(0, math.huge, 0) sp.AngularVelocity = Vector3.new(0, nn, 0) local spp=#vars.spin+1 vars.spin[spp]=sp sp.Destroying:Once(function() if vars.spin[spp]==sp then vars.spin[spp]=nil end sp=nil end) local rp=getchar('BasePart',true) sp.Parent=rp.AssemblyRootPart rp=nil end},
    ['unspin']={['func']=function() for i,v in next,vars.spin do funcs.deb:AddItem(v,0) end table.clear(vars.spin) end},
 	["Reservedpluginname"]="base.char-manipulation"
 	}
