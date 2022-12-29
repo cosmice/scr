@@ -61,7 +61,7 @@ gnn.txt.BackgroundTransparency = 1.000
 gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
-gnn.txt.Text = cmds['Ctxt'] or [[! - lastcmd (cmd) !! - lastcmd with args (cmd oldargs newargs)
+gnn.txt.Text = cmds['Ctxt'] or [[! - toggle un..lastcmd !! - lastcmd with args (cmd oldargs newargs)
 all,others, allt (prefix+t=multithread)
 wip: strangers,nteam,team
 
@@ -165,9 +165,9 @@ local aliases={}
 -- Scripts:
 
 gnn.cmdfunc=function(x,realx) 
-local strd=string.split(x," ")
-if #gnn.cmdhistory>0 then local dd if strd[1]=="!" then dd=true strd[1]=string.gsub(strd[1],"!",string.split(gnn.cmdhistory[#gnn.cmdhistory]," ")[1]) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[#gnn.cmdhistory]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
- if #gnn.cmdhistory+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=nil then table.insert(gnn.cmdhistory,x) end
+local strd=string.split(x," ") local cmdhislen=#gnn.cmdhistory
+if cmdhislen>0 then local dd if strd[1]=="!" then dd=true local ds=string.split(gnn.cmdhistory[cmdhislen]," ")[1] strd[1]=strd[1]:gsub("!",ds:sub(1,2)~='un' and "un"..ds or ds:sub(3)) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[cmdhislen]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
+ if cmdhislen+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=nil then table.insert(gnn.cmdhistory,x) end
 if gnn.plrcase[strd[2]] and realx then gnn.plrcase[strd[2]](funcs.plrs:GetPlayers(),strd,x,realx) return end
 local cmdsequel,plrarg=strd[1],strd[2]
 table.remove(strd,1) table.remove(strd,1)
