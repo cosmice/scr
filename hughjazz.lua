@@ -166,7 +166,7 @@ local aliases={}
 
 gnn.cmdfunc=function(x,realx) 
 local strd=string.split(x," ") local cmdhislen=#gnn.cmdhistory
-if cmdhislen>0 then local dd if strd[1]=="!" then dd=true local ds=string.split(gnn.cmdhistory[cmdhislen]," ")[1] strd[1]=strd[1]:gsub("!",ds:sub(1,2)~='un' and "un"..ds or ds:sub(3)) elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[cmdhislen]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
+if cmdhislen>0 then local dd if strd[1]=="!" then dd=true local ds=gnn.cmdhistory[cmdhislen]:split(' ') ds[1]=ds[1]:sub(1,2)~='un' and 'un'..ds[1] or ds[1]:sub(3) strd=ds elseif strd[1]=="!!" then dd=true strd=string.split(gnn.cmdhistory[cmdhislen]..x:gsub(strd[1],"",1)," ") end if dd then x=table.concat(strd," ") end end
  if cmdhislen+1>mvars.historylength then gnn.cmdhistory={} end if x~="" and realx~=nil then table.insert(gnn.cmdhistory,x) end
 if gnn.plrcase[strd[2]] and realx then gnn.plrcase[strd[2]](funcs.plrs:GetPlayers(),strd,x,realx) return end
 local cmdsequel,plrarg=strd[1],strd[2]
