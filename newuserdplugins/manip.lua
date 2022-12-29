@@ -28,7 +28,7 @@ local cc={
         if anim.IsPlaying~= true then
             anim:Play();
         end
-    end) anim.Destroying:Connect(function() ccon:Disconnect() anim:Stop() end)  table.insert(vrs.animc,anim)
+    end) anim.Destroying:Once(function() ccon:Disconnect() anim:Stop() anim=nil end)  table.insert(vrs.animc,anim)
    end,['desc']='{idle,walk,jump,toolnone,sit,dance2,idle2,run,climb,fall,dance,dance3}-fates'},
  ['undanim']={['func']=function(n,nn) for i,v in next,vrs.animc do funcs.deb:AddItem(v,0) end end},
 ['Reservedpluginname']='manipulation.manipulation!!'
