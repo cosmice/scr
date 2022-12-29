@@ -62,12 +62,12 @@ gnn.txt.Position = UDim2.new(0, 0, -0.000313895056, 0)
 gnn.txt.Size = UDim2.new(0.963989615, 0, 1.00031388, 0)
 gnn.txt.Font = Enum.Font.SourceSans
 gnn.txt.Text = cmds['Ctxt'] or [[! - toggle un..lastcmd !! - lastcmd with args (cmd oldargs newargs)
-all,others, allt (prefix+t=multithread)
-wip: strangers,nteam,team
+all,others, allt (prefix+t=multithread), 
+(wip but added): nteam,team
+wip: strangers
 
 commands:
 rj
-usave - disabled 4 now
 rainbow - toggles rainbow ui, specify arg[1] to toggle 'full' ui rainbow
 kbind - changes keybind to next keypressed
 gclose - deletegui
