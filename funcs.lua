@@ -43,6 +43,16 @@ local str=string.gsub(magic,"[%(+%)+%^+%*+%$+%.+%[+%]+%++%-+%?+%%+]",normalizebl
 return p and str[1] or str
 end
 
+local oldgp=getproperties
+funcs.getproperties=syn and oldgp or function(ins)
+local gpr=oldgp(ins)
+if #gpr>=1 then
+local tb={} for i,v in next,gpr do local s,r=pcall(gethiddenproperty,ins,v) if s then tb[v]=r end end gpr=tb
+end
+return gpr
+end
+getgenv().getproperties=funcs.getproperties
+
 funcs.rndmstr=function(minim,lenim)
 local array = {}
 	local length = math.random(minim or 10,lenim or 20)
