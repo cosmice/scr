@@ -2,6 +2,7 @@
 if not funcs then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/funcs.lua"))()
 end
+local getproperties=funcs.getproperties
 local cmds=getgenv().sus_cmds or {}
 getgenv().sus_cmds=nil
 local gnn={
@@ -121,7 +122,7 @@ end
 funcs.save('FailedNovember.lua',mvars,true)
 end]]
 gnn.fcks.rnbow=function()
-if mvars.rainbow then for i,v in next,gnn do if typeof(v)=='Instance' then local function satr(x,y) local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end table.foreach(getproperties(v),satr) satr=nil end end 
+if mvars.rainbow then for i,v in next,gnn do if typeof(v)=='Instance' then for x,y in next,getproperties(v) do local z=x:lower() if z:match('color') or z:match('image') then v:SetAttribute(x,y) end end end end 
 else
 for i,v in next,gnn do if typeof(v)=='Instance' then local function ratr(x,y) v[x]=y v:SetAttribute(x,nil) end table.foreach(v:GetAttributes(),ratr) end end
 end
@@ -161,8 +162,6 @@ table.insert(gnn.cmds_sorted[firstch],i)
 end
 
 local aliases={}
-
--- Scripts:
 
 gnn.cmdfunc=function(x,realx) 
 local strd=string.split(x," ") local cmdhislen=#gnn.cmdhistory
