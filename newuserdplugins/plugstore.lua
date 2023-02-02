@@ -11,7 +11,7 @@ local pind={["base"]={
 ['extra']={['glue']={'https://github.com/6yNuiC9/scr/blob/main/newuserdplugins/glue.lua',"glue urself 2 stuff/glue,unglue,gluemsize,gluenoclip,gluedes"},['autoupdate']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/autoupdate.lua'},["icepoolshook"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/icepoolshook.lua',"game specific commands, makes hughjazz be a hub."},
 ['hide']={'https://github.com/6yNuiC9/scr/raw/main/newuserdplugins/hide.lua',"2/hide players/hideplr,showplr"}
 };
-['extra.bad']={['pathfinding']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/pathfinding.lua',"7/IY plugin by tostring, updated, improved & converted/pfplayer,pfpos,pfnearest,markpos,etc"}
+['extra.bad']={['pathfinding']={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/pathfinding.lua',"7/IY plugin by tostring, updated, improved & converted/pfplayer,pfpos,pfnearest,markpos,etc"},['ufo']={"https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/ufucko.lua",'1/requires the UFO hat (8151404994)'}
 },
 ["test"]={["ex"]={'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/example.lua',"example"}
 };
