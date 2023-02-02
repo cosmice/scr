@@ -1572,6 +1572,10 @@ ti(cons,uip.InputBegan:Connect(function(x,g)
 	issitting=true
 	ti(cons,uip.JumpRequest:Connect(onj))
 	coroutine.wrap(jrequest)()
+	else
+	hum.Sit=false
+	issitting=false
+	end
 	elseif x.KeyCode==Enum.KeyCode.H then
 	funcs.sendnotif('controls',[[    T - toggle stand-by mode
     G - gun mode, doesnt really do anything
@@ -1583,11 +1587,6 @@ ti(cons,uip.InputBegan:Connect(function(x,g)
     FC - go up/down
 	leftalt+P - tp to ufo
 	leftalt+L - sit (wip)]],'',5)
-	else
-	hum.Sit=false
-	issitting=false
-	end
-	
 	end
 	
 	end
