@@ -1,11 +1,11 @@
 -- decided to release open-source, just credit me if youre gonna use this anywhere please :)
---[[FE UFO script made by quirky anime boy#5506, upgraded by [none-of-your-business]
+--[[FE UFO script made by quirky anime boy#7003, upgraded by [none-of-your-business]
 required hat: roblox.com/catalog/8151404994 (requires amazon prime to redeem)
 ]]
 do
 
-getgenv().SendChatMessages = false -- set to true to say the drone messages in chat (kinda spammy)
-getgenv().PlayAudios = true -- set to true if you want to hear the clientsided sounds
+local SendChatMessages = false -- set to true to say the drone messages in chat (kinda spammy)
+local PlayAudios = true -- set to true if you want to hear the clientsided sounds
 local oldsettings={settings()['Physics'].AllowSleep,settings()['Physics'].PhysicsEnvironmentalThrottle}
 settings()['Physics'].AllowSleep = false
 settings()['Physics'].PhysicsEnvironmentalThrottle = Enum['EnviromentalPhysicsThrottle'].Disabled
@@ -13,6 +13,7 @@ settings()['Physics'].PhysicsEnvironmentalThrottle = Enum['EnviromentalPhysicsTh
     T - toggle stand-by mode
     G - gun mode, doesnt really do anything
     B - toggle control mode
+	H - notify controls
     UFO controls:
     WASD - move around
     QE - rotate left/right
@@ -1571,6 +1572,17 @@ ti(cons,uip.InputBegan:Connect(function(x,g)
 	issitting=true
 	ti(cons,uip.JumpRequest:Connect(onj))
 	coroutine.wrap(jrequest)()
+	elseif x.KeyCode==Enum.KeyCode.H then
+	funcs.sendnotif('controls',[[    T - toggle stand-by mode
+    G - gun mode, doesnt really do anything
+    B - toggle control mode
+	H - notify controls
+    UFO controls:
+    WASD - move around
+    QE - rotate left/right
+    FC - go up/down
+	leftalt+P - tp to ufo
+	leftalt+L - sit (wip)]],'',5)
 	else
 	hum.Sit=false
 	issitting=false
