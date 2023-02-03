@@ -1,7 +1,7 @@
 local clonefunction=clonefunction(clonefunction) --schizo behavior dear sir
 local modif_funcs={}
 
-modif_funcs.req=clonefunction(syn.request)
+modif_funcs.req=clonefunction(request or syn.request)
 modif_funcs.sc=clonefunction(setclipboard)
 --modif_funcs.islclosure=clonefunction(islclosure)
 --modif_funcs.oldhf=clonefunction(hookfunction)
@@ -20,7 +20,7 @@ local pairs=clonefunction(pairs)
 local typeof=clonefunction(typeof)
 local unpack=clonefunction(unpack)
 local hookfunction=clonefunction(hookfunction)
-local hashfunc=clonefunction(syn.crypt.hash)
+local hashfunc=clonefunction(crypt and crypt.hash or syn.crypt.hash)
 local getgenv=clonefunction(getgenv)
 local hookmetamethod=clonefunction(hookmetamethod)
 local getn=clonefunction(table.getn)
@@ -32,7 +32,8 @@ local getnamecallmethod=clonefunction(getnamecallmethod)
 local dothetostring=clonefunction(tostring)
 local glen=clonefunction(string.len)
 local matchstr=clonefunction(string.match)
-local mtbn='EndOfStory'
+local pcall=clonefunction(pcall)
+local mtbn='dumbass'
 getgenv()[mtbn]=true
 local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
 local rtbbb={}
@@ -61,7 +62,7 @@ modif_funcs.propn={}
 modif_funcs.modif.newprot=function(x,y,sy)
 tbi(rawget(modif_funcs,'protinst'),indr(x,y))
 rawset(rawget(modif_funcs,'toradora'),y,hookfunction(indr(x,y),newcclosure(function(...)
-if checkcaller() and getgenv()[mtbn] and x and ffind(rawget(modif_funcs,'protinst'),indr(x,y)) then print(...) return true end
+if checkcaller() and getgenv()[mtbn] and x and ffind(rawget(modif_funcs,'protinst'),indr(x,y)) then print(...) tbi(rtbbb,{...}) return true end
 return rawget(rawget(modif_funcs,'toradora'),y)(...)
 end)))
 if not ffind(rawget(modif_funcs,'superprotnms'),y) then tbi(rawget(modif_funcs,'superprotnms'),y) end
@@ -82,7 +83,7 @@ modif_funcs.modif.newprot(game,'HttpPostAsync')
 --modif_funcs.modif.newprot(game,'HttpGetAsync')
 --modif_funcs.modif.newprot(game,'HttpGet')
 modif_funcs.modif.newprot(game,'HttpPost')
-modif_funcs.modif.blockins(game,'ScreenshotReady')
+if pcall(indr,game,'ScreenshotReady') then modif_funcs.modif.blockins(game,'ScreenshotReady') end
 modif_funcs.modif.newprot(rawget(srvs,'http'),'PostAsync')
 --modif_funcs.modif.newprot(rawget(srvs,'http'),'GetAsync') --attempt to block PI revealing functions/events
 modif_funcs.modif.newprot(rawget(srvs,'http'),'RequestAsync')
@@ -93,7 +94,7 @@ modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'PostAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'GetAsync')
 modif_funcs.modif.newprot(rawget(srvs,'rhttp'),'GetAsyncFullUrl')
 print('step 1 - request block ; loaded')
-print(not getgenv().islclosure(getgenv().syn.request) and "spoof: [syn.request] succeeded" or "spoof: [syn.request] failed")
+print(not getgenv().islclosure(getgenv().request or getgenv().syn.request) and "spoof: [request] succeeded" or "spoof: [request] failed")
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
@@ -161,15 +162,21 @@ local nmc=getnamecallmethod()
 if getgenv()[mtbn] and (checkcaller() and nmc and indr(x,nmc) and ffind(rawget(modif_funcs,'superprotnms'),nmc) and (not anacalmonds or not type(anacalmonds)=='string' or hashfunc(anacalmonds)~=rawget(srvs,'ky'))) then --rawget to prevent .__index spying on firewall
 print('attempt on life: '..nmc..'     ..First Five Years Of Life')
 print(x,anacalmonds,...)
+tbi(rtbbb,{x,anacalmonds,...,nmc})
 return true
 end
 return oem(x,anacalmonds,...)
 end))
+if syn then
 setreadonly(syn,false)
 getgenv().syn.request=modif_funcs.modif.req
 getgenv().syn.write_clipboard=modif_funcs.modif.setclipboard
 if getgenv().syn_clipboard_set then getgenv().syn_clipboard_set=modif_funcs.modif.setclipboard end
 setreadonly(syn,true)
+elseif getgenv().request then
+getgenv().request=modif_funcs.modif.req
+if http and http.request then getgenv().http.request=modif_funcs.modif.req end
+end
 getgenv().setclipboard=modif_funcs.modif.setclipboard
 --getgenv().islclosure=modif_funcs.modif.islclosure
 --getgenv().clonefunction=modif_funcs.modif.clonefunction
