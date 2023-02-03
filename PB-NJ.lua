@@ -35,7 +35,7 @@ local matchstr=clonefunction(string.match)
 local pcall=clonefunction(pcall)
 local mtbn='dumbass'
 getgenv()[mtbn]=true
-local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]=''} --script should be ran at runtime before any other so we can safely cache services normally.
+local srvs={["http"]=game:GetService("HttpService");["rhttp"]=game:GetService('HttpRbxApiService');["ky"]='hhhawdawdwadwa'} --script should be ran at runtime before any other so we can safely cache services normally.
 local rtbbb={}
 _G[mtbn]=newcclosure(function(x)
 if type(x)=='string' and hashfunc(x)==srvs.ky then
