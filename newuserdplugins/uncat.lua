@@ -1,4 +1,4 @@
-local vars={}
+local vars={['mmouse']=funcs.lplr:GetMouse(),['plrg']=funcs.lplr:FindFirstChildOfClass('PlayerGui')}
 vars.funcs={}
 vars.cds={}
 	
@@ -136,6 +136,14 @@ end;['desc']='the flingnet is real 2022'};
 ['cdlimits']={['desc']='clickdetector limits=arg2 or huge',['func']=function(n,nn) nn=tonumber(nn) or math.huge for i,v in next,workspace:GetDescendants() do if v:IsA('ClickDetector') then coroutine.wrap(vars.funcs.adcd)(v,nn) end end end},
 ['canceltp']={['func']=funcs.tpsrv.TeleportCancel,['args']=funcs.tpsrv,['onlypass']=true},
 ['fpscap']={['func']=function(n,nn) nn=tonumber(nn) or 60 setfpscap(nn) end},
+['delui']={['func']=function(x,xx) local guisAtPosition =vars.plrg:GetGuiObjectsAtPosition(vars.mmouse.X, vars.mmouse.Y)
+		for _, gui in next,guisAtPosition do
+			if gui.Visible == true then
+				gui:Destroy()
+			if xx then break end
+			end
+		end
+end,['desc']='iy - delete ui at mouse pos, specify any arg to only delete 1 ui'},
 --['ntch']={['func']=function()
 ["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
