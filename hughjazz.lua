@@ -14,7 +14,7 @@ _close = Instance.new("TextButton");
 event = Instance.new("BindableEvent");
 plugsloaded = Instance.new("BindableEvent");
 _acplbl=Instance.new('TextLabel'),['cmdformatstr']='%s - %s',['cmdlistformatstr']='%s\n%s\n',['cmds_sorted']={},['plrcase']={},
-gprot = gethui or get_hidden_ui or get_hidden_gui or hiddenUI or syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
+gprot = --[[gethui or get_hidden_ui or get_hidden_gui or hiddenUI or]] syn and syn.protect_gui and (function(x) syn.protect_gui(x) return game:GetService("CoreGui") end) or function() return game:GetService("CoreGui") end}
 gnn.main.Name = funcs.rndmstr(5,20)
 gnn.main.Parent = gnn.gprot(gnn.main)
 gnn.main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -72,6 +72,7 @@ rj
 rainbow - toggles rainbow ui, specify arg[1] to toggle 'full' ui rainbow
 kbind - changes keybind to next keypressed
 gclose - deletegui
+grelaunch - relaunch admin from loadstring
 plugin commands:
 ]]
 gnn.txt.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -118,6 +119,14 @@ mainthr=nil
 end
 task.spawn(aaaaaaaaAAaa)
 end
+
+cmds["grelaunch"]=cmds["grelaunch"] or function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/hughjazz.lua"))()
+if cmds["gclose"] then
+cmds["gclose"]()
+end
+end
+
 --[[cmds['usave']=cmds['usave'] or function(x)
 funcs.save('FailedNovember.lua',mvars,true)
 end]]
