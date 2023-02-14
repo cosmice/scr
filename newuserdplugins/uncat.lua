@@ -136,6 +136,7 @@ end;['desc']='the flingnet is real 2022'};
 ['cdlimits']={['desc']='clickdetector limits=arg2 or huge',['func']=function(n,nn) nn=tonumber(nn) or math.huge for i,v in next,workspace:GetDescendants() do if v:IsA('ClickDetector') then coroutine.wrap(vars.funcs.adcd)(v,nn) end end end},
 ['canceltp']={['func']=funcs.tpsrv.TeleportCancel,['args']=funcs.tpsrv,['onlypass']=true},
 ['fpscap']={['func']=function(n,nn) nn=tonumber(nn) or 60 setfpscap(nn) end},
+['loadscr']={['func']=function(strd,nn,x,cmdsequel,args,realx) if nn then loadstring(string.sub(realx,(string.find(realx,' '))))() end end},
 ['delui']={['func']=function(x,xx) local guisAtPosition =vars.plrg:GetGuiObjectsAtPosition(vars.mmouse.X, vars.mmouse.Y)
 		for _, gui in next,guisAtPosition do
 			if gui.Visible == true then
