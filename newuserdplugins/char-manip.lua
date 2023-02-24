@@ -761,8 +761,8 @@ end;['desc']='(hopefully) stops bhop'};
 	["nzoom"]={["func"]=function() funcs.sendnotif("zoom:","min: "..funcs.lplr.CameraMinZoomDistance.." max: "..funcs.lplr.CameraMaxZoomDistance,"rbxassetid://6678521436",5) end;["desc"]="notifies your min/max zoom"};
 	["cdcol"]={["desc"]="toggle: makes parts you click on with middlemouse not collide, exluding the part you're standing on";["func"]=function() if vars.cdcol then vars.cdcol:Disconnect() vars.cdcol=nil else vars.cdcol = funcs.uip.InputBegan:Connect(vars.funcs.cdcol) end funcs.sendnotif("cdcol",vars.cdcol and "true" or "false","rbxassetid://8119590978",5) end};
 	["cdcolg"]={["desc"]="toggle: ground collision on m3";["func"]=vars.funcs.togglevar;["args"]="cdcolg"};
-	["nh"]={["desc"]="notify humanoid stats";["func"]=function() local hmnoid=getchar():FindFirstChildOfClass("Humanoid")
-	if hmnoid then funcs.sendnotif("nh","ws: "..tostring(hmnoid.WalkSpeed)..(hmnoid.UseJumpPower and " jp:"..tostring(hmnoid.JumpPower) or " jh:"..tostring(hmnoid.JumpHeight)).." HP:"..tostring(hmnoid.Health).."/"..tostring(hmnoid.MaxHealth),"rbxassetid://8119590978",5)
+	["nh"]={["desc"]="notify humanoid stats";["func"]=function() local hmnoid,rp=getchar():FindFirstChildOfClass("Humanoid"),getchar('BasePart',true) rp=rp and rp.AssemblyRootPart
+	if hmnoid then funcs.sendnotif("nh","ws: "..tostring(hmnoid.WalkSpeed)..(hmnoid.UseJumpPower and " jp:"..tostring(hmnoid.JumpPower) or " jh:"..tostring(hmnoid.JumpHeight)).." HP:"..tostring(hmnoid.Health).."/"..tostring(hmnoid.MaxHealth).." RPAnchor: "..(rp and tostring(rp.Anchored) or 'no rootpart'),"rbxassetid://8119590978",5)
 	end 
 	end};
 	["light"]={["desc"]="arg[1]=range,arg[2]=brightness";["func"]=function(strt,parg) funcs.deb:AddItem(vars.light,0)  if vars.light and vars.light.Parent then vars.light=nil return end vars.light = Instance.new("PointLight")
@@ -798,7 +798,7 @@ end;['desc']='(hopefully) stops bhop'};
 	['tchflyd']={['desc']='looptouch stuff w/ flyd setting',['func']=vars.funcs.togglevar,['args']='tchflyd'},
 	['flyd']={['desc']='desync flyv',['func']=function() powersupply.cmds['desync'][1]() powersupply.cmds['flyv'][1](true) end},
 	['tchflydm']={['func']=function(n,nn) nn=nn and tonumber(nn) if nn then vars.tchflydm=nn end end,['desc']='tchflyd radius'},
-	['resync']={['desc']='draggingv1 false',['func']=function(x) local bp=getchar('BasePart',true) bp=bp and bp.AssemblyRootPart if bp then vars.vectorfly.resync=true sethiddenproperty(bp,'DraggingV1',false) sethiddenproperty(bp,'NetworkIsSleeping',false) if typeof(x)=='CFrame' then bp.CFrame=x end end end},
+	['resync']={['desc']='draggingv1 false',['func']=function(x) local bp=getchar('BasePart',true) bp=bp and bp.AssemblyRootPart if bp then vars.vectorfly.resync=true sethiddenproperty(bp,'DraggingV1',false) sethiddenproperty(bp,'NetworkIsSleeping',false) if typeof(x)=='CFrame' then bp.CFrame=x end end end,['aliases']={['undesync']='resync'}},
    ['stws']={['desc']='set ws to starterplayer ws',['func']=vars.funcs.cprop,['args']={"WalkSpeed",nil,game:GetService'StarterPlayer'.CharacterWalkSpeed}},
    ['stjp']={['desc']='set jp to starterplayer jp',['func']=vars.funcs.cprop,['args']={"JumpPower",nil,game:GetService'StarterPlayer'.CharacterJumpPower}},
    ['stjh']={['desc']='set jh to starterplayer jh',['func']=vars.funcs.cprop,['args']={"JumpHeight",nil,game:GetService'StarterPlayer'.CharacterJumpHeight}},
