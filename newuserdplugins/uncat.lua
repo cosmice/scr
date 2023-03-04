@@ -140,6 +140,6 @@ end;['desc']='the flingnet is real 2022'};
 ['cplaceid']={['func']={['func']=setclipboard,['args']=game.PlaceId,['onlypass']=true},
 ['cgameid']={['func']=setclipboard,['args']=game.GameId,['onlypass']=true},
 --['ntch']={['func']=function()
-["Reservedpluginname"]=math.random(5,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
+["Reservedpluginname"]=math.random(3,10)>3 and "uncat" or "Cat Destroyer - Improvised Violence"
 }
 return plug
