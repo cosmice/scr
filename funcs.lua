@@ -455,11 +455,11 @@ local pparent = ""
 		coroutine.wrap(function()
 			rettable = rettable ..isxokay.. tostring(y) ..','
 		end)()
-	elseif typeof(y):lower() == "boolean" then
+	elseif string.lower(typeof(y)) == "boolean" then
 		coroutine.wrap(function()
 			rettable = rettable ..isxokay..tostring(y) .. ","
 		end)()
-	elseif type(y):lower() == "table" then
+	elseif string.lower(typeof(y)) == "table" then
 		if pparent ~= "" then
 			rettable = rettable ..isxokay.. tostring(pparent) .. "." .. x .. " = {" .. tostring(table.concat(y,",")) .. "},"
 			coroutine.wrap(function()
@@ -471,13 +471,13 @@ local pparent = ""
 			print(funcs.printbeenest(y,tostring(x)))
 			end)()
 		end
-	elseif typeof(y):lower() == "function" then
+	elseif string.lower(typeof(y)) == "function" then
 		coroutine.wrap(function()
 		rettable = rettable ..isxokay.. ","
 		end)()
-	elseif type(y):lower() == "instance" then
+	elseif string.lower(typeof(y)) == "instance" then
 		coroutine.wrap(function()
-		rettable = rettable ..isxokay.. y:GetFullName() .. ","
+		rettable = rettable ..isxokay.. y.GetFullName(y) .. ","
 		end)()
 	else
 		if pparent ~= "" then
@@ -547,6 +547,10 @@ end
 --]]
 --funcs.turtlespyload()
 getgenv().funcs_loaded = true
+local res=checkcaller('MeXx, Anjxyyy...')
+if typeof(res)=='Instance' then
+res:Fire('I <3 Ec2')
+end
 --[[for i,v in pairs(listfiles("funcsdependents")) do
 loadfile(v)()
 end--]]
