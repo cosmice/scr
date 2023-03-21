@@ -117,7 +117,7 @@ guip[1].BorderSizePixel = 0
 guip[1].Position = UDim2.new(0.310801953, 0, 0.935374081, 0)
 guip[1].Size = UDim2.new(0.100000001, 0, 0.624000013, 0)
 guip[1].Font = Enum.Font.Unknown
-guip[1].Text = "1"
+guip[1].Text = "tp"
 guip[1].TextColor3 = Color3.fromRGB(255, 0, 4)
 guip[1].TextScaled = true
 guip[1].TextSize = 14.000
@@ -151,11 +151,12 @@ guip[4].TextWrapped = true
 	
 	camppl.qtb=function(tb,sp)
 		for i,v in next,cons do cons[i]=v:Disconnect() end
-		sp=sp or camppl.sp
+		sp=sp or camppl.sp<=#tb and camppl.sp or 1
 		camppl.sw(tb,sp)
 		table.insert(cons,guip.l.Activated:Connect(function() sp=sp-1 if not tb[sp] then sp=#tb end camppl.sw(tb,sp) end))
 		table.insert(cons,guip.r.Activated:Connect(function() sp=sp+1 if not tb[sp] then sp=1 end camppl.sw(tb,sp) end))
 		table.insert(cons,guip.x.Activated:Connect(function() guip.g.Enabled=false for i,v in next,cons do cons[i]=v:Disconnect() end if workspace.CurrentCamera then workspace.CurrentCamera.CameraSubject=funcs.lplr.Character end end))
+		table.insert(cons,camppl.guip[1].Activated:Connect(function() if camppl.cur then getchar():PivotTo(camppl.cur:GetPivot()) end end))
 		guip.g.Enabled=true
 	end
 getgenv().camppl=camppl
