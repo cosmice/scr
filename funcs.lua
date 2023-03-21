@@ -292,9 +292,6 @@ getgenv().funcs.xgetplr = function(String,mode) --Timeless/xFunnieuss/reviz admi
         end
     return not mode and Found or Found[1]    
 end
-getgenv().funcs.turtlespyload = function() -- i cannot remember these therefore will write a function for them
-loadfile("rspy.lua")()
-end
 getgenv().funcs.kickblur = function()
 runservice:SetRobloxGuiFocused(false)
 end
@@ -395,12 +392,6 @@ getgenv().rj = function() --infinite yield
 	if #playerservice:GetPlayers() <= 1 then tpserv:Teleport(game.PlaceId, funcs.lplr) else tpserv:TeleportToPlaceInstance(game.PlaceId, game.JobId, funcs.lplr) end
 end
 --charfuncs ^
---[[
-if game.PlaceId == 6907620011 then
-loadfile('ccessentials.lua')()
-end
---]]
---funcs.turtlespyload()
 getgenv().funcs_loaded = true
 local res=checkcaller('MeXx, Anjxyyy...')
 if typeof(res)=='Instance' then
