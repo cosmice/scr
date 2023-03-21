@@ -11,6 +11,7 @@ local tpserv = game:GetService("TeleportService")
 funcs.tpsrv=tpserv
 local ffind=table.find
 local checkcaller=clonefunction(checkcaller)
+getgenv().oldwait=wait
 getgenv().wait = task.wait
 getgenv().spawn=task.spawn --use task.spawn instead noob, locals faster we no want use globals
 getgenv().funcs.runs = runservice
@@ -117,28 +118,6 @@ getgenv().funcs.instanceholder = funcs.instanceholder or Instance.new("Folder")
 funcs.instanceholder.Name=math.random(1,99999999)
 table.insert(funcs.protectedlist,funcs.instanceholder)
 funcs.instanceholder.Parent=game:GetService("CoreGui")
---[[getgenv().funcs.addhook = function(x,txt)
-				local BillboardGui = Instance.new("BillboardGui")
-				local TextLabel = Instance.new("TextLabel")
-				BillboardGui.Adornee = x
-				BillboardGui.Name = "Sight"
-				BillboardGui.Parent = ESPholder
-				BillboardGui.Size = UDim2.new(0, 100, 0, 150)
-				BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-				BillboardGui.AlwaysOnTop = true
-				BillboardGui.MaxDistance = 99999999
-				TextLabel.Parent = BillboardGui
-				TextLabel.BackgroundTransparency = 1
-				TextLabel.Position = UDim2.new(0, 0, 0, -50)
-				TextLabel.Size = UDim2.new(0, 100, 0, 100)
-				TextLabel.Font = Enum.Font.SourceSansSemibold
-				TextLabel.TextSize = 20
-				TextLabel.TextColor3 = Color3.new(1, 1, 1)
-				TextLabel.TextStrokeTransparency = 0
-				TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
-				TextLabel.Text = txt
-				TextLabel.ZIndex = 10
-end--]]
 getgenv().funcs.getholder=function(name)
 local fd=name and funcs.instanceholder:FindFirstChild(name)
 if not fd then
@@ -270,14 +249,6 @@ funcs.lplr:Kick()
 task.wait(.5)
 tpserv:Teleport(id,Lplr)
 end
---[[
-getgenv().funcs.copyjobid = function()
-setclipboard(game.JobId)
-end
-getgenv().funcs.copyplaceid = function()
-setclipboard(game.PlaceId)
-end--]]
-
 getgenv().funcs.sg = game:GetService("StarterGui")
 getgenv().funcs.sendnotif = function(top,bottomtextuwu,icopain,durrrrr)
 funcs.sg:SetCore("SendNotification", {
@@ -333,9 +304,6 @@ if im ~= nil then
 deb:AddItem(im,0)
 end
 end
---[[getgenv().funcs.xxget = function(name)
-return xgetplr(name,true)
-end--]]
 local function tablematch(x,y)
 for ii,vv in next,x do if y[ii] and y[ii]~=vv then return false end end 
 return true
@@ -364,78 +332,6 @@ reqprop={"Name"="amongus"} --only return if Instance.Name=amongus
 reqhprop={"HiddenImpostor"="Coral"} -- only return if <hidden> Instance.HiddenImpostor="Coral"
 }
 --]]
---[[
-task.spawn(function() local bitch=funcs.wfcofclass(getchar(),"BodyVelocity") print(bitch:GetFullName()) end)
-task.wait()
-local stupidretard=Instance.new("BodyVelocity",getchar())
---]]
-
---proximity and touchinterest
---[[getgenv().funcs.prox = function()
-for i,v in pairs(workspace:GetDescendants()) do
-if v:IsA("ProximityPrompt") then
-coroutine.wrap(function()
-v.Enabled = true
-fireproximityprompt(v,0)
-end)()
-end
-end
-end--]]
---[[if charfuncs == true then
-local looptouching = {}
-getgenv().funcs.looptouch = function(interest,val)
-local plrh = getchar() and getchar():WaitForChild("HumanoidRootPart",40)
-local intt
-local totalnum = 0
-if interest:IsA("TouchTransmitter") then
-intt = interest.Parent
-elseif interest:FindFirstChildOfClass("TouchTransmitter") then
-intt = interest
-else
-print("next time give me something with a touchinterest idiot")
-return
-end
-local inttn = intt:GetFullName()
-if not table.find(looptouching,inttn) then
-table.insert(looptouching,inttn)
-wait(0)
-if tonumber(val) == nil then
-coroutine.wrap(function()
-while ruhb:Wait() and table.find(looptouching,inttn) do
-firetouchinterest(plrh,intt,0)
-firetouchinterest(plrh,intt,1)
-totalnum = totalnum + 1
-if not table.find(looptouching,inttn) then
-break
-end
-end
-print(totalnum)
-end)()
-print("FIRE!")
-elseif tonumber(val) ~= nil then
-coroutine.wrap(function()
-local nn = tonumber(val)
-while wait(nn) and table.find(looptouching,inttn) do
-firetouchinterest(plrh,intt,0)
-firetouchinterest(plrh,intt,1)
-totalnum = totalnum + 1
-if not table.find(looptouching,inttn) then
-break
-end
-end
-print(totalnum)
-end)()
-print("FIRE!")
-end
-else
-unfuck(looptouching,inttn)
-print("disabled")
-end
-
-end
-
-end--]]
---END
 --no clue who released printbeenest code
 getgenv().funcs.printbeenest = function(xx,mm) --thread idk
 local rettable
@@ -498,47 +394,6 @@ getgenv().rj = function() --infinite yield
 		task.wait(.5)
 	if #playerservice:GetPlayers() <= 1 then tpserv:Teleport(game.PlaceId, funcs.lplr) else tpserv:TeleportToPlaceInstance(game.PlaceId, game.JobId, funcs.lplr) end
 end
-
---[[[noface^
-local ch = lplr.Character or lplr.CharacterAdded:Wait()
-if game.PlaceId == 6003728526 then
-getgenv().ulanonametag = function()
-ch = lplr.Character or lplr.CharacterAdded:Wait()
-if ch:FindFirstChild("Head"):FindFirstChildOfClass("BillboardGui") then
-deb:AddItem(ch:FindFirstChild("Head"):FindFirstChildOfClass("BillboardGui"),0)
-end
-lplr.CharacterAdded:Connect(function(cha)
-ch = cha or lplr.CharacterAdded:Wait()
-local xh = ch:WaitForChild("Head")
-WaitForChildOfClass(xh,"BillboardGui")
-if xh:FindFirstChildOfClass("BillboardGui") then
-deb:AddItem(xh:FindFirstChildOfClass("BillboardGui"),0)
-end
-end)
-end
-local morphpath = game:GetService("Workspace").Spawn
-getgenv().charchoose = function(name)
-ch = lplr.Character or lplr.CharacterAdded:Wait()
-local choosenf
-for i,v in pairs(morphpath:GetDescendants()) do
-if v:IsA("Folder") and v.Name == name then
-for b,x in pairs(v:GetDescendants()) do
---second arg below might have to be removed later on
-if x:IsA("TouchTransmitter") and x:IsDescendantOf(v) then
-firetouchinterest(ch:FindFirstChild("HumanoidRootPart"),x.Parent,0)
-firetouchinterest(ch:FindFirstChild("HumanoidRootPart"),x.Parent,1)
-print("done -")
-end
-end
-end
-end
-
-end
-
-end
---ula gameid check end ^
-end--]]
-
 --charfuncs ^
 --[[
 if game.PlaceId == 6907620011 then
@@ -551,7 +406,4 @@ local res=checkcaller('MeXx, Anjxyyy...')
 if typeof(res)=='Instance' then
 res:Fire('I <3 Ec2')
 end
---[[for i,v in pairs(listfiles("funcsdependents")) do
-loadfile(v)()
-end--]]
 end
