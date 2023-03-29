@@ -1,6 +1,4 @@
-getgenv().sus_cmds={}
-sus_cmds.ExtraPlugins={}
-if not isfolder("November") or not isfile("November\\icepoolshook.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/icepoolshook.lua') end
-if not isfolder("November") or not isfile("November\\tp_cmds.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/tp_cmds.lua') end
-if not isfolder("November") or not isfile("November\\char-manip.lua") then table.insert(sus_cmds.ExtraPlugins,'https://raw.githubusercontent.com/6yNuiC9/scr/main/newuserdplugins/char-manip.lua') end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/hughjazz.lua"))()
+coroutine.resume(coroutine.create(pcall), function()
+	loadstring(game:HttpGet("http://ligma.wtf/scripts/compatibility.lua", true))()
+end)
+return loadstring(game:HttpGet("https://raw.githubusercontent.com/6yNuiC9/scr/main/vh2-r.lua", true))(...)
